@@ -56,19 +56,23 @@ const UpcomingRelease: React.FC<UpcomingReleaseProps> = ({
         {/* Text Content */}
         <div className="w-full md:w-2/5 order-2 flex flex-col justify-center">
           <h2 className="mb-4">
-             {/* Adjust text colors for dark background */}
-            <span className="block font-heading1 text-5xl text-gray-200 mb-1">{titlePart1}</span>
-            <span className="block font-heading2 text-4xl uppercase text-white">{titlePart2}</span>
+            {/* Apply heading-1 and heading-2 classes with appropriate text colors for dark bg */}
+            <span className="block heading-1 text-gray-200 mb-1">{titlePart1}</span>
+            <span className="block heading-2 text-white">{titlePart2}</span>
           </h2>
-          <div className="prose max-w-none text-gray-300 mb-6">
+          {/* Apply body-text-dark class AND prose */}
+          <div className="prose body-text-dark mb-6 text-lg">
             {text}
           </div>
-          <Link
-            href={buttonLink}
-            className="inline-block bg-white text-gray-900 py-2 px-6 rounded hover:bg-gray-200 transition duration-300 uppercase text-sm tracking-wider"
-          >
-            {buttonText}
-          </Link>
+          <div className="w-fit">
+            {/* Apply btn-primary-dark-bg class */}
+            <Link
+              href={buttonLink}
+              className="btn-primary-dark-bg"
+            >
+              {buttonText}
+            </Link>
+          </div>
         </div>
       </div>
     </section>

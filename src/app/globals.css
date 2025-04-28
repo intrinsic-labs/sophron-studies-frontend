@@ -4,6 +4,7 @@
 
 :root {
   --background: #ffffff;
+  --olive: #d1d3ca;
   --foreground: #171717;
 }
 
@@ -15,6 +16,55 @@
 } */
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  @apply bg-background text-foreground;
+}
+
+@layer components {
+  /* Headings */
+  .heading-1 {
+    @apply font-heading1 text-6xl md:text-7xl;
+  }
+  .heading-2 {
+    @apply font-heading2 text-5xl md:text-6xl uppercase;
+  }
+  .heading-3 {
+    @apply font-heading2 text-4xl uppercase;
+  }
+  .heading-hero {
+    @apply font-heading1 text-7xl md:text-9xl;
+  }
+
+  /* Body Text */
+  .body-text {
+    @apply max-w-none text-lg;
+  }
+  .body-text-dark {
+    @apply max-w-none text-gray-300; /* Specific for dark backgrounds */
+  }
+  .body-text-light {
+     @apply max-w-none text-gray-700; /* Common light bg text */
+  }
+   .body-text-subtle {
+    @apply text-lg font-sans text-gray-700; /* For things like subtitles */
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-block py-2 px-6 rounded transition duration-300 uppercase text-sm tracking-wider;
+  }
+  .btn-primary {
+    @apply btn bg-gray-800 text-white hover:bg-gray-700;
+  }
+  .btn-primary-dark-bg {
+    @apply btn bg-white text-gray-900 hover:bg-gray-200;
+  }
+  .btn-outline-light {
+    @apply inline-block px-6 py-3 border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white transition-colors;
+  }
+  .btn-outline-dark {
+     @apply inline-block px-6 py-3 border border-white text-white hover:bg-white hover:text-gray-900 transition-colors;
+  }
+  .btn-submit {
+    @apply p-3 bg-gray-800 text-white hover:bg-gray-700 transition-colors; /* Specific for form submit */
+  }
 }

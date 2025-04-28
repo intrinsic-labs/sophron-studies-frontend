@@ -39,7 +39,7 @@ const FeaturedItemSection: React.FC<FeaturedItemSectionProps> = ({
 
   const textComponent = (
     <div className={`w-full md:w-1/2 p-4 flex flex-col justify-center ${textColor}`}>
-      <h2 className="text-4xl md:text-5xl font-heading2 mb-6">
+      <h2 className="heading-2 mb-6">
         {title}
       </h2>
       <div className="text-lg font-serif mb-8 space-y-4">
@@ -48,7 +48,7 @@ const FeaturedItemSection: React.FC<FeaturedItemSectionProps> = ({
       <div className="mt-auto"> {/* Pushes button to bottom */} 
         <Link 
           href={buttonLink} 
-          className={`inline-block px-6 py-3 border ${textColor === 'text-white' ? 'border-white text-white hover:bg-white hover:text-gray-900' : 'border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white'} transition-colors`}
+          className={textColor === 'text-white' ? 'btn-outline-dark' : 'btn-outline-light'}
         >
           {buttonText}
         </Link>

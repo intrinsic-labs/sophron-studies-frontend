@@ -26,20 +26,20 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
   buttonLink,
 }) => {
   return (
-    <section className="py-16 md:py-24 bg-white text-gray-800 flex items-center justify-center">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center">
+    <section className="py-16 md:py-24 bg-background text-gray-800 flex items-center justify-center">
+      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center bg-[var(--olive)]">
         {/* Text Content */}
         <div className="w-full md:w-1/3 md:pr-12 mb-8 md:mb-0 order-2 md:order-1">
           <h2 className="mb-4">
-            <span className="block font-heading1 text-5xl text-gray-700 mb-1">{titlePart1}</span>
-            <span className="block font-heading2 text-4xl uppercase text-gray-800">{titlePart2}</span>
+            <span className="block heading-1 text-gray-700 mb-1">{titlePart1}</span>
+            <span className="block heading-2 text-gray-800">{titlePart2}</span>
           </h2>
-          <div className="prose max-w-none text-gray-600 mb-6">
+          <div className="prose body-text text-gray-600 mb-6">
             {text}
           </div>
           <Link 
             href={buttonLink} 
-            className="inline-block bg-gray-800 text-white py-2 px-6 rounded hover:bg-gray-700 transition duration-300 uppercase text-sm tracking-wider"
+            className="btn-primary"
           >
             {buttonText}
           </Link>

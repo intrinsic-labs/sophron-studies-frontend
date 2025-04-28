@@ -16,8 +16,8 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({
       <div className="container max-w-4xl mx-auto px-8">
         <div className="flex flex-wrap items-center justify-between">
           <div className="w-full md:w-2/5 mb-8 md:mb-0">
-            <h2 className="text-5xl font-heading1 mb-2">{title}</h2>
-            <p className="text-lg font-sans text-gray-700">{subtitle}</p>
+            <h2 className="heading-1 mb-2 text-5xl">{title}</h2>
+            <p className="body-text-subtle text-lg">{subtitle}</p>
           </div>
           <div className="w-full md:w-1/2">
             <form className="flex">
@@ -29,7 +29,7 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({
               />
               <button 
                 type="submit" 
-                className="p-3 bg-gray-800 text-white hover:bg-gray-700 transition-colors"
+                className="btn-submit"
               >
                 Submit
               </button>

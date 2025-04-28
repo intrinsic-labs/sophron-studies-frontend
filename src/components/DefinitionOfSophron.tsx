@@ -23,17 +23,17 @@ const DefinitionOfSophron: React.FC<DefinitionOfSophronProps> = ({
   imageAlt,
 }) => {
   return (
-    <section className="pt-24 md:pt-32 bg-white text-gray-800">
+    <section className="pt-24 md:pt-32 bg-background text-black md:mb-12">
       <div className="container mx-auto px-8 lg:px-24">
         {/* Definition Part */}
         <div className="flex flex-col md:flex-row items-center mb-16 md:mb-24">
           {/* Text first on mobile, second on desktop */}
           <div className="w-full md:w-1/2 order-1 md:order-2">
             <h2 className="mb-4">
-              <span className="block font-heading1 text-5xl text-gray-700 mb-1">{titlePart1}</span>
-              <span className="block font-heading2 text-4xl uppercase text-gray-800">{titlePart2}</span>
+              <span className="block heading-1 text-gray-700 mb-1">{titlePart1}</span>
+              <span className="block heading-2 text-gray-800 mb-8">{titlePart2}</span>
             </h2>
-            <div className="prose max-w-none text-gray-600">
+            <div className="prose body-text-light text-lg">
               {definitionText}
             </div>
           </div>
@@ -60,10 +60,10 @@ const DefinitionOfSophron: React.FC<DefinitionOfSophronProps> = ({
 
         {/* Important Point Part */}
         <div className="text-center max-w-xl mx-auto">
-           <h3 className="font-heading2 text-2xl md:text-3xl uppercase text-gray-800 mb-4">
+           <h3 className="heading-3 text-gray-800 mb-4">
              {importantPointTitle}
            </h3>
-           <div className="prose max-w-none text-gray-600 text-justify">
+           <div className="prose body-text-light text-justify text-lg">
              {importantPointText}
            </div>
         </div>
