@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 // Remove default fonts if not needed, or configure custom fonts later
 // import { Geist, Geist_Mono } from "next/font/google";
 import Layout from "@/components/Layout"; // Import the new Layout component
+import { fontInter, fontLiterata, fontOoohBaby, fontCardo } from "@/lib/fonts"; // Import the font definitions
 import "./globals.css";
 
 // const geistSans = Geist({
@@ -26,10 +27,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* Remove font variables if default fonts are removed */}
-      {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}> */}
-      <body className="antialiased"> {/* Apply base styling */}
-        <Layout>{children}</Layout> {/* Wrap children with the Layout component */}
+      {/* Ensure body is the only direct child. 
+          Remove comments between <html> and <body> just in case */}
+      <body 
+        className={`${fontInter.variable} ${fontLiterata.variable} ${fontOoohBaby.variable} ${fontCardo.variable} font-sans antialiased`}
+      >
+        <Layout>{children}</Layout>
       </body>
     </html>
   );
