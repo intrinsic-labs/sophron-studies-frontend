@@ -1,14 +1,6 @@
 import React from 'react';
-
-// TODO: Build out Navbar component
-const Navbar = () => {
-  return <nav className="bg-gray-200 p-4">Navbar Placeholder</nav>;
-};
-
-// TODO: Build out Footer component
-const Footer = () => {
-  return <footer className="bg-gray-800 text-white p-4 mt-8">Footer Placeholder</footer>;
-};
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 interface LayoutProps {
   children: React.ReactNode;

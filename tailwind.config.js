@@ -20,6 +20,9 @@ module.exports = {
       },
       colors: {
         'gold': '#DAA520',
+        'olive': '#d1d3ca',
+        'creme': '#faf6e8',
+        'pink': '#b9a5a5',
         background: 'rgb(var(--background) / <alpha-value>)',
         foreground: 'rgb(var(--foreground) / <alpha-value>)',
       },
