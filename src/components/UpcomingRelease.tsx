@@ -31,24 +31,22 @@ const UpcomingRelease: React.FC<UpcomingReleaseProps> = ({
           {/* Inner Relative Container - Defines the aspect ratio and positioning context */}
           <div className="relative w-4/5 aspect-[4/3]"> {/* Adjust aspect ratio as needed */}
             {/* First Image - Positioned absolutely using percentages */}
-            <div className="absolute -bottom-[3%] left-[7%] w-[65%] aspect-[2/3] shadow-lg rounded overflow-hidden z-10">
+            <div className="absolute -bottom-[3%] left-[7%] w-[65%] aspect-[2/3] shadow-lg overflow-hidden z-10">
               <Image
                 src={imageUrl1}
                 alt={imageAlt + " 1"}
                 fill
                 style={{ objectFit: 'cover' }} // Use fill and objectFit
-                className="rounded"
                 priority
               />
             </div>
             {/* Second Image - Positioned absolutely using percentages */}
-            <div className="absolute -top-[3%] right-[7%] w-[65%] aspect-[2/3] shadow-lg rounded overflow-hidden z-20">
+            <div className="absolute -top-[3%] right-[7%] w-[65%] aspect-[2/3] shadow-lg overflow-hidden z-20">
               <Image
                 src={imageUrl2}
                 alt={imageAlt + " 2"}
                 fill
                 style={{ objectFit: 'cover' }} // Use fill and objectFit
-                className="rounded"
                 priority
               />
             </div>

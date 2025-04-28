@@ -30,8 +30,8 @@ const DefinitionOfSophron: React.FC<DefinitionOfSophronProps> = ({
           {/* Text first on mobile, second on desktop */}
           <div className="w-full md:w-1/2 order-1 md:order-2">
             <h2 className="mb-4">
-              <span className="block font-heading1 text-4xl md:text-5xl text-gray-700 mb-1">{titlePart1}</span>
-              <span className="block font-heading2 text-3xl md:text-4xl uppercase text-gray-800">{titlePart2}</span>
+              <span className="block font-heading1 text-5xl text-gray-700 mb-1">{titlePart1}</span>
+              <span className="block font-heading2 text-4xl uppercase text-gray-800">{titlePart2}</span>
             </h2>
             <div className="prose max-w-none text-gray-600">
               {definitionText}
@@ -45,7 +45,6 @@ const DefinitionOfSophron: React.FC<DefinitionOfSophronProps> = ({
                 alt={imageAlt + " 1"}
                 layout="fill"
                 objectFit="cover"
-                className="rounded"
               />
             </div>
             <div className="absolute bottom-0 right-0 w-full h-full transform rotate-3 translate-y-12 shadow-md">
@@ -54,7 +53,6 @@ const DefinitionOfSophron: React.FC<DefinitionOfSophronProps> = ({
                 alt={imageAlt + " 2"}
                 layout="fill"
                 objectFit="cover"
-                className="rounded"
               />
             </div>
           </div>
