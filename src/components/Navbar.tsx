@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
             <Link
               key={link.name}
               href={link.href}
-              className={`text-lg font-medium text-gray-900 hover:text-pink transition-colors px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-pink${pathname === link.href ? ' text-pink' : ''}`}
+              className={`text-lg font-medium text-gray-900 hover:text-pink transition-colors px-2 py-1 ${pathname === link.href ? ' text-pink' : ''}`}
               aria-current={pathname === link.href ? 'page' : undefined}
             >
               {link.name}

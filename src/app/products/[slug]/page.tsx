@@ -29,7 +29,11 @@ async function getProduct(slug: string): Promise<Product | null> {
 //   return slugs.map((slug) => ({ slug }));
 // }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
+type PageProps = {
+  params: { slug: string };
+};
+
+const ProductPage = async ({ params }: PageProps) => {
   const product = await getProduct(params.slug);
 
   if (!product) {
@@ -54,4 +58,6 @@ export default async function ProductPage({ params }: { params: { slug: string }
       </div>
     </div>
   );
-} 
+};
+
+export default ProductPage; 
