@@ -18,12 +18,25 @@ const AboutGallery: React.FC<AboutGalleryProps> = ({ images }) => {
           images.slice(0, 5).map((img, i) => (
             <div
               key={i}
-              className={`shadow-lg ${i % 2 === 0 ? '-mb-8' : i % 3 === 0 ? '-mb-6' : '-mb-4'}`}
-              style={{ width: 240 + (i % 3) * 16, height: 240 + (i % 2) * 64, background: !img.url ? 'olive' : undefined }}
+              className={`shadow-lg relative ${i % 2 === 0 ? '-mb-8' : i % 3 === 0 ? '-mb-6' : '-mb-4'}`}
+              style={{ 
+                width: 240 + (i % 3) * 16, 
+                height: 240 + (i % 2) * 64,
+                background: !img.url ? '#d3d3b8' : undefined 
+              }}
             >
               {img.url ? (
-                <Image src={img.url} alt={img.alt || ''} width={300} height={300} className="object-cover w-full h-full" />
-              ) : null}
+                <Image 
+                  src={img.url} 
+                  alt={img.alt || `Gallery image ${i+1}`} 
+                  width={300} 
+                  height={300} 
+                  className="object-cover w-full h-full"
+                  sizes="(max-width: 768px) 50vw, 240px"
+                />
+              ) : (
+                <div className="w-full h-full bg-olive-light"></div>
+              )}
             </div>
           ))
         ) : (

@@ -89,6 +89,32 @@ export default async function AboutPage() {
     return <div>Error loading page data. Please try again later.</div>;
   }
 
+  // Ensure we generate proper string URLs for all images
+  const backgroundImageUrl = data.aboutHeroSection?.backgroundImage?.asset 
+    ? urlFor(data.aboutHeroSection.backgroundImage.asset).width(600).url() 
+    : '';
+    
+  const rightImageUrl = data.aboutHeroSection?.rightImage?.asset 
+    ? urlFor(data.aboutHeroSection.rightImage.asset).width(400).url() 
+    : '';
+    
+  const leftImageUrl = data.aboutHeroSection?.leftImage?.asset 
+    ? urlFor(data.aboutHeroSection.leftImage.asset).width(300).url() 
+    : '';
+
+  const galleryImages = data.aboutGallerySection?.images?.map(img => ({
+    url: img.asset ? urlFor(img.asset).width(400).url() : '',
+    alt: img.alt || '',
+  })) || [];
+
+  const image1Url = data.upcomingReleaseSection?.reference?.image1?.asset 
+    ? urlFor(data.upcomingReleaseSection.reference.image1.asset).width(400).url() 
+    : '';
+    
+  const image2Url = data.upcomingReleaseSection?.reference?.image2?.asset 
+    ? urlFor(data.upcomingReleaseSection.reference.image2.asset).width(400).url() 
+    : '';
+
   const renderPortableText = (content: any[] | undefined) => {
     if (!content || content.length === 0) {
       return <p>Content not available.</p>;
@@ -101,9 +127,9 @@ export default async function AboutPage() {
       {data.aboutHeroSection && (
         <AboutHero
           name={data.aboutHeroSection.name}
-          backgroundImage={data.aboutHeroSection.backgroundImage?.asset ? urlFor(data.aboutHeroSection.backgroundImage.asset).width(600).url() : undefined}
-          rightImage={data.aboutHeroSection.rightImage?.asset ? urlFor(data.aboutHeroSection.rightImage.asset).width(400).url() : undefined}
-          leftImage={data.aboutHeroSection.leftImage?.asset ? urlFor(data.aboutHeroSection.leftImage.asset).width(300).url() : undefined}
+          backgroundImage={backgroundImageUrl}
+          rightImage={rightImageUrl}
+          leftImage={leftImageUrl}
         />
       )}
       {data.aboutBioSection && (
@@ -114,10 +140,7 @@ export default async function AboutPage() {
       )}
       {data.aboutGallerySection && (
         <AboutGallery
-          images={data.aboutGallerySection.images?.map(img => ({
-            url: img.asset ? urlFor(img.asset).width(400).url() : undefined,
-            alt: img.alt || '',
-          })) || []}
+          images={galleryImages}
         />
       )}
       {data.upcomingReleaseSection && data.upcomingReleaseSection.reference && (
@@ -125,8 +148,8 @@ export default async function AboutPage() {
           titlePart1={data.upcomingReleaseSection.reference.titlePart1}
           titlePart2={data.upcomingReleaseSection.reference.titlePart2}
           text={renderPortableText(data.upcomingReleaseSection.reference.text)}
-          imageUrl1={data.upcomingReleaseSection.reference.image1?.asset ? urlFor(data.upcomingReleaseSection.reference.image1.asset).width(400).url() : ''}
-          imageUrl2={data.upcomingReleaseSection.reference.image2?.asset ? urlFor(data.upcomingReleaseSection.reference.image2.asset).width(400).url() : ''}
+          imageUrl1={image1Url}
+          imageUrl2={image2Url}
           imageAlt={data.upcomingReleaseSection.reference.image1?.alt || 'Upcoming release images'}
           buttonText={data.upcomingReleaseSection.customButtonText || data.upcomingReleaseSection.reference.buttonText}
           buttonLink={data.upcomingReleaseSection.customButtonLink || data.upcomingReleaseSection.reference.buttonLink}

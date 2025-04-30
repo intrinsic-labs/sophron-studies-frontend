@@ -64,29 +64,25 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   }
 
   return (
-    <div className="container mx-auto px-4 py-16 md:py-24 relative max-w-7xl">
+    <div className="container mx-auto px-4 pb-8 pt-4 relative max-w-7xl">
       {/* Close button positioned top-right */}
-      <Link href="/shop" aria-label="Close product details and return to shop" className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 z-10 border border-gray-500 rounded-full p-1">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-        </svg>
-      </Link>
+      
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-12">
         {/* Image Section */}
         <div>
           {/* Simple image display for now, could be a gallery later */}
           {product.images?.[0] ? (
-            <div className="relative w-full aspect-[3/4] bg-transparent overflow-hidden flex items-center justify-center">
+            <div className="relative w-full aspect-[3/4] bg-transparent flex items-center justify-center">
               <Image
                 src={urlFor(product.images[0]).fit('max').url()}
                 alt={product.images[0].alt || product.name}
                 width={500}
-                height={1066}
+                height={800}
                 objectFit="contain"
                 priority // Prioritize loading the main product image
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="shadow-md rounded-xl"
+                className="shadow-md"
               />
             </div>
           ) : (
@@ -97,6 +93,9 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
 
         {/* Details Section */}
         <div className="flex flex-col justify-center">
+        <Link href="/shop#studies" aria-label="Close product details and return to shop" className="text-gray-500 hover:text-gray-800 z-10 py-4">
+        <p>← Back to Studies</p>
+      </Link>
           <h1 className="text-3xl md:text-4xl font-bold mb-4">{product.name}</h1>
           <p className="text-2xl text-gray-800 mb-4 font-mono">${product.price.toFixed(2)} USD</p>
 

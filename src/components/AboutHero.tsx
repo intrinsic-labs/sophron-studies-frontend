@@ -16,7 +16,14 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
         {/* Background Image */}
         {backgroundImage ? (
           <div className="absolute top-[5%] left-[10%] w-[80%] aspect-[6/5] z-0 overflow-hidden shadow-lg transform -rotate-3">
-            <Image src={backgroundImage} alt="Background" fill style={{objectFit:'cover'}} priority />
+            <Image 
+              src={backgroundImage} 
+              alt="Background" 
+              fill 
+              style={{objectFit:'cover'}} 
+              priority
+              sizes="(max-width: 768px) 80vw, 40vw"
+            />
           </div>
         ) : (
           <div className="absolute top-[5%] left-[10%] w-[80%] aspect-[6/5] bg-gray-300 z-0 shadow-lg transform -rotate-3" />
@@ -24,7 +31,14 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
         {/* Right Image */}
         {rightImage ? (
           <div className="absolute top-[15%] right-[5%] w-[55%] aspect-[4/5] z-10 overflow-hidden shadow-lg transform rotate-2">
-            <Image src={rightImage} alt="Right" fill style={{objectFit:'cover'}} priority />
+            <Image 
+              src={rightImage} 
+              alt="Right" 
+              fill 
+              style={{objectFit:'cover'}} 
+              priority
+              sizes="(max-width: 768px) 55vw, 25vw"
+            />
           </div>
         ) : (
           <div className="absolute top-[15%] right-[5%] w-[55%] aspect-[4/5] bg-gray-400 z-10 shadow-lg transform rotate-2" />
@@ -32,7 +46,14 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
         {/* Left Image */}
         {leftImage ? (
           <div className="absolute bottom-[8%] left-[2%] w-[45%] aspect-[1/1] z-10 overflow-hidden shadow-md transform -rotate-6">
-            <Image src={leftImage} alt="Left" fill style={{objectFit:'cover'}} priority />
+            <Image 
+              src={leftImage} 
+              alt="Left" 
+              fill 
+              style={{objectFit:'cover'}} 
+              priority
+              sizes="(max-width: 768px) 45vw, 20vw"
+            />
           </div>
         ) : (
           <div className="absolute bottom-[8%] left-[2%] w-[45%] aspect-[1/1] bg-gray-200 z-10 shadow-md transform -rotate-6" />

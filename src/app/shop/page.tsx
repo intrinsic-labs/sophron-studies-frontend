@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { client, urlFor } from '@/sanity/client'; // Use the client from the correct path
 import UpcomingRelease from '@/components/UpcomingRelease'; // Import the component
 import { PortableText } from '@portabletext/react'; // Needed for rendering block content
+import ShopFilters, { FILTER_CATEGORIES } from '@/components/ShopFilters';
+import ScrollManager from '@/components/ScrollManager';
 
 // Define Types for fetched data
 interface SanityImageReference {
@@ -15,6 +17,12 @@ interface SanityImageReference {
   alt?: string; // Assuming alt text is defined in the image field itself or in product schema
 }
 
+interface Category {
+  _id: string;
+  title: string;
+  slug: { current: string };
+}
+
 interface Product {
   _id: string;
   name: string;
@@ -23,6 +31,7 @@ interface Product {
   description: any[]; // blockContent type
   price: number;
   isAvailable: boolean;
+  categories?: { _id: string; title: string; slug: { current: string } }[];
   _createdAt: string; // For ordering
 }
 
@@ -56,28 +65,71 @@ const UPCOMING_RELEASE_QUERY = `*[_type == "upcomingReleaseSection"] | order(_cr
   image2 {asset->, alt}
 }`;
 
-// Fetch paginated available products and the total count
-async function getPaginatedProducts(page: number): Promise<PaginatedProductsResult> {
+// Fetch paginated products with filters and search
+async function getPaginatedProducts(
+  page: number, 
+  categoryId: string = 'all', 
+  searchTerm: string = ''
+): Promise<PaginatedProductsResult> {
   const start = (page - 1) * PRODUCTS_PER_PAGE;
   const end = start + PRODUCTS_PER_PAGE;
-
+  
+  // Build filter conditions
+  let filterConditions = [`isAvailable == true`, `!(_id in path("drafts.**"))`];
+  
+  // Add category filter if not "all"
+  if (categoryId !== 'all') {
+    // Map from UI category IDs to Sanity category slugs
+    const categorySlugMap: Record<string, string> = {
+      'old-testament': 'old-testament',
+      'new-testament': 'new-testament',
+      'prayer-books': 'prayer-books',
+      'topical-devotionals': 'topical-devotionals',
+      'seasonal-books': 'seasonal-books',
+      'tweens-teens': 'tweens-teens',
+      'kids': 'kids',
+    };
+    
+    const categorySlug = categorySlugMap[categoryId];
+    if (categorySlug) {
+      // Simplified filtering by category references
+      // This approach gets all products that reference a category with the specified slug
+      filterConditions.push(`"${categorySlug}" in categories[]->slug.current`);
+    }
+  }
+  
+  // Add search filter if term provided
+  if (searchTerm && searchTerm.trim() !== '') {
+    // Using a simple text search across name field
+    // Add more fields to search as needed
+    filterConditions.push(`name match "*${searchTerm}*"`);
+  }
+  
+  // Combine all filters
+  const filterString = filterConditions.join(' && ');
+  
+  console.log("Query filter:", filterString); // Debug: Log the filter string
+  
   const PAGINATED_PRODUCTS_QUERY = `{
-    "products": *[_type == "product" && isAvailable == true && !(_id in path("drafts.**"))] | order(_createdAt desc)[${start}...${end}] {
+    "products": *[_type == "product" && ${filterString}] | order(_createdAt desc)[${start}...${end}] {
       _id,
       name,
       slug,
       images[]{..., asset->}, // Fetch image details and asset data
       price,
+      categories[]->{_id, title, slug},
       _createdAt
     },
-    "totalProducts": count(*[_type == "product" && isAvailable == true && !(_id in path("drafts.**"))])
+    "totalProducts": count(*[_type == "product" && ${filterString}])
   }`;
 
   try {
     const result = await client.fetch<PaginatedProductsResult>(PAGINATED_PRODUCTS_QUERY);
+    console.log("Query result:", result); // Debug: Log the result
     return result;
   } catch (error) {
     console.error("Error fetching paginated products:", error);
+    console.error("Query used:", PAGINATED_PRODUCTS_QUERY); // Log the full query on error
     return { products: [], totalProducts: 0 };
   }
 }
@@ -106,9 +158,21 @@ const ProductCard = ({ product }: { product: Product }) => (
   </Link>
 );
 
+// Create a client-side wrapper component for ShopFilters
+const ClientShopFilters = ({ currentCategory, searchTerm }: { currentCategory: string, searchTerm: string }) => {
+  return (
+    <ShopFilters
+      currentCategory={currentCategory}
+      searchTerm={searchTerm}
+    />
+  );
+};
 
 export default async function Shop({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
   const currentPage = typeof searchParams?.page === 'string' ? parseInt(searchParams.page, 10) : 1;
+  const currentCategory = typeof searchParams?.category === 'string' ? searchParams.category : 'all';
+  const searchTerm = typeof searchParams?.search === 'string' ? searchParams.search : '';
+  
   if (isNaN(currentPage) || currentPage < 1) {
     // Redirect or handle invalid page number if needed
     // For now, default to page 1
@@ -117,12 +181,15 @@ export default async function Shop({ searchParams }: { searchParams?: { [key: st
 
   // Fetch upcoming release section from Sanity
   const upcomingRelease = await client.fetch<UpcomingReleaseData | null>(UPCOMING_RELEASE_QUERY);
-  const { products, totalProducts } = await getPaginatedProducts(validPage);
+  const { products, totalProducts } = await getPaginatedProducts(validPage, currentCategory, searchTerm);
 
   const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
 
   return (
     <div className="space-y-16 md:space-y-24">
+      {/* ScrollManager to handle hash navigation */}
+      <ScrollManager />
+      
       {/* Section 1: Upcoming Release */}
       {upcomingRelease ? (
         <UpcomingRelease
@@ -143,22 +210,15 @@ export default async function Shop({ searchParams }: { searchParams?: { [key: st
       )}
 
       {/* Section 2: Studies (Product Grid) */}
-      <section className="container mx-auto px-4 py-16 md:max-w-6xl">
-        <h2 className="text-4xl font-serif text-center mb-12">Studies</h2>
+      <section className="container mx-auto px-4 pb-16 md:max-w-6xl" id="studies">
+        <h2 className="text-4xl font-heading2 text-center mb-12">STUDIES</h2>
 
-        {/* Filters/Search Placeholder */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-          <div className="flex space-x-2">
-            {/* Placeholder filter dropdowns - match mockup */}
-            <button className="px-4 py-2 border rounded bg-white text-sm">All Products ▼</button>
-            <button className="px-4 py-2 border rounded bg-white text-sm">Leaders Only ▼</button>
-          </div>
-          <div className="relative w-full md:w-auto">
-            <input type="search" placeholder="Search..." className="pl-10 pr-4 py-2 border rounded w-full md:w-64" />
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-            </svg>
-          </div>
+        {/* Filters/Search Component */}
+        <div className="mb-8">
+          <ClientShopFilters 
+            currentCategory={currentCategory}
+            searchTerm={searchTerm}
+          />
         </div>
 
         {/* Product Grid */}
@@ -177,7 +237,7 @@ export default async function Shop({ searchParams }: { searchParams?: { [key: st
         {totalProducts > PRODUCTS_PER_PAGE && (
           <div className="flex justify-center items-center mt-12 space-x-4">
             <Link
-              href={`/shop?page=${validPage - 1}`}
+              href={`/shop?page=${validPage - 1}${currentCategory !== 'all' ? `&category=${currentCategory}` : ''}${searchTerm ? `&search=${searchTerm}` : ''}#studies`}
               className={`px-3 py-1 border rounded ${validPage <= 1 ? 'text-gray-400 pointer-events-none' : 'hover:bg-gray-100'}`}
               aria-disabled={validPage <= 1}
             >
@@ -187,7 +247,7 @@ export default async function Shop({ searchParams }: { searchParams?: { [key: st
               Page {validPage} of {totalPages}
             </span>
             <Link
-              href={`/shop?page=${validPage + 1}`}
+              href={`/shop?page=${validPage + 1}${currentCategory !== 'all' ? `&category=${currentCategory}` : ''}${searchTerm ? `&search=${searchTerm}` : ''}#studies`}
               className={`px-3 py-1 border rounded ${validPage >= totalPages ? 'text-gray-400 pointer-events-none' : 'hover:bg-gray-100'}`}
               aria-disabled={validPage >= totalPages}
             >

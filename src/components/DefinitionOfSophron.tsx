@@ -39,21 +39,33 @@ const DefinitionOfSophron: React.FC<DefinitionOfSophronProps> = ({
           </div>
           <div className="w-full md:w-1/2 relative h-64 md:h-96 mb-20 md:mb-12 md:mr-12 mt-24 md:mt-0 order-2 md:order-1">
             {/* Overlapping Images */}
-            <div className="absolute top-0 left-0 w-full h-full transform -rotate-6 -translate-y-12 -translate-x-12 shadow-md">
-              <Image
-                src={imageUrl1}
-                alt={imageAlt + " 1"}
-                layout="fill"
-                objectFit="cover"
-              />
+            <div className="absolute top-0 left-0 w-full h-full transform -rotate-6 -translate-y-12 -translate-x-12 shadow-md overflow-hidden">
+              {imageUrl1 ? (
+                <Image
+                  src={imageUrl1}
+                  alt={imageAlt + " 1"}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-200"></div>
+              )}
             </div>
-            <div className="absolute bottom-0 right-0 w-full h-full transform rotate-3 translate-y-12 shadow-md">
-              <Image
-                src={imageUrl2}
-                alt={imageAlt + " 2"}
-                layout="fill"
-                objectFit="cover"
-              />
+            <div className="absolute bottom-0 right-0 w-full h-full transform rotate-3 translate-y-12 shadow-md overflow-hidden">
+              {imageUrl2 ? (
+                <Image
+                  src={imageUrl2}
+                  alt={imageAlt + " 2"}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-300"></div>
+              )}
             </div>
           </div>
         </div>

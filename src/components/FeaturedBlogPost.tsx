@@ -38,7 +38,7 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
             {text}
           </div>
           <Link 
-            href={buttonLink} 
+            href={buttonLink || '#'} 
             className="btn-primary"
           >
             {buttonText}
@@ -49,41 +49,50 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
         <div className="w-full md:w-1/2 order-1 md:order-2 flex justify-center items-center min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
           <div className="relative w-4/5 aspect-[4/3] flex items-center justify-center">
             {/* Large Left Image */}
-            {imageUrl1 && (
-              <div className="absolute -top-[5%] left-0 w-[60%] aspect-[4/5] shadow-lg overflow-hidden z-10 rotate-[-6deg] flex items-center justify-center">
+            <div className="absolute -top-[5%] left-0 w-[60%] aspect-[4/5] shadow-lg overflow-hidden z-10 rotate-[-6deg] flex items-center justify-center">
+              {imageUrl1 ? (
                 <Image
                   src={imageUrl1}
                   alt={imageAlt + ' 1'}
                   fill
-                  className="object-cover"
+                  style={{ objectFit: 'cover' }}
                   priority
+                  sizes="(max-width: 768px) 60vw, 30vw"
                 />
-              </div>
-            )}
+              ) : (
+                <div className="w-full h-full bg-gray-300"></div>
+              )}
+            </div>
             {/* Medium Right Image */}
-            {imageUrl2 && (
-              <div className="absolute top-[10%] right-0 w-[55%] aspect-[4/5] shadow-lg overflow-hidden z-20 rotate-[4deg] flex items-center justify-center">
+            <div className="absolute top-[10%] right-0 w-[55%] aspect-[4/5] shadow-lg overflow-hidden z-20 rotate-[4deg] flex items-center justify-center">
+              {imageUrl2 ? (
                 <Image
                   src={imageUrl2}
                   alt={imageAlt + ' 2'}
                   fill
-                  className="object-cover"
+                  style={{ objectFit: 'cover' }}
                   priority
+                  sizes="(max-width: 768px) 55vw, 25vw"
                 />
-              </div>
-            )}
+              ) : (
+                <div className="w-full h-full bg-gray-200"></div>
+              )}
+            </div>
             {/* Small Center/Bottom Image */}
-            {imageUrl3 && (
-              <div className="absolute bottom-[-8%] left-1/2 -translate-x-1/2 w-[38%] aspect-[1/1] shadow-md overflow-hidden z-30 rotate-[-2deg] flex items-center justify-center">
+            <div className="absolute bottom-[-8%] left-1/2 -translate-x-1/2 w-[38%] aspect-[1/1] shadow-md overflow-hidden z-30 rotate-[-2deg] flex items-center justify-center">
+              {imageUrl3 ? (
                 <Image
                   src={imageUrl3}
                   alt={imageAlt + ' 3'}
                   fill
-                  className="object-cover"
+                  style={{ objectFit: 'cover' }}
                   priority
+                  sizes="(max-width: 768px) 38vw, 19vw"
                 />
-              </div>
-            )}
+              ) : (
+                <div className="w-full h-full bg-gray-400"></div>
+              )}
+            </div>
           </div>
         </div>
       </div>

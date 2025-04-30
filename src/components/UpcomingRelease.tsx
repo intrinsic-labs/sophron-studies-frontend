@@ -32,23 +32,33 @@ const UpcomingRelease: React.FC<UpcomingReleaseProps> = ({
           <div className="relative w-4/5 aspect-[4/3]"> {/* Adjust aspect ratio as needed */}
             {/* First Image - Positioned absolutely using percentages */}
             <div className="absolute -bottom-[3%] left-[7%] w-[65%] aspect-[2/3] shadow-lg overflow-hidden z-10">
-              <Image
-                src={imageUrl1}
-                alt={imageAlt + " 1"}
-                fill
-                style={{ objectFit: 'cover' }} // Use fill and objectFit
-                priority
-              />
+              {imageUrl1 ? (
+                <Image
+                  src={imageUrl1}
+                  alt={imageAlt + " 1"}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  priority
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-700"></div>
+              )}
             </div>
             {/* Second Image - Positioned absolutely using percentages */}
-            <div className="absolute -top-[3%] right-[7%] w-[65%] aspect-[2/3] shadow-md overflow-hidden z-20">
-              <Image
-                src={imageUrl2}
-                alt={imageAlt + " 2"}
-                fill
-                style={{ objectFit: 'cover' }} // Use fill and objectFit
-                priority
-              />
+            <div className="absolute -top-[3%] right-[7%] w-[65%] aspect-[2/3] shadow-lg overflow-hidden z-20">
+              {imageUrl2 ? (
+                <Image
+                  src={imageUrl2}
+                  alt={imageAlt + " 2"}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  priority
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-800"></div>
+              )}
             </div>
           </div>
         </div>
@@ -67,7 +77,7 @@ const UpcomingRelease: React.FC<UpcomingReleaseProps> = ({
           <div className="w-fit">
             {/* Apply btn-primary-dark-bg class */}
             <Link
-              href={buttonLink}
+              href={buttonLink || '#'}
               className="btn-primary-dark-bg"
             >
               {buttonText}
