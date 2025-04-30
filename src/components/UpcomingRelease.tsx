@@ -41,7 +41,7 @@ const UpcomingRelease: React.FC<UpcomingReleaseProps> = ({
               />
             </div>
             {/* Second Image - Positioned absolutely using percentages */}
-            <div className="absolute -top-[3%] right-[7%] w-[65%] aspect-[2/3] shadow-lg overflow-hidden z-20">
+            <div className="absolute -top-[3%] right-[7%] w-[65%] aspect-[2/3] shadow-md overflow-hidden z-20">
               <Image
                 src={imageUrl2}
                 alt={imageAlt + " 2"}

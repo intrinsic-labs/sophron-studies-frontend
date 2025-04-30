@@ -38,13 +38,17 @@ interface HomePageData {
     };
   };
   upcomingReleaseSection: {
-    titlePart1: string;
-    titlePart2: string;
-    text: any[];
-    buttonText: string;
-    buttonLink: string;
-    image1: { asset: any; alt: string };
-    image2: { asset: any; alt: string };
+    reference: {
+      titlePart1: string;
+      titlePart2: string;
+      text: any[];
+      buttonText: string;
+      buttonLink: string;
+      image1: { asset: any; alt: string };
+      image2: { asset: any; alt: string };
+    };
+    customButtonText?: string;
+    customButtonLink?: string;
   };
   newsletterSection: {
     title: string;
@@ -85,13 +89,17 @@ const HOME_PAGE_QUERY = `*[_type == "homePage"][0] {
     }
   },
   upcomingReleaseSection {
-    titlePart1,
-    titlePart2,
-    text,
-    buttonText,
-    buttonLink,
-    image1 {alt, asset->},
-    image2 {alt, asset->}
+    reference-> {
+      titlePart1,
+      titlePart2,
+      text,
+      buttonText,
+      buttonLink,
+      image1 {alt, asset->},
+      image2 {alt, asset->}
+    },
+    customButtonText,
+    customButtonLink
   },
   newsletterSection
 }`;
@@ -167,16 +175,16 @@ export default async function Home() {
         />
       )}
 
-      {data.upcomingReleaseSection && (
+      {data.upcomingReleaseSection && data.upcomingReleaseSection.reference && (
         <UpcomingRelease
-          titlePart1={data.upcomingReleaseSection.titlePart1}
-          titlePart2={data.upcomingReleaseSection.titlePart2}
-          text={renderPortableText(data.upcomingReleaseSection.text)}
-          imageUrl1={urlFor(data.upcomingReleaseSection.image1.asset).width(400).url()}
-          imageUrl2={urlFor(data.upcomingReleaseSection.image2.asset).width(400).url()}
-          imageAlt={data.upcomingReleaseSection.image1.alt || 'Upcoming release images'}
-          buttonText={data.upcomingReleaseSection.buttonText}
-          buttonLink={data.upcomingReleaseSection.buttonLink}
+          titlePart1={data.upcomingReleaseSection.reference.titlePart1}
+          titlePart2={data.upcomingReleaseSection.reference.titlePart2}
+          text={renderPortableText(data.upcomingReleaseSection.reference.text)}
+          imageUrl1={urlFor(data.upcomingReleaseSection.reference.image1.asset).width(400).url()}
+          imageUrl2={urlFor(data.upcomingReleaseSection.reference.image2.asset).width(400).url()}
+          imageAlt={data.upcomingReleaseSection.reference.image1.alt || 'Upcoming release images'}
+          buttonText={data.upcomingReleaseSection.customButtonText || data.upcomingReleaseSection.reference.buttonText}
+          buttonLink={data.upcomingReleaseSection.customButtonLink || data.upcomingReleaseSection.reference.buttonLink}
         />
       )}
 

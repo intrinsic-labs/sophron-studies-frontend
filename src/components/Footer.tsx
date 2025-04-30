@@ -12,7 +12,7 @@ const navLinks = [
 const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-white pt-12 pb-6 mt-8">
-      <div className="container mx-auto px-6 flex flex-col md:flex-row md:justify-between md:max-w-4xl gap-8">
+      <div className="container mx-auto px-6 flex flex-col md:flex-row md:justify-between md:max-w-8xl gap-8">
         {/* Brand & Copyright */}
         <div className="mb-6 md:mb-0">
           <div className="font-heading1 text-3xl text-creme mb-2">Sophron Studies</div>
