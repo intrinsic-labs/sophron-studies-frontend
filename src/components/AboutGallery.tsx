@@ -12,7 +12,7 @@ interface AboutGalleryProps {
 
 const AboutGallery: React.FC<AboutGalleryProps> = ({ images }) => {
   return (
-    <section className="py-16 bg-olive">
+    <section className="py-16 bg-olive mb-16 lg:mb-24">
       <div className="relative w-full max-w-6xl mx-auto flex gap-4 items-center px-4">
         {images && images.length > 0 ? (
           images.slice(0, 5).map((img, i) => (

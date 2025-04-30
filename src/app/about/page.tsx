@@ -89,7 +89,7 @@ export default async function AboutPage() {
   };
 
   return (
-    <div className="space-y-16 md:space-y-24">
+    <div className="">
       {data.aboutHeroSection && (
         <AboutHero
           name={data.aboutHeroSection.name}

@@ -10,7 +10,7 @@ interface AboutHeroProps {
 
 const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage, leftImage }) => {
   return (
-    <section className="relative flex flex-col space-y-8 items-center justify-center mt-8 bg-white overflow-hidden px-2">
+    <section className="relative flex flex-col space-y-8 items-center justify-center mt-8 bg-white overflow-hidden px-2 mb-12">
       {/* Relative container for images */}
       <div className="relative w-full max-w-md lg:max-w-lg aspect-[4/3] mb-12">
         {/* Background Image */}
