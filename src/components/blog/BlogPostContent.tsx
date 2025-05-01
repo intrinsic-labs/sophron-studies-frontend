@@ -57,7 +57,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
     types: {
       code: ({ value }: any) => {
         return (
-          <div className="overflow-hidden rounded-xl my-6">
+          <div className="overflow-hidden my-6">
             <SyntaxHighlighter
               style={vscDarkPlus as any}
               language={value.language || 'text'}
@@ -75,7 +75,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
             <img 
               src={value.url} 
               alt={value.alt || ''} 
-              className="rounded-lg w-full" 
+              className="w-full" 
               loading="lazy"
             />
             {value.caption && (
@@ -112,7 +112,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
                         <img 
                           src={part.src} 
                           alt={part.alt || ''} 
-                          className="rounded-xl w-full" 
+                          className="w-full" 
                           loading="lazy"
                         />
                       </span>
@@ -130,18 +130,18 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
         return <p className="text-primary leading-relaxed mb-6">{children}</p>;
       },
       blockquote: ({ children }: any) => (
-        <blockquote className="border-l-4 border-primary/30 pl-4 italic text-primary my-6">{children}</blockquote>
+        <blockquote className="border-l-4 border-black/30 pl-4 italic text-primary my-6">{children}</blockquote>
       ),
     },
     marks: {
       link: ({ children, value }: any) => (
-        <a href={value.href} className="text-primary hover:text-primary/80 underline transition-colors duration-300" target="_blank" rel="noopener noreferrer">
+        <a href={value.href} className="text-primary hover:text-pink underline transition-colors duration-300" target="_blank" rel="noopener noreferrer">
           {children}
         </a>
       ),
       strong: ({ children }: any) => <strong className="font-bold">{children}</strong>,
       em: ({ children }: any) => <em className="italic">{children}</em>,
-      code: ({ children }: any) => <code className="bg-neutral-300 rounded px-1 py-0.5 font-calling-code">{children}</code>,
+      code: ({ children }: any) => <code className="bg-neutral-300 px-1 py-0.5 font-calling-code">{children}</code>,
     },
     list: {
       bullet: ({ children }: any) => <ul className="list-disc pl-6 mb-6 text-primary">{children}</ul>,
@@ -160,7 +160,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
           <div className="max-w-3xl mx-auto">
             <div className="animate-pulse space-y-4">
               {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="h-4 bg-neutral-800/50 rounded w-full"></div>
+                <div key={i} className="h-4 bg-neutral-800/50 w-full"></div>
               ))}
             </div>
           </div>
@@ -193,7 +193,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
                 <Link 
                   key={index} 
                   href={`/?tag=${encodeURIComponent(tag)}`}
-                  className="font-sans text-sm px-3 py-1 rounded-full bg-olive/50 text-neutral-800 hover:bg-olive hover:text-secondary transition-colors duration-300"
+                  className="font-sans text-sm px-3 py-1 bg-olive/50 text-neutral-800 hover:bg-olive hover:text-secondary transition-colors duration-300"
                 >
                   {tag}
                 </Link>
@@ -209,7 +209,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
                 href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}&text=${encodeURIComponent(post.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-primary/10 text-primary hover:bg-accent hover:text-secondary transition-colors duration-300"
+                className="p-2 rounded-full bg-olive/50 text-neutral-800 hover:bg-olive hover:text-secondary transition-colors duration-300"
                 aria-label="Share on Twitter"
               >
                 <FaXTwitter />
@@ -218,7 +218,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}&hashtag=%23sophronstudies`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-primary/10 text-primary hover:bg-accent hover:text-secondary transition-colors duration-300"
+                className="p-2 rounded-full bg-olive/50 text-neutral-800 hover:bg-olive hover:text-secondary transition-colors duration-300"
                 aria-label="Share on Facebook"
               >
                 <FiFacebook />
@@ -227,7 +227,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
                 href={`https://instagram.com/`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-primary/10 text-primary hover:bg-accent hover:text-secondary transition-colors duration-300"
+                className="p-2 rounded-full bg-olive/50 text-neutral-800 hover:bg-olive hover:text-secondary transition-colors duration-300"
                 aria-label="Share on Instagram"
               >
                 <FiInstagram />

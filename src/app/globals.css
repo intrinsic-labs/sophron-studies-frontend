@@ -52,7 +52,7 @@ body {
 
   /* Buttons */
   .btn {
-    @apply inline-block py-2 px-6 rounded transition duration-300 uppercase text-sm tracking-wider;
+    @apply inline-block py-2 px-6 transition duration-300 uppercase text-sm tracking-wider;
   }
   .btn-primary {
     @apply btn bg-gray-800 text-white hover:bg-gray-700;

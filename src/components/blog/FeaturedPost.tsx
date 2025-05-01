@@ -33,7 +33,7 @@ const FeaturedPost = () => {
     return (
       <section className="py-8 md:px-4 md:py-16 bg-background/30">
         <div className="container-custom">
-          <div className="h-96 animate-pulse bg-neutral-800/50 rounded-xl"></div>
+          <div className="h-96 animate-pulse bg-neutral-800/50"></div>
         </div>
       </section>
     );
@@ -60,7 +60,7 @@ const FeaturedPost = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative rounded-xl overflow-hidden"
+            className="relative overflow-hidden"
           >
             {/* Image */}
             <div className="relative aspect-[3/4.5] md:aspect-[16/9] lg:aspect-[21/9] w-full overflow-hidden">

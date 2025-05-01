@@ -44,7 +44,7 @@ const BlogSearch = ({ onSearch, searchQuery }: BlogSearchProps) => {
     <div className="relative w-full md:w-auto">
       <form onSubmit={handleSubmit} className="flex items-center w-full">
         <div 
-          className={`flex items-center hover:bg-olive/50 rounded-lg overflow-hidden transition-all duration-300 w-full ${
+          className={`flex items-center hover:bg-olive/50 overflow-hidden transition-all duration-300 w-full ${
             isExpanded ? 'bg-olive/50' : ''
           }`}
         >

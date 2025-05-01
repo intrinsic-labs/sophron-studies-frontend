@@ -118,7 +118,7 @@ const BlogPosts = () => {
         <div className="container-custom">
           <div className="space-y-6">
             {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="h-24 animate-pulse bg-neutral-800/50 rounded-lg"></div>
+              <div key={item} className="h-24 animate-pulse bg-neutral-800/30"></div>
             ))}
           </div>
         </div>
@@ -151,7 +151,7 @@ const BlogPosts = () => {
             
             <button 
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex-shrink-0 px-4 py-2 rounded-lg hover:bg-olive/50 ${showFilters ? 'bg-olive' : ''} text-neutral-800 transition-colors duration-300 flex items-center space-x-2 whitespace-nowrap hover:text-orange`}
+              className={`flex-shrink-0 px-4 py-2 hover:bg-olive/50 ${showFilters ? 'bg-olive' : ''} text-neutral-800 transition-colors duration-300 flex items-center space-x-2 whitespace-nowrap hover:text-orange`}
             >
               {/* <span>{'Filters'}</span> */}
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -170,14 +170,14 @@ const BlogPosts = () => {
             transition={{ duration: 0.3 }}
             className="mb-8 md:mb-12 overflow-hidden"
           >
-            <div className="p-6 rounded-xl bg-olive/50">
+            <div className="p-6 bg-olive/30">
               <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                 <h3 className="text-lg font-medium text-primary font-sans mb-4 md:mb-0">Filter Articles</h3>
                 
                 {(activeCategory || activeTag || searchQuery) && (
                   <button 
                     onClick={handleClearFilters}
-                    className="text-sm text-neutral-800 transition-all bg-transparent hover:bg-olive rounded-full px-3 py-1 duration-300"
+                    className="text-sm text-neutral-800 transition-all bg-transparent hover:bg-olive px-3 py-1 duration-300"
                   >
                     Clear all filters
                   </button>
@@ -193,7 +193,7 @@ const BlogPosts = () => {
                       <button
                         key={category}
                         onClick={() => handleCategoryClick(category)}
-                        className={`text-xs px-3 py-1 rounded-full transition-colors duration-300 ${
+                        className={`text-xs px-3 py-1 transition-colors duration-300 ${
                           activeCategory === category 
                             ? 'bg-olive text-neutral-800 border border-olive' 
                             : 'bg-transparent border border-olive text-neutral-800 hover:bg-olive hover:text-secondary'
@@ -213,7 +213,7 @@ const BlogPosts = () => {
                       <button
                         key={tag}
                         onClick={() => handleTagClick(tag)}
-                        className={`text-xs px-3 py-1 rounded-full transition-colors duration-300 ${
+                        className={`text-xs px-3 py-1 transition-colors duration-300 ${
                           activeTag === tag 
                             ? 'bg-olive text-neutral-800 border border-olive' 
                             : 'bg-transparent border border-olive text-neutral-800 hover:bg-olive hover:text-secondary'
@@ -253,7 +253,7 @@ const BlogPosts = () => {
             <p className="text-primary/70 mb-6">Try adjusting your filters or search query</p>
             <button 
               onClick={handleClearFilters}
-              className="px-4 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary transition-colors duration-300"
+              className="px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary transition-colors duration-300"
             >
               Clear all filters
             </button>
@@ -297,7 +297,7 @@ const BlogPostItem = ({ post, index, totalCount }: BlogPostItemProps) => {
               <div className="flex flex-wrap gap-2 mb-3 md:hidden">
                 <span 
                   key={index} 
-                  className="text-xs px-3 py-1 rounded-full border border-neutral-500 text-neutral-800 group-hover:border-orange transition-colors duration-300"
+                  className="text-xs px-3 py-1 border border-neutral-500 text-neutral-800 group-hover:border-orange transition-colors duration-300"
                 >
                   {post.category}
                 </span>
@@ -307,7 +307,7 @@ const BlogPostItem = ({ post, index, totalCount }: BlogPostItemProps) => {
             {/* Category for desktop only - right aligned */}
             <div className="hidden md:block">
               <span 
-                className="text-sm font-light px-4 py-1.5 rounded-full border border-neutral-500 text-neutral-800 group-hover:border-orange transition-colors duration-300"
+                className="text-sm font-light px-4 py-1.5 border border-neutral-500 text-neutral-800 group-hover:border-orange transition-colors duration-300"
               >
                 {post.category}
               </span>

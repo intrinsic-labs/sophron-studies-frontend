@@ -21,15 +21,15 @@ const BlogPostHeader = ({ post }: BlogPostHeaderProps) => {
             transition={{ duration: 0.6 }}
             className="flex flex-wrap gap-2 mb-6 justify-center"
           >
-            {post.category && (
+            {/* {post.category && (
               <Link 
                 key={post.category} 
                 href={`/?category=${encodeURIComponent(post.category)}`}
-                className="font-sans text-sm px-3 py-1 rounded-full border border-olive text-neutral-800 hover:bg-olive hover:text-secondary transition-colors duration-300"
+                className="font-sans text-sm px-3 py-1 border border-olive text-neutral-800 hover:bg-olive hover:text-secondary transition-colors duration-300"
               >
                 {post.category}
               </Link>
-            )}
+            )} */}
           </motion.div>
           
           {/* Title */}
@@ -69,7 +69,7 @@ const BlogPostHeader = ({ post }: BlogPostHeaderProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="rounded-xl overflow-hidden mx-auto"
+            className="overflow-hidden mx-auto"
           >
             {post.coverImage && (
               <div className="aspect-w-16 aspect-h-16 md:aspect-h-12 lg:aspect-h-8">
