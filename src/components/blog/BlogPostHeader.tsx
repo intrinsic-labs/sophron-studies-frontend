@@ -10,10 +10,10 @@ interface BlogPostHeaderProps {
 
 const BlogPostHeader = ({ post }: BlogPostHeaderProps) => {
   return (
-    <section className="relative pt-8 md:pt-12 lg:pt-16 overflow-hidden">
+    <section className="relative pt-8 md:pt-12 lg:pt-16 overflow-hidden px-4 sm:px-6">
       <div className="container-custom relative z-10">
         
-        <div className="max-w-4xl mx-auto pt-16 text-center">
+        <div className="max-w-4xl mx-auto md:pt-8 text-center">
           {/* Category */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -25,7 +25,7 @@ const BlogPostHeader = ({ post }: BlogPostHeaderProps) => {
               <Link 
                 key={post.category} 
                 href={`/?category=${encodeURIComponent(post.category)}`}
-                className="font-calling-code text-sm px-3 py-1 rounded-full border border-primary/30 text-primary/90 hover:bg-primary/20 transition-colors duration-300"
+                className="font-sans text-sm px-3 py-1 rounded-full border border-olive text-neutral-800 hover:bg-olive hover:text-secondary transition-colors duration-300"
               >
                 {post.category}
               </Link>
@@ -37,7 +37,7 @@ const BlogPostHeader = ({ post }: BlogPostHeaderProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="heading-xl mb-6 text-center"
+            className="font-heading1 text-5xl md:text-7xl mb-6 text-center"
           >
             {post.title}
           </motion.h1>
@@ -49,17 +49,17 @@ const BlogPostHeader = ({ post }: BlogPostHeaderProps) => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-wrap items-center gap-2 md:gap-5 mb-10 justify-center"
           >
-            <div className="text-sm text-neutral-800">
+            <div className="text-md text-neutral-800 font-sans">
               {post.author.name}
             </div>
             <span className="text-neutral-400">|</span>
-            <div className="text-sm text-neutral-800">
+            <div className="text-md text-neutral-800 font-sans">
               {post.date}
             </div>
             
             <span className="text-neutral-400">|</span>
             
-            <div className="text-sm text-neutral-800">
+            <div className="text-md text-neutral-800 font-sans">
               {post.readingTime}
             </div>
           </motion.div>

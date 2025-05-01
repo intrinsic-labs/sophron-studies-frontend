@@ -170,7 +170,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
   }
 
   return (
-    <section className="pt-4 md:pt-8 pb-16 font-cardo text-[1.2rem] leading-[1.8] tracking-[0.01rem]">
+    <section className="pt-4 md:pt-8 pb-16 font-serif text-[1.2rem] leading-[1.8] tracking-[0.01rem] px-4 sm:px-6">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -187,13 +187,13 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
           
           {/* Tags */}
           <div className="mt-16 pt-8 border-t border-neutral-800/50">
-            <h3 className="text-md font-medium mb-4">Tags</h3>
+            <h3 className="text-md font-medium font-sans mb-4">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {post.tags.map((tag, index) => (
                 <Link 
                   key={index} 
                   href={`/?tag=${encodeURIComponent(tag)}`}
-                  className="font-calling-code text-sm px-3 py-1 rounded-full bg-primary/10 text-primary hover:bg-orange hover:text-secondary transition-colors duration-300"
+                  className="font-sans text-sm px-3 py-1 rounded-full bg-olive/50 text-neutral-800 hover:bg-olive hover:text-secondary transition-colors duration-300"
                 >
                   {tag}
                 </Link>
@@ -215,7 +215,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
                 <FaXTwitter />
               </a>
               <a 
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}&hashtag=%23theoverdoneeffect`}
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}&hashtag=%23sophronstudies`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-full bg-primary/10 text-primary hover:bg-accent hover:text-secondary transition-colors duration-300"
