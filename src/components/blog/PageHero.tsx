@@ -32,7 +32,7 @@ const PageHero: React.FC<PageHeroProps> = ({
     ));
 
   return (
-    <section className={`relative pt-24 md:pt-28 lg:pt-48 overflow-hidden bg-background ${className} ${bottomPadding ? 'pb-32' : ''}`}>
+    <section className={`relative pt-12 md:pt-24 overflow-hidden bg-background ${className} ${bottomPadding ? 'pb-32' : ''}`}>
       <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -40,7 +40,7 @@ const PageHero: React.FC<PageHeroProps> = ({
           transition={{ duration: 0.3, delay: 0.1 }}
           className="max-w-4xl mx-auto text-center"
         >
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-8">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading1 tracking-tight mb-8">
             {titleParts}
           </h1>
         </motion.div>
@@ -52,7 +52,7 @@ const PageHero: React.FC<PageHeroProps> = ({
             transition={{ duration: 0.3, delay: 0.2 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <p className="text-lg md:text-xl text-neutral-800 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg font-heading2 uppercase md:text-xl text-neutral-800 max-w-2xl mx-auto leading-relaxed">
               {description}
             </p>
           </motion.div>

@@ -29,9 +29,9 @@ const BlogHero = () => {
   }, []);
 
   // Default content if nothing is in the CMS yet
-  const title = heroData?.title || "The Overdone Effect";
+  const title = heroData?.title || "The Sophron Blog";
   const description = heroData?.description || 
-    "Thoughts with Elaine.";
+    "With Melissa McPhail";
 
   return (
     <div className="flex flex-col gap-4 mx-4">

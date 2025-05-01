@@ -17,7 +17,7 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
 
   return (
     <motion.main
-      className="min-h-screen bg-background text-primary relative max-w-6xl mx-auto" 
+      className="min-h-screen bg-background text-primary relative max-w-6xl mx-auto px-4 sm:px-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

@@ -80,26 +80,15 @@ const FeaturedPost = () => {
               {/* Content overlay */}
               <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8 lg:p-12 z-20">
                 <div className="max-w-3xl">
-                  <div className="flex items-center space-x-1 mb-3 text-sm font-light text-secondary/60 group-hover:text-orange transition-colors duration-300">
+                  <div className="flex items-center space-x-1 mb-3 text-sm font-sans text-neutral-800/60 group-hover:text-orange transition-colors duration-300">
                     <span>Featured Post</span>
-                    <span className="text-secondary/40">|</span>
+                    <span className="text-neutral-800/40">|</span>
                     <span>{featuredPost.readingTime}</span>
                   </div>
                   
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-display text-secondary font-medium mb-4">
+                  <h2 className="text-4xl md:text-5xl font-heading1 font-bold text-secondary mb-4">
                     {featuredPost.title}
                   </h2>
-                  
-                  {/* <div className="flex flex-wrap gap-2 mb-2">
-                    {featuredPost.categories.map((category, index) => (
-                      <span 
-                        key={index} 
-                        className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary/90"
-                      >
-                        {category}
-                      </span>
-                    ))}
-                  </div> */}
                 </div>
               </div>
             </div>

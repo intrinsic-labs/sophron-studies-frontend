@@ -134,7 +134,7 @@ const BlogPosts = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-display font-medium mb-6 md:mb-0"
+            className="text-3xl md:text-4xl font-heading2 mb-6 md:mb-0"
           >
             Posts
           </motion.h2>
@@ -151,7 +151,7 @@ const BlogPosts = () => {
             
             <button 
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex-shrink-0 px-4 py-2 rounded-lg hover:bg-neutral-300/50 ${showFilters ? 'border border-neutral-400 bg-neutral-200' : 'border border-transparent'} text-neutral-800 transition-colors duration-300 flex items-center space-x-2 whitespace-nowrap hover:text-orange`}
+              className={`flex-shrink-0 px-4 py-2 rounded-lg hover:bg-olive/50 ${showFilters ? 'bg-olive' : ''} text-neutral-800 transition-colors duration-300 flex items-center space-x-2 whitespace-nowrap hover:text-orange`}
             >
               {/* <span>{'Filters'}</span> */}
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -170,14 +170,14 @@ const BlogPosts = () => {
             transition={{ duration: 0.3 }}
             className="mb-8 md:mb-12 overflow-hidden"
           >
-            <div className="p-6 rounded-xl bg-neutral-200 border border-primary/10">
+            <div className="p-6 rounded-xl bg-olive/50">
               <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                <h3 className="text-lg font-medium text-primary mb-4 md:mb-0">Filter Articles</h3>
+                <h3 className="text-lg font-medium text-primary font-sans mb-4 md:mb-0">Filter Articles</h3>
                 
                 {(activeCategory || activeTag || searchQuery) && (
                   <button 
                     onClick={handleClearFilters}
-                    className="text-sm text-neutral-800 hover:text-accent transition-colors duration-300"
+                    className="text-sm text-neutral-800 transition-all bg-transparent hover:bg-olive rounded-full px-3 py-1 duration-300"
                   >
                     Clear all filters
                   </button>
@@ -195,8 +195,8 @@ const BlogPosts = () => {
                         onClick={() => handleCategoryClick(category)}
                         className={`text-xs px-3 py-1 rounded-full transition-colors duration-300 ${
                           activeCategory === category 
-                            ? 'bg-primary text-background' 
-                            : 'bg-primary/10 text-primary/90 hover:bg-orange hover:text-secondary'
+                            ? 'bg-olive text-neutral-800 border border-olive' 
+                            : 'bg-transparent border border-olive text-neutral-800 hover:bg-olive hover:text-secondary'
                         }`}
                       >
                         {category}
@@ -215,8 +215,8 @@ const BlogPosts = () => {
                         onClick={() => handleTagClick(tag)}
                         className={`text-xs px-3 py-1 rounded-full transition-colors duration-300 ${
                           activeTag === tag 
-                            ? 'bg-primary text-background' 
-                            : 'bg-primary/10 text-primary/90 hover:bg-orange hover:text-secondary'
+                            ? 'bg-olive text-neutral-800 border border-olive' 
+                            : 'bg-transparent border border-olive text-neutral-800 hover:bg-olive hover:text-secondary'
                         }`}
                       >
                         {tag}
@@ -289,7 +289,7 @@ const BlogPostItem = ({ post, index, totalCount }: BlogPostItemProps) => {
                 <span className="text-sm">{post.readingTime}</span>
               </div>
 
-              <h3 className="text-xl font-medium mb-2 group-hover:text-orange transition-colors duration-300">
+              <h3 className="text-2xl font-heading2 mb-2 group-hover:text-orange transition-colors duration-300">
                 {post.title}
               </h3>
               

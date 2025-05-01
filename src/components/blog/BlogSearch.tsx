@@ -44,8 +44,8 @@ const BlogSearch = ({ onSearch, searchQuery }: BlogSearchProps) => {
     <div className="relative w-full md:w-auto">
       <form onSubmit={handleSubmit} className="flex items-center w-full">
         <div 
-          className={`flex items-center hover:bg-neutral-300/50 rounded-lg overflow-hidden transition-all duration-300 w-full ${
-            isExpanded ? 'border border-neutral-400 bg-neutral-200' : 'border border-transparent'
+          className={`flex items-center hover:bg-olive/50 rounded-lg overflow-hidden transition-all duration-300 w-full ${
+            isExpanded ? 'bg-olive/50' : ''
           }`}
         >
           <button
