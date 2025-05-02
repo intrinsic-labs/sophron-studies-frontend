@@ -128,11 +128,35 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
     <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
       <div className="relative" ref={dropdownRef}>
         <button 
-          className="px-4 py-2 border rounded bg-white text-sm flex items-center justify-between min-w-[160px]"
+          className={`flex-shrink-0 px-4 py-2 hover:bg-olive/50 ${dropdownOpen ? 'bg-olive' : ''} text-neutral-800 transition-colors duration-300 flex items-center whitespace-nowrap min-w-[160px] text-sm w-full justify-between`}
           onClick={() => setDropdownOpen(!dropdownOpen)}
+          style={{ minWidth: 160 }}
         >
-          {getCurrentCategoryName()}
-          <span className="ml-2">▼</span>
+          <span className="text-left">{getCurrentCategoryName()}</span>
+          <span
+            className={`transition-transform duration-200 inline-block ${
+              dropdownOpen ? 'rotate-180' : ''
+            }`}
+            aria-hidden="true"
+          >
+            {/* Chevron Down SVG */}
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-4 h-4"
+            >
+              <path
+                d="M6 8L10 12L14 8"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
         </button>
         
         {dropdownOpen && (
@@ -140,8 +164,8 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
             {FILTER_CATEGORIES.map((category) => (
               <button
                 key={category.id}
-                className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                  currentCategory === category.id ? 'bg-gray-50 font-medium' : ''
+                className={`block w-full text-left px-4 py-2 text-sm hover:bg-olive/30 ${
+                  currentCategory === category.id ? 'bg-olive/50 font-medium' : ''
                 }`}
                 onClick={() => handleCategorySelect(category.id)}
               >
