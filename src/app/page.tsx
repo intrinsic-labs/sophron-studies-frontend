@@ -104,16 +104,16 @@ const HOME_PAGE_QUERY = `*[_type == "homePage"][0] {
 }`;
 
 async function getHomePageData(): Promise<HomePageData | null> {
-  console.log('Sanity Client Config:', {
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-    apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-07-15',
-    useCdn: process.env.NODE_ENV === 'production'
-  });
+  // console.log('Sanity Client Config:', {
+  //   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  //   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+  //   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-07-15',
+  //   useCdn: process.env.NODE_ENV === 'production'
+  // });
 
   try {
     const data = await client.fetch(HOME_PAGE_QUERY);
-    console.log('Fetched Sanity Data:', JSON.stringify(data, null, 2));
+    // console.log('Fetched Sanity Data:', JSON.stringify(data, null, 2));
     return data;
   } catch (error) {
     console.error('Error fetching Sanity data:', error);
@@ -122,7 +122,7 @@ async function getHomePageData(): Promise<HomePageData | null> {
 }
 
 export default async function Home() {
-  console.log('Rendering Home page, attempting to fetch data...');
+  // console.log('Rendering Home page, attempting to fetch data...');
   const data = await getHomePageData();
 
   if (!data) {
@@ -130,7 +130,7 @@ export default async function Home() {
     return <div>Error loading page data. Please try again later.</div>;
   }
 
-  console.log('Home page received data, rendering components...');
+  // console.log('Home page received data, rendering components...');
 
   const renderPortableText = (content: any[] | undefined) => {
     if (!content || content.length === 0) {

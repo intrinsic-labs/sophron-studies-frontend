@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import CartButton from './CartButton';
 
 const navLinks = [
   { name: 'HOME', href: '/' },
@@ -46,17 +47,21 @@ const Navbar: React.FC = () => {
               {link.name}
             </Link>
           ))}
+          <CartButton />
         </div>
-        {/* Mobile Hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2 focus:outline-none"
-          aria-label="Open menu"
-          onClick={() => setMenuOpen(true)}
-        >
-          <span className="block w-7 h-0.5 bg-gray-900 rounded"></span>
-          <span className="block w-7 h-0.5 bg-gray-900 rounded"></span>
-          <span className="block w-7 h-0.5 bg-gray-900 rounded"></span>
-        </button>
+        {/* Mobile Hamburger and Cart */}
+        <div className="md:hidden flex items-center gap-2">
+          <CartButton />
+          <button
+            className="flex flex-col gap-1.5 p-2 focus:outline-none"
+            aria-label="Open menu"
+            onClick={() => setMenuOpen(true)}
+          >
+            <span className="block w-7 h-0.5 bg-gray-900 rounded"></span>
+            <span className="block w-7 h-0.5 bg-gray-900 rounded"></span>
+            <span className="block w-7 h-0.5 bg-gray-900 rounded"></span>
+          </button>
+        </div>
       </div>
       {/* Mobile Menu Overlay */}
       {menuOpen && (

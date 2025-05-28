@@ -2,8 +2,9 @@ import React from 'react';
 import { client, urlFor } from '@/sanity/client';
 import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
-import { notFound } from 'next/navigation'; // Import notFound
-import Link from 'next/link'; // Import Link for the close button
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import AddToCartButton from '@/components/AddToCartButton';
 
 // Define Types (can potentially be shared in a types file later)
 interface SanityImageReference {
@@ -93,7 +94,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Sl
               />
             </div>
           ) : (
-            <div className="aspect-[3/4] bg-gray-200 flex items-center justify-center text-gray-500 rounded-lg">No Image Available</div>
+            <div className="aspect-[3/4] bg-gray-200 flex items-center justify-center text-gray-500">No Image Available</div>
           )}
           {/* TODO: Add thumbnail gallery if multiple images */}
         </div>
@@ -106,13 +107,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<Sl
           <h1 className="text-3xl md:text-4xl font-bold mb-4">{product.name}</h1>
           <p className="text-2xl text-gray-800 mb-4 font-mono">${product.price.toFixed(2)} USD</p>
 
-          {/* Buy Now Button (Placeholder for Stripe integration) */}
-          <button
-            className="btn-primary w-full md:w-auto mb-6" // Use your primary button style
-          >
-            Buy Now
-          </button>
-          {/* TODO: Add Stripe checkout logic here */}
+          {/* Add to Cart Button */}
+          <AddToCartButton product={product} />
 
           <div className="prose prose-lg max-w-none">
              {/* Use PortableText to render the description */}

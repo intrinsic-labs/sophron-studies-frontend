@@ -2,6 +2,7 @@
 
 # User
 package-lock.json
+.dev/
 
 # dependencies
 /node_modules

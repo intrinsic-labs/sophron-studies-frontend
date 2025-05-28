@@ -6,6 +6,7 @@ import UpcomingRelease from '@/components/UpcomingRelease'; // Import the compon
 import { PortableText } from '@portabletext/react'; // Needed for rendering block content
 import ShopFilters from '@/components/ShopFilters';
 import ScrollManager from '@/components/ScrollManager';
+import ProductCard from '@/components/ProductCard'; // We'll create this component
 
 // Define Types for fetched data
 interface SanityImageReference {
@@ -102,7 +103,7 @@ async function getPaginatedProducts(
   // Combine all filters
   const filterString = filterConditions.join(' && ');
   
-  console.log("Query filter:", filterString); // Debug: Log the filter string
+  // console.log("Query filter:", filterString); // Debug: Log the filter string
   
   const PAGINATED_PRODUCTS_QUERY = `{
     "products": *[_type == "product" && ${filterString}] | order(_createdAt desc)[${start}...${end}] {
@@ -119,7 +120,7 @@ async function getPaginatedProducts(
 
   try {
     const result = await client.fetch<PaginatedProductsResult>(PAGINATED_PRODUCTS_QUERY);
-    console.log("Query result:", result); // Debug: Log the result
+    // console.log("Query result:", result); // Debug: Log the result
     return result;
   } catch (error) {
     console.error("Error fetching paginated products:", error);
@@ -127,30 +128,6 @@ async function getPaginatedProducts(
     return { products: [], totalProducts: 0 };
   }
 }
-
-// Basic Product Card using fetched data
-const ProductCard = ({ product }: { product: Product }) => (
-  <Link href={`/shop/${product.slug.current}`} className="group">
-    <div className="border p-4 text-center transition-shadow duration-300 group-hover:shadow-lg">
-      <div className="relative w-full aspect-[3/4] bg-gray-100 mb-4 overflow-hidden"> {/* Aspect ratio based on mockup */}
-        {product.images?.[0] ? (
-          <Image
-            // Use urlFor to get the image URL
-            src={urlFor(product.images[0]).width(400).height(533).fit('crop').url()}
-            alt={product.images[0].alt || product.name} // Use alt text if available, otherwise product name
-            fill
-            style={{ objectFit: 'cover' }}
-            className="transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">No Image</div>
-        )}
-      </div>
-      <h3 className="text-lg mb-1">{product.name}</h3>
-      <p className="text-gray-700 font-semibold font-mono">${product.price.toFixed(2)} USD</p>
-    </div>
-  </Link>
-);
 
 // Create a client-side wrapper component for ShopFilters
 const ClientShopFilters = ({ currentCategory, searchTerm }: { currentCategory: string, searchTerm: string }) => {
