@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { client, urlFor } from '@/sanity/client'; // Use the client from the correct path
 import UpcomingRelease from '@/components/UpcomingRelease'; // Import the component
 import { PortableText } from '@portabletext/react'; // Needed for rendering block content

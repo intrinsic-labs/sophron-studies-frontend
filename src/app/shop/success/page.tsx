@@ -15,7 +15,7 @@ export default function SuccessPage() {
       clearCart();
       hasCleared.current = true;
     }
-  }, []); // Empty dependency array - only run once on mount
+  }, [clearCart]); // Include clearCart in dependency array
 
   const handleNavigation = () => {
     // Clear cart when user intentionally navigates away
