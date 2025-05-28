@@ -1,16 +1,19 @@
-import { type SanityDocument } from "next-sanity";
-import { client } from "@/sanity/client";
+import { getAllBlogPosts, getFeaturedBlogPosts } from "@/lib/blog";
 import BlogPageContent from '@/components/blog/BlogPageContent';
 
-const POSTS_QUERY = `*[
-  _type == "post"
-  && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt, coverImage}`;
+// Removed the direct query and client usage
+// const POSTS_QUERY = `*[
+//   _type == "post"
+//   && defined(slug.current)
+// ]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt, coverImage}`;
 
-const options = { next: { revalidate: 30 } };
+// const options = { next: { revalidate: 30 } }; // Revalidation is handled within the lib functions
 
 export default async function BlogPage() {
-  const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
+  // Fetch all posts and featured posts using functions from lib/blog.ts
+  const allPosts = await getAllBlogPosts();
+  const featuredPosts = await getFeaturedBlogPosts();
 
-  return <BlogPageContent posts={posts} />;
+  // Pass both sets of posts to the content component
+  return <BlogPageContent allPosts={allPosts} featuredPosts={featuredPosts} />;
 } 

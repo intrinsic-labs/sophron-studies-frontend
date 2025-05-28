@@ -5,7 +5,6 @@ import DefinitionOfSophron from "@/components/DefinitionOfSophron";
 import FeaturedBlogPost from "@/components/FeaturedBlogPost";
 import UpcomingRelease from "@/components/UpcomingRelease";
 import { PortableText } from "@portabletext/react";
-import Link from "next/link";
 
 interface HomePageData {
   _id: string;

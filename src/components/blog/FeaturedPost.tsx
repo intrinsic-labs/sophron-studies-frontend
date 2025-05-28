@@ -1,47 +1,26 @@
 "use client";
 
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { BlogPost } from '@/lib/blog';
+import Image from 'next/image';
 
-const FeaturedPost = () => {
-  const [featuredPost, setFeaturedPost] = useState<BlogPost | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+// Define the props interface
+interface FeaturedPostProps {
+  posts: BlogPost[];
+}
 
-  useEffect(() => {
-    const loadFeaturedPost = async () => {
-      try {
-        const response = await fetch('/api/blog?action=getFeaturedPosts');
-        if (!response.ok) {
-          throw new Error('Failed to fetch featured post');
-        }
-        
-        const posts = await response.json();
-        setFeaturedPost(posts[0] || null);
-      } catch (error) {
-        console.error('Error loading featured post:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadFeaturedPost();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <section className="py-8 md:px-4 md:py-16 bg-background/30">
-        <div className="container-custom">
-          <div className="h-96 animate-pulse bg-neutral-800/50"></div>
-        </div>
-      </section>
-    );
-  }
-
-  if (!featuredPost) {
+export default function FeaturedPost({ posts }: FeaturedPostProps) {
+  // If there are no featured posts, don't render anything (or render a placeholder)
+  if (!posts || posts.length === 0) {
+    // Optionally, return a placeholder or null
+    // return <p>No featured posts available.</p>;
     return null;
   }
+
+  // Typically, you'd feature just one post, or a select few.
+  // Let's assume we feature the first post from the featured list.
+  const featuredPost = posts[0];
 
   return (
     <section className="py-8 md:px-4 md:py-16 bg-background/30">
@@ -64,9 +43,11 @@ const FeaturedPost = () => {
           >
             {/* Image */}
             <div className="relative aspect-[3/4.5] md:aspect-[16/9] lg:aspect-[21/9] w-full overflow-hidden">
-              {featuredPost.coverImage && (
-                <img 
-                  src={featuredPost.coverImage} 
+          {featuredPost.coverImage && (
+                <Image 
+                width={1000}
+                height={1000}
+                src={featuredPost.coverImage}
                   alt={featuredPost.title} 
                   className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
                 />
@@ -98,5 +79,3 @@ const FeaturedPost = () => {
     </section>
   );
 };
-
-export default FeaturedPost; 

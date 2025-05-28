@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { BlogPost } from '@/lib/blog';
+import Image from 'next/image';
 
 interface RelatedPostsProps {
   posts: BlogPost[];
@@ -53,9 +54,11 @@ const RelatedPostCard = ({ post, index }: RelatedPostCardProps) => {
           <div className="relative overflow-hidden">
             {post.coverImage && (
               <div className="aspect-w-16 aspect-h-9">
-                <img 
+                <Image 
                   src={post.coverImage} 
                   alt={post.title} 
+                  width={400}
+                  height={300}
                   className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
                 />
               </div>

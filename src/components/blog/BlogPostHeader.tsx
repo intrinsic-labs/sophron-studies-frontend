@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import Image from 'next/image';
 import { BlogPost } from '@/lib/blog';
 
 interface BlogPostHeaderProps {
@@ -73,10 +73,13 @@ const BlogPostHeader = ({ post }: BlogPostHeaderProps) => {
           >
             {post.coverImage && (
               <div className="aspect-w-16 aspect-h-16 md:aspect-h-12 lg:aspect-h-8">
-                <img 
+                <Image 
                   src={post.coverImage} 
                   alt={post.title} 
-                  className="object-cover w-full h-full"
+                  width={1200}
+                  height={800}
+                  className="w-full h-full object-cover"
+                  priority
                 />
               </div>
             )}

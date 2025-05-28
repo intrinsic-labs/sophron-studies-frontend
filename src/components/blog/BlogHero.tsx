@@ -6,7 +6,6 @@ import { BlogHeroData } from '@/lib/blog';
 
 const BlogHero = () => {
   const [heroData, setHeroData] = useState<BlogHeroData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchHeroData = async () => {
@@ -20,8 +19,6 @@ const BlogHero = () => {
         setHeroData(data);
       } catch (error) {
         console.error('Error fetching blog hero data:', error);
-      } finally {
-        setIsLoading(false);
       }
     };
 

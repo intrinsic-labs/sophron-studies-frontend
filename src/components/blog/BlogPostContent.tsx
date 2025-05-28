@@ -9,6 +9,7 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Link from 'next/link';
 import { FiInstagram, FiFacebook } from 'react-icons/fi';
 import { FaXTwitter } from "react-icons/fa6";
+import Image from 'next/image';
 
 interface BlogPostContentProps {
   post: BlogPost;
@@ -72,9 +73,11 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
       image: ({ value }: any) => {
         return (
           <div className="my-8">
-            <img 
+            <Image 
               src={value.url} 
               alt={value.alt || ''} 
+              width={800}
+              height={600}
               className="w-full" 
               loading="lazy"
             />
@@ -109,9 +112,11 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
                     // Render markdown image with standard HTML img tag
                     return (
                       <span key={`${index}-${i}`} className="inline-block my-8 w-full">
-                        <img 
+                        <Image 
                           src={part.src} 
                           alt={part.alt || ''} 
+                          width={800}
+                          height={600}
                           className="w-full" 
                           loading="lazy"
                         />

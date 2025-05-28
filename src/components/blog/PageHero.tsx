@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 interface PageHeroProps {
   title: string;
   description?: string;
-  terminalContent?: string;
   children?: React.ReactNode;
   className?: string;
   bottomPadding?: boolean;
@@ -15,7 +14,6 @@ interface PageHeroProps {
 const PageHero: React.FC<PageHeroProps> = ({
   title,
   description,
-  terminalContent,
   children,
   className = '',
   bottomPadding = true

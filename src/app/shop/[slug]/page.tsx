@@ -55,8 +55,15 @@ async function getProduct(slug: string): Promise<ProductDetail | null> {
 //   }));
 // }
 
-export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
-  const product = await getProduct(params.slug);
+interface SlugParams {
+  slug: string;
+}
+
+export default async function ProductDetailPage({ params }: { params: Promise<SlugParams> }) {
+  // Await the params before accessing properties
+  const { slug } = await params;
+  
+  const product = await getProduct(slug);
 
   // If product not found or not available, show 404
   if (!product || !product.isAvailable) {
@@ -118,8 +125,9 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
 }
 
 // Optional: Metadata generation
-// export async function generateMetadata({ params }: { params: { slug: string } }) {
-//   const product = await getProduct(params.slug);
+// export async function generateMetadata({ params }: { params: Promise<SlugParams> }) {
+//   const { slug } = await params;
+//   const product = await getProduct(slug);
 //   if (!product) {
 //     return { title: 'Product Not Found' };
 //   }

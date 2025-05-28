@@ -60,14 +60,10 @@ const ContactForm: React.FC = () => {
         setInquiryType('general');
         form.reset(); // Reset native form state
       } else {
-        const responseData = await response.json();
-        if (Object.hasOwnProperty.call(responseData, 'errors')) {
-          setStatus(responseData["errors"].map((error: any) => error["message"]).join(", "));
-        } else {
-          setStatus('Oops! There was a problem submitting your form.');
-        }
+        setStatus('Oops! There was a problem submitting your form.');
       }
-    } catch (error) {
+    } catch (err) {
+      console.error('Form submission error:', err);
       setStatus('Oops! There was a problem submitting your form.');
     }
   };

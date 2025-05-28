@@ -1,20 +1,18 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
-import { type SanityDocument } from "next-sanity";
 import BlogHero from './BlogHero';
 import BlogPosts from './BlogPosts';
 import FeaturedPost from './FeaturedPost';
-import Image from 'next/image';
-import { urlForImage } from '../../sanity/image';
+import { BlogPost } from '@/lib/blog'; // Import the BlogPost type
 
+// Define the props interface
 interface BlogPageContentProps {
-  posts: SanityDocument[];
+  allPosts: BlogPost[];
+  featuredPosts: BlogPost[];
 }
 
-export default function BlogPageContent({ posts }: BlogPageContentProps) {
-
+export default function BlogPageContent({ allPosts, featuredPosts }: BlogPageContentProps) {
   return (
     <motion.main
       className="min-h-screen bg-background text-primary relative max-w-6xl mx-auto px-4 sm:px-6"
@@ -23,8 +21,8 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
       transition={{ duration: 0.5 }}
     >
       <BlogHero />
-      <FeaturedPost />
-      <BlogPosts />
+      <FeaturedPost posts={featuredPosts} />
+      <BlogPosts posts={allPosts} />
     </motion.main>
   );
 } 

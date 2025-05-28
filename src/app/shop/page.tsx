@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { client, urlFor } from '@/sanity/client'; // Use the client from the correct path
 import UpcomingRelease from '@/components/UpcomingRelease'; // Import the component
 import { PortableText } from '@portabletext/react'; // Needed for rendering block content
-import ShopFilters, { FILTER_CATEGORIES } from '@/components/ShopFilters';
+import ShopFilters from '@/components/ShopFilters';
 import ScrollManager from '@/components/ScrollManager';
 
 // Define Types for fetched data
@@ -15,12 +15,6 @@ interface SanityImageReference {
     _type: 'reference';
   };
   alt?: string; // Assuming alt text is defined in the image field itself or in product schema
-}
-
-interface Category {
-  _id: string;
-  title: string;
-  slug: { current: string };
 }
 
 interface Product {
@@ -75,7 +69,7 @@ async function getPaginatedProducts(
   const end = start + PRODUCTS_PER_PAGE;
   
   // Build filter conditions
-  let filterConditions = [`isAvailable == true`, `!(_id in path("drafts.**"))`];
+  const filterConditions = [`isAvailable == true`, `!(_id in path("drafts.**"))`];
   
   // Add category filter if not "all"
   if (categoryId !== 'all') {
@@ -168,16 +162,32 @@ const ClientShopFilters = ({ currentCategory, searchTerm }: { currentCategory: s
   );
 };
 
-export default async function Shop({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
-  const currentPage = typeof searchParams?.page === 'string' ? parseInt(searchParams.page, 10) : 1;
-  const currentCategory = typeof searchParams?.category === 'string' ? searchParams.category : 'all';
-  const searchTerm = typeof searchParams?.search === 'string' ? searchParams.search : '';
+interface SearchParamsType {
+  page?: string;
+  category?: string;
+  search?: string;
+}
+
+export default async function Shop({ 
+  searchParams 
+}: { 
+  searchParams: Promise<SearchParamsType>
+}) {
+  // Await the searchParams promise to get the actual values
+  const resolvedParams = await searchParams;
   
-  if (isNaN(currentPage) || currentPage < 1) {
-    // Redirect or handle invalid page number if needed
-    // For now, default to page 1
-  }
-  const validPage = Math.max(1, currentPage);
+  // Now safely extract values from resolvedParams
+  const pageParam = resolvedParams.page;
+  const categoryParam = resolvedParams.category;
+  const searchParam = resolvedParams.search;
+  
+  // Convert to appropriate types
+  const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
+  const currentCategory = categoryParam || 'all';
+  const searchTerm = searchParam || '';
+  
+  // Validate page number
+  const validPage = isNaN(currentPage) || currentPage < 1 ? 1 : currentPage;
 
   // Fetch upcoming release section from Sanity
   const upcomingRelease = await client.fetch<UpcomingReleaseData | null>(UPCOMING_RELEASE_QUERY);
