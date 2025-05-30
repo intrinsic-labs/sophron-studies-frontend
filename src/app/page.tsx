@@ -112,7 +112,7 @@ async function getHomePageData(): Promise<HomePageData | null> {
   // });
 
   try {
-    const data = await client.fetch(HOME_PAGE_QUERY);
+    const data = await client.fetch(HOME_PAGE_QUERY, {}, { next: { revalidate: 300 } }); // 5 minutes
     // console.log('Fetched Sanity Data:', JSON.stringify(data, null, 2));
     return data;
   } catch (error) {

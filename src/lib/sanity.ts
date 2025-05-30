@@ -13,7 +13,7 @@ export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion, // https://www.sanity.io/docs/api-versioning
-  useCdn: process.env.NODE_ENV === 'production', // Use CDN in production
+  useCdn: false, // Disable CDN for webhook compatibility
 });
 
 // Helper function for generating Image URLs with only the asset reference data in your documents.
@@ -22,4 +22,25 @@ const builder = imageUrlBuilder(sanityClient);
 
 export function urlFor(source: any) {
   return builder.image(source);
+}
+
+// Enhanced fetch function with cache tags for revalidation
+export async function sanityFetch<QueryResponse>({
+  query,
+  params = {},
+  tags,
+  revalidate = 300, // Default 5 minutes
+}: {
+  query: string;
+  params?: Record<string, any>;
+  tags: string[];
+  revalidate?: number | false;
+}): Promise<QueryResponse> {
+  return sanityClient.fetch<QueryResponse>(query, params, {
+    cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'force-cache',
+    next: { 
+      tags,
+      revalidate: process.env.NODE_ENV === 'development' ? false : revalidate
+    },
+  });
 } 

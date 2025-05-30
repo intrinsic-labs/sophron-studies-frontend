@@ -40,7 +40,7 @@ const PRODUCT_QUERY = `*[_type == "product" && slug.current == $slug && !(_id in
 // Function to fetch product data
 async function getProduct(slug: string): Promise<ProductDetail | null> {
   try {
-    const product = await client.fetch<ProductDetail | null>(PRODUCT_QUERY, { slug });
+    const product = await client.fetch<ProductDetail | null>(PRODUCT_QUERY, { slug }, { next: { revalidate: 120 } });
     return product;
   } catch (error) {
     console.error(`Error fetching product with slug ${slug}:`, error);

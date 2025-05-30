@@ -77,7 +77,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
     featured
   }`;
 
-  const options = { next: { revalidate: 30 } };
+  const options = { next: { revalidate: 180 } };
   
   const sanityPosts = await client.fetch<NextSanityDocument[]>(POSTS_QUERY, {}, options);
   
@@ -131,7 +131,7 @@ export async function getFeaturedBlogPosts(): Promise<BlogPost[]> {
     featured
   }`;
 
-  const options = { next: { revalidate: 30 } };
+  const options = { next: { revalidate: 180 } };
   
   const sanityPosts = await client.fetch<NextSanityDocument[]>(FEATURED_POSTS_QUERY, {}, options);
   
@@ -184,7 +184,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost> {
     featured
   }`;
 
-  const options = { next: { revalidate: 30 } };
+  const options = { next: { revalidate: 180 } };
   
   const post = await client.fetch<NextSanityDocument>(SINGLE_POST_QUERY, { slug }, options);
   
@@ -242,7 +242,7 @@ export async function getRelatedPosts(slug: string, limit: number = 3): Promise<
     featured
   }`;
 
-  const options = { next: { revalidate: 30 } };
+  const options = { next: { revalidate: 180 } };
   
   const relatedPosts = await client.fetch<NextSanityDocument[]>(
     RELATED_POSTS_QUERY, 
@@ -369,7 +369,7 @@ export async function getBlogPostsByCategory(category: string): Promise<BlogPost
     featured
   }`;
 
-  const options = { next: { revalidate: 30 } };
+  const options = { next: { revalidate: 180 } };
   
   const sanityPosts = await client.fetch<NextSanityDocument[]>(CATEGORY_POSTS_QUERY, { category }, options);
   
@@ -423,7 +423,7 @@ export async function getBlogPostsByTag(tag: string): Promise<BlogPost[]> {
     featured
   }`;
 
-  const options = { next: { revalidate: 30 } };
+  const options = { next: { revalidate: 180 } };
   
   const sanityPosts = await client.fetch<NextSanityDocument[]>(
     TAG_POSTS_QUERY, 
@@ -464,7 +464,7 @@ export async function getAllCategories(): Promise<string[]> {
     && defined(category)
   ].category)`;
 
-  const options = { next: { revalidate: 30 } };
+  const options = { next: { revalidate: 180 } };
   
   const categories = await client.fetch<string[]>(CATEGORIES_QUERY, {}, options);
   return categories;
@@ -477,7 +477,7 @@ export async function getAllTags(): Promise<string[]> {
     && defined(tags)
   ].tags[])`; 
 
-  const options = { next: { revalidate: 30 } };
+  const options = { next: { revalidate: 180 } };
   
   const tags = await client.fetch<string[]>(TAGS_QUERY, {}, options);
   return tags;
@@ -513,7 +513,7 @@ export async function searchBlogPosts(query: string): Promise<BlogPost[]> {
     featured
   }`;
 
-  const options = { next: { revalidate: 30 } };
+  const options = { next: { revalidate: 180 } };
   const searchPattern = `*${query.toLowerCase()}*`;
   
   // Pass the parameters as an object
@@ -558,7 +558,7 @@ export async function getBlogHero(): Promise<BlogHeroData | null> {
     announcementLink
   }`;
 
-  const options = { next: { revalidate: 30 } };
+  const options = { next: { revalidate: 180 } };
   
   try {
     const blogHero = await client.fetch<NextSanityDocument>(BLOG_HERO_QUERY, {}, options);

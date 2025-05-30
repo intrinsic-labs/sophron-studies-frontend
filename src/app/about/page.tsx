@@ -75,7 +75,7 @@ const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0] {
 
 async function getAboutPageData(): Promise<AboutPageData | null> {
   try {
-    const data = await client.fetch(ABOUT_PAGE_QUERY);
+    const data = await client.fetch(ABOUT_PAGE_QUERY, {}, { next: { revalidate: 300 } });
     return data;
   } catch (error) {
     console.error('Error fetching About page data:', error);

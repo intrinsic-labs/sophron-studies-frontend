@@ -118,7 +118,7 @@ async function getPaginatedProducts(
   }`;
 
   try {
-    const result = await client.fetch<PaginatedProductsResult>(PAGINATED_PRODUCTS_QUERY);
+    const result = await client.fetch<PaginatedProductsResult>(PAGINATED_PRODUCTS_QUERY, {}, { next: { revalidate: 120 } }); // 2 minutes for products
     // console.log("Query result:", result); // Debug: Log the result
     return result;
   } catch (error) {
@@ -166,7 +166,7 @@ export default async function Shop({
   const validPage = isNaN(currentPage) || currentPage < 1 ? 1 : currentPage;
 
   // Fetch upcoming release section from Sanity
-  const upcomingRelease = await client.fetch<UpcomingReleaseData | null>(UPCOMING_RELEASE_QUERY);
+  const upcomingRelease = await client.fetch<UpcomingReleaseData | null>(UPCOMING_RELEASE_QUERY, {}, { next: { revalidate: 300 } }); // 5 minutes
   const { products, totalProducts } = await getPaginatedProducts(validPage, currentCategory, searchTerm);
 
   const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
