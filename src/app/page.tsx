@@ -11,6 +11,7 @@ interface HomePageData {
   title: string;
   heroSection: {
     title: string;
+    vimeoUrl?: string;
     backgroundImage?: { asset: any; alt: string };
   };
   definitionSection: {
@@ -62,6 +63,7 @@ const HOME_PAGE_QUERY = `*[_type == "homePage"][0] {
   title,
   heroSection {
     title,
+    vimeoUrl,
     backgroundImage {..., asset->}
   },
   definitionSection {
@@ -143,7 +145,12 @@ export default async function Home() {
     <div>
       {data.heroSection && (
          <HeroSection
-           title={data.heroSection.title}
+           vimeoUrl={data.heroSection.vimeoUrl}
+           backgroundImage={data.heroSection.backgroundImage ? {
+             url: urlFor(data.heroSection.backgroundImage.asset).width(1920).url(),
+             alt: data.heroSection.backgroundImage.alt
+           } : undefined}
+           overlayOpacity={0.4}
          />
       )}
 
