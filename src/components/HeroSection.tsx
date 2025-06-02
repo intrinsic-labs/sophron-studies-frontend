@@ -24,21 +24,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const vimeoId = vimeoUrl ? getVimeoId(vimeoUrl) : null;
 
   return (
-    <section className="w-full min-h-[65vh] flex items-center justify-center bg-gray-100 relative overflow-hidden">
+    <section className="w-full min-h-[35vh] md:min-h-[50vh] lg:min-h-[65vh] flex items-center justify-center bg-gray-100 relative overflow-hidden">
       {/* Background Video or Image */}
       {vimeoId ? (
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <iframe
             src={`https://player.vimeo.com/video/${vimeoId}?autoplay=1&loop=1&muted=1&controls=0&background=1`}
             className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-            frameBorder="0"
             allow="autoplay; fullscreen"
             style={{
               pointerEvents: 'none',
-              width: 'max(105vw, calc(105vh * 16/9))',
-              height: 'max(105vh, calc(105vw * 9/16))',
-              minWidth: '105%',
-              minHeight: '105%',
+              width: 'max(100%, calc(100vh * 16/9))',
+              height: 'max(100%, calc(100vw * 9/16))',
+              minWidth: '100%',
+              minHeight: '100%',
             }}
           />
         </div>
