@@ -38,6 +38,8 @@ interface AboutPageData {
   newsletterSection: {
     title: string;
     subtitle: string;
+    placeholderText: string;
+    buttonText: string;
   };
 }
 
@@ -70,15 +72,34 @@ const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0] {
     customButtonText,
     customButtonLink
   },
-  newsletterSection
+  newsletterSection-> {
+    title,
+    subtitle,
+    placeholderText,
+    buttonText
+  }
 }`;
 
 async function getAboutPageData(): Promise<AboutPageData | null> {
+  console.log('🔍 Fetching About Page data from Sanity...');
+  
   try {
     const data = await client.fetch(ABOUT_PAGE_QUERY, {}, { next: { revalidate: 300 } });
+    
+    console.log('✅ About Page data fetched successfully');
+    console.log('📧 About Newsletter section data:', JSON.stringify(data?.newsletterSection, null, 2));
+    console.log('ℹ️ About data structure:', {
+      hasAboutHero: !!data?.aboutHeroSection,
+      hasAboutBio: !!data?.aboutBioSection,
+      hasAboutGallery: !!data?.aboutGallerySection,
+      hasUpcomingRelease: !!data?.upcomingReleaseSection,
+      hasNewsletterSection: !!data?.newsletterSection,
+      newsletterFields: data?.newsletterSection ? Object.keys(data.newsletterSection) : []
+    });
+    
     return data;
   } catch (error) {
-    console.error('Error fetching About page data:', error);
+    console.error('❌ Error fetching About page data:', error);
     return null;
   }
 }
@@ -159,6 +180,8 @@ export default async function AboutPage() {
         <NewsletterSection
           title={data.newsletterSection.title}
           subtitle={data.newsletterSection.subtitle}
+          placeholderText={data.newsletterSection.placeholderText}
+          buttonText={data.newsletterSection.buttonText}
         />
       )}
     </div>

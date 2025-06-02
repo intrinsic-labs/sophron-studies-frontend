@@ -26,15 +26,15 @@ interface HomePageData {
   featuredBlogPostSection: {
     titlePart1: string;
     titlePart2: string;
-    text: any[];
     buttonText: string;
     image1: { asset: any; alt: string };
     image2: { asset: any; alt: string };
-    image3: { asset: any; alt: string };
     featuredPost: {
       _id: string;
       title: string;
       slug: { current: string };
+      excerpt: string;
+      coverImage: { asset: any; alt: string };
     };
   };
   upcomingReleaseSection: {
@@ -78,15 +78,15 @@ const HOME_PAGE_QUERY = `*[_type == "homePage"][0] {
   featuredBlogPostSection {
     titlePart1,
     titlePart2,
-    text,
     buttonText,
     image1 {alt, asset->},
     image2 {alt, asset->},
-    image3 {alt, asset->},
     featuredPost-> {
       _id,
       title,
-      slug { current }
+      slug { current },
+      excerpt,
+      coverImage {alt, asset->}
     }
   },
   upcomingReleaseSection {
@@ -102,37 +102,50 @@ const HOME_PAGE_QUERY = `*[_type == "homePage"][0] {
     customButtonText,
     customButtonLink
   },
-  newsletterSection
+  newsletterSection-> {
+    title,
+    subtitle,
+    placeholderText,
+    buttonText
+  }
 }`;
 
 async function getHomePageData(): Promise<HomePageData | null> {
-  // console.log('Sanity Client Config:', {
-  //   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  //   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  //   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-07-15',
-  //   useCdn: process.env.NODE_ENV === 'production'
-  // });
+  console.log('🔍 Fetching Home Page data from Sanity...');
 
   try {
     const data = await client.fetch(HOME_PAGE_QUERY, {}, { next: { revalidate: 300 } }); // 5 minutes
-    // console.log('Fetched Sanity Data:', JSON.stringify(data, null, 2));
+    
+    console.log('✅ Home Page data fetched successfully');
+    console.log('📧 Newsletter section data:', JSON.stringify(data?.newsletterSection, null, 2));
+    console.log('📝 Featured blog section data:', JSON.stringify(data?.featuredBlogPostSection, null, 2));
+    console.log('🏠 Full data structure:', {
+      hasHeroSection: !!data?.heroSection,
+      hasDefinitionSection: !!data?.definitionSection,
+      hasFeaturedBlogSection: !!data?.featuredBlogPostSection,
+      hasUpcomingRelease: !!data?.upcomingReleaseSection,
+      hasNewsletterSection: !!data?.newsletterSection,
+      newsletterFields: data?.newsletterSection ? Object.keys(data.newsletterSection) : [],
+      featuredPostFields: data?.featuredBlogPostSection?.featuredPost ? Object.keys(data.featuredBlogPostSection.featuredPost) : []
+    });
+    
     return data;
   } catch (error) {
-    console.error('Error fetching Sanity data:', error);
+    console.error('❌ Error fetching Sanity data:', error);
     return null;
   }
 }
 
 export default async function Home() {
-  // console.log('Rendering Home page, attempting to fetch data...');
+  console.log('🏠 Rendering Home page, attempting to fetch data...');
   const data = await getHomePageData();
 
   if (!data) {
-    console.log('Home page received no data from getHomePageData.');
+    console.log('❌ Home page received no data from getHomePageData.');
     return <div>Error loading page data. Please try again later.</div>;
   }
 
-  // console.log('Home page received data, rendering components...');
+  console.log('🎉 Home page received data, rendering components...');
 
   const renderPortableText = (content: any[] | undefined) => {
     if (!content || content.length === 0) {
@@ -171,10 +184,10 @@ export default async function Home() {
         <FeaturedBlogPost
           titlePart1={data.featuredBlogPostSection.titlePart1}
           titlePart2={data.featuredBlogPostSection.titlePart2}
-          text={renderPortableText(data.featuredBlogPostSection.text)}
+          text={data.featuredBlogPostSection.featuredPost.excerpt}
           imageUrl1={urlFor(data.featuredBlogPostSection.image1.asset).width(400).url()}
           imageUrl2={urlFor(data.featuredBlogPostSection.image2.asset).width(400).url()}
-          imageUrl3={urlFor(data.featuredBlogPostSection.image3.asset).width(300).url()}
+          imageUrl3={urlFor(data.featuredBlogPostSection.featuredPost.coverImage.asset).width(300).url()}
           imageAlt={data.featuredBlogPostSection.image1.alt || 'Featured post collage'}
           buttonText={data.featuredBlogPostSection.buttonText}
           buttonLink={`/blog/${data.featuredBlogPostSection.featuredPost.slug.current}`}
@@ -198,6 +211,8 @@ export default async function Home() {
         <NewsletterSection
           title={data.newsletterSection.title}
           subtitle={data.newsletterSection.subtitle}
+          placeholderText={data.newsletterSection.placeholderText}
+          buttonText={data.newsletterSection.buttonText}
         />
       )}
     </div>

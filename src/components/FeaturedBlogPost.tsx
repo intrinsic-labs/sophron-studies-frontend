@@ -5,7 +5,7 @@ import React from "react";
 interface FeaturedBlogPostProps {
   titlePart1: string;
   titlePart2: string;
-  text: React.ReactNode;
+  text: string;
   imageUrl1: string;
   imageUrl2: string;
   imageUrl3: string;
@@ -35,7 +35,7 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
             <span className="block heading-2 text-gray-800">{titlePart2}</span>
           </h2>
           <div className="prose body-text text-gray-600 mb-6">
-            {text}
+            <p>{text}</p>
           </div>
           <Link 
             href={buttonLink || '#'} 

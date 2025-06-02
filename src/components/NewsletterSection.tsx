@@ -5,11 +5,15 @@ import React from 'react';
 interface NewsletterSectionProps {
   title?: string;
   subtitle?: string;
+  placeholderText?: string;
+  buttonText?: string;
 }
 
 const NewsletterSection: React.FC<NewsletterSectionProps> = ({
   title = "Stay in Touch",
   subtitle = "Join our newsletter now! We will keep you posted on the latest and greatest.",
+  placeholderText = "name@example.com",
+  buttonText = "Submit",
 }) => {
   return (
     <section className="py-16 border-t">
@@ -23,7 +27,7 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({
             <form className="flex">
               <input 
                 type="email" 
-                placeholder="name@example.com" 
+                placeholder={placeholderText}
                 required
                 className="flex-grow p-3 border border-r-0 border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-800"
               />
@@ -31,7 +35,7 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({
                 type="submit" 
                 className="btn-submit"
               >
-                Submit
+                {buttonText}
               </button>
             </form>
           </div>
