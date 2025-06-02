@@ -13,9 +13,9 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
     <section className="relative flex flex-col space-y-8 items-center justify-center mt-8 bg-white overflow-hidden px-2 mb-12">
       {/* Relative container for images */}
       <div className="relative w-full max-w-md lg:max-w-lg aspect-[4/3] mb-12">
-        {/* Background Image */}
+        {/* Center Image */}
         {backgroundImage ? (
-          <div className="absolute top-[5%] left-[10%] w-[80%] aspect-[6/5] z-0 overflow-hidden shadow-lg transform -rotate-3">
+          <div className="absolute top-[5%] left-[10%] w-[80%] aspect-[6/5] z-30 overflow-hidden shadow-lg transform -rotate-3">
             <Image 
               src={backgroundImage} 
               alt="Background" 
@@ -26,11 +26,11 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
             />
           </div>
         ) : (
-          <div className="absolute top-[5%] left-[10%] w-[80%] aspect-[6/5] bg-gray-300 z-0 shadow-lg transform -rotate-3" />
+          <div className="absolute top-[5%] left-[10%] w-[80%] aspect-[6/5] bg-gray-300 z-30 shadow-lg transform -rotate-3" />
         )}
         {/* Right Image */}
         {rightImage ? (
-          <div className="absolute top-[15%] right-[5%] w-[55%] aspect-[4/5] z-10 overflow-hidden shadow-lg transform rotate-2">
+          <div className="absolute top-[50%] lg:top-[15%] right-[5%] lg:right-[-32%] w-[55%] aspect-[4/5] z-10 overflow-hidden shadow-lg transform rotate-2">
             <Image 
               src={rightImage} 
               alt="Right" 
@@ -45,7 +45,7 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
         )}
         {/* Left Image */}
         {leftImage ? (
-          <div className="absolute bottom-[8%] left-[2%] w-[45%] aspect-[1/1] z-10 overflow-hidden shadow-md transform -rotate-6">
+          <div className="absolute bottom-[-35%] lg:bottom-[-3%] lg:left-[2%] lg:left-[-32%] w-[45%] aspect-[1/1] z-10 overflow-hidden shadow-lg transform -rotate-6">
             <Image 
               src={leftImage} 
               alt="Left" 
@@ -60,7 +60,7 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
         )}
       </div>
       {/* Name in script font - positioned relative to the section, overlapping images */}
-      <h1 className="relative z-20 text-5xl md:text-7xl font-heading1 text-center">
+      <h1 className="relative z-20 text-5xl md:text-7xl font-heading1 text-center pt-20 lg:pt-0">
         {name}
       </h1>
     </section>
