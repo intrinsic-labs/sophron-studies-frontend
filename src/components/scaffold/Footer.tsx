@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-6 flex flex-col md:flex-row md:justify-between md:max-w-8xl gap-8">
         {/* Brand & Copyright */}
         <div className="mb-6 md:mb-0">
-          <div className="font-heading1 text-3xl text-creme mb-2">Sophron Studies</div>
+          <div className="font-heading1 text-5xl text-creme mb-2">Sophron Studies</div>
           <div className="text-gray-400 text-sm mb-6">&copy; {new Date().getFullYear()} Sophron Studies. All rights reserved.</div>
           {/* Newsletter Signup */}
         <div className="w-full md:w-1/3">

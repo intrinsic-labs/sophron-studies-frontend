@@ -38,7 +38,7 @@ const CartSidebar: React.FC = () => {
     <>
       {/* Overlay */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-50 z-40"
+        className="fixed inset-0 bg-black/50 z-40"
         onClick={closeCart}
       />
       

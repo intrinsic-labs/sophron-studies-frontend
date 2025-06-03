@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
   }, [menuOpen]);
 
   return (
-    <nav className="bg-white border-b border-olive sticky top-0 z-50">
+    <nav className="bg-white sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo/Brand */}
         <Link href="/" className="font-heading1 text-3xl text-gray-900 tracking-tight">
@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
             <Link
               key={link.name}
               href={link.href}
-              className={`text-lg font-medium text-gray-900 hover:text-pink transition-colors px-2 py-1 ${pathname === link.href ? ' text-pink' : ''}`}
+              className={`text-lg font-medium font-heading2 text-gray-900 hover:text-pink transition-colors px-2 py-1 ${pathname === link.href ? ' underline text-pink' : ''}`}
               aria-current={pathname === link.href ? 'page' : undefined}
             >
               {link.name}

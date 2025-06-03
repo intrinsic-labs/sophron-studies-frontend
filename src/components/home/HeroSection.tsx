@@ -24,7 +24,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const vimeoId = vimeoUrl ? getVimeoId(vimeoUrl) : null;
 
   return (
-    <section className="w-full min-h-[35vh] md:min-h-[50vh] lg:min-h-[65vh] flex items-center justify-center bg-gray-100 relative overflow-hidden">
+    <section className="w-full min-h-[35vh] md:min-h-[50vh] lg:min-h-[65vh] flex items-center justify-center bg-olive relative overflow-hidden">
       {/* Background Video or Image */}
       {vimeoId ? (
         <div className="absolute inset-0 w-full h-full overflow-hidden">

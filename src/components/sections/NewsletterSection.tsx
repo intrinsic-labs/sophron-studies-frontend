@@ -137,7 +137,7 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({
       <div className="container max-w-4xl mx-auto px-8">
         <div className="flex flex-wrap items-center justify-between">
           <div className="w-full md:w-2/5 mb-8 md:mb-0">
-            <h2 className="heading-1 mb-2 text-5xl">{title}</h2>
+            <h2 className="heading-1 mb-4 text-6xl">{title}</h2>
             <p className="body-text-subtle text-lg">{subtitle}</p>
           </div>
           <div className="w-full md:w-1/2">
