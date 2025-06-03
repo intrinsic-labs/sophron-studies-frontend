@@ -53,13 +53,13 @@ const Navbar: React.FC = () => {
         <div className="md:hidden flex items-center gap-2">
           <CartButton />
           <button
-            className="flex flex-col gap-1.5 p-2 focus:outline-none"
+            className="flex flex-col gap-1.5 p-2 focus:outline-hidden"
             aria-label="Open menu"
             onClick={() => setMenuOpen(true)}
           >
-            <span className="block w-7 h-0.5 bg-gray-900 rounded"></span>
-            <span className="block w-7 h-0.5 bg-gray-900 rounded"></span>
-            <span className="block w-7 h-0.5 bg-gray-900 rounded"></span>
+            <span className="block w-7 h-0.5 bg-gray-900 rounded-sm"></span>
+            <span className="block w-7 h-0.5 bg-gray-900 rounded-sm"></span>
+            <span className="block w-7 h-0.5 bg-gray-900 rounded-sm"></span>
           </button>
         </div>
       </div>
@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
       {menuOpen && (
         <div className="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center transition-all">
           <button
-            className="absolute top-6 right-6 text-3xl text-gray-900 focus:outline-none"
+            className="absolute top-6 right-6 text-3xl text-gray-900 focus:outline-hidden"
             aria-label="Close menu"
             onClick={() => setMenuOpen(false)}
           >
@@ -77,7 +77,7 @@ const Navbar: React.FC = () => {
             {navLinks.map(link => (
               <button
                 key={link.name}
-                className={`bg-transparent border-none p-0 m-0 text-gray-900 hover:text-gold transition-colors focus:outline-none ${pathname === link.href ? 'text-gold' : ''}`}
+                className={`bg-transparent border-none p-0 m-0 text-gray-900 hover:text-gold transition-colors focus:outline-hidden ${pathname === link.href ? 'text-gold' : ''}`}
                 style={{ fontFamily: 'inherit', fontSize: 'inherit' }}
                 aria-current={pathname === link.href ? 'page' : undefined}
                 onClick={() => {

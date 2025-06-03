@@ -81,7 +81,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Sl
         <div>
           {/* Simple image display for now, could be a gallery later */}
           {product.images?.[0] ? (
-            <div className="relative w-full aspect-[3/4] bg-transparent flex items-center justify-center">
+            <div className="relative w-full aspect-3/4 bg-transparent flex items-center justify-center">
               <Image
                 src={urlFor(product.images[0]).fit('max').url()}
                 alt={product.images[0].alt || product.name}
@@ -94,7 +94,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Sl
               />
             </div>
           ) : (
-            <div className="aspect-[3/4] bg-gray-200 flex items-center justify-center text-gray-500">No Image Available</div>
+            <div className="aspect-3/4 bg-gray-200 flex items-center justify-center text-gray-500">No Image Available</div>
           )}
           {/* TODO: Add thumbnail gallery if multiple images */}
         </div>

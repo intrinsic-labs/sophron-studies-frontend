@@ -37,7 +37,7 @@ const BlogPostHeader = ({ post }: BlogPostHeaderProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-heading1 text-5xl md:text-7xl mb-6 text-center"
+            className="font-heading1 text-5xl md:text-7xl lg:text-8xl mb-6 text-center"
           >
             {post.title}
           </motion.h1>

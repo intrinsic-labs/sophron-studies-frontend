@@ -183,13 +183,14 @@ async function getHomePageData(): Promise<HomePageData | null> {
 
 export default async function Home() {
   console.log('🏠 Rendering Home page, attempting to fetch data...');
+  
   const data = await getHomePageData();
-
+  
   if (!data) {
     console.log('❌ Home page received no data from getHomePageData.');
     return <div>Error loading page data. Please try again later.</div>;
   }
-
+  
   console.log('🎉 Home page received data, rendering components...');
 
   const renderPortableText = (content: any[] | undefined) => {
@@ -202,14 +203,14 @@ export default async function Home() {
   return (
     <div>
       {data.heroSection && (
-         <HeroSection
-           vimeoUrl={data.heroSection.vimeoUrl}
-           backgroundImage={data.heroSection.backgroundImage ? {
-             url: urlFor(data.heroSection.backgroundImage.asset).width(1920).url(),
-             alt: data.heroSection.backgroundImage.alt
-           } : undefined}
-           overlayOpacity={0.4}
-         />
+        <HeroSection
+          vimeoUrl={data.heroSection.vimeoUrl}
+          backgroundImage={data.heroSection.backgroundImage ? {
+            url: urlFor(data.heroSection.backgroundImage.asset).width(1920).url(),
+            alt: data.heroSection.backgroundImage.alt
+          } : undefined}
+          overlayOpacity={0.4}
+        />
       )}
 
       {data.definitionSection && (

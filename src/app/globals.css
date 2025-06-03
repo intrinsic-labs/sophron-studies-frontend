@@ -1,72 +1,119 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --olive: #d1d3ca;
-  --creme: #faf6e8;
-  --pink: #b9a5a5;
-  --foreground: #171717;
+@theme inline {
+  --font-sans: var(--font-inter), sans-serif;
+  --font-serif: var(--font-literata), serif;
+  --font-heading1: var(--font-northwell), cursive;
+  --font-heading2: var(--font-literata), serif;
+
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-image-gradient-conic: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--tw-gradient-stops)
+  );
+
+  --color-gold: #daa520;
+  --color-olive: #d1d3ca;
+  --color-creme: #faf6e8;
+  --color-pink: #b9a5a5;
+  --color-background: rgb(var(--background));
+  --color-foreground: rgb(var(--foreground));
 }
 
-/* @media (prefers-color-scheme: dark) {
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility heading-1 {
+  /* Headings */
+  @apply font-heading1 text-6xl md:text-7xl;
+}
+
+@utility heading-2 {
+  @apply font-heading2 text-5xl md:text-6xl uppercase;
+}
+
+@utility heading-3 {
+  @apply font-heading2 text-4xl uppercase;
+}
+
+@utility heading-hero {
+  @apply font-heading1 text-7xl md:text-9xl;
+}
+
+@utility body-text {
+  /* Body Text */
+  @apply max-w-none text-lg;
+}
+
+@utility body-text-dark {
+  @apply max-w-none text-gray-300; /* Specific for dark backgrounds */
+}
+
+@utility body-text-light {
+  @apply max-w-none text-gray-700; /* Common light bg text */
+}
+
+@utility body-text-subtle {
+  @apply text-lg font-sans text-gray-700; /* For things like subtitles */
+}
+
+@utility btn {
+  /* Buttons */
+  @apply inline-block py-2 px-6 transition duration-300 uppercase text-sm tracking-wider;
+}
+
+@utility btn-primary {
+  @apply btn bg-gray-800 text-white hover:bg-gray-700;
+}
+
+@utility btn-primary-dark-bg {
+  @apply btn bg-white text-gray-900 hover:bg-gray-200;
+}
+
+@utility btn-outline-light {
+  @apply inline-block px-6 py-3 border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white transition-colors;
+}
+
+@utility btn-outline-dark {
+  @apply inline-block px-6 py-3 border border-white text-white hover:bg-white hover:text-gray-900 transition-colors;
+}
+
+@utility btn-submit {
+  @apply p-3 bg-gray-800 text-white hover:bg-gray-700 transition-colors; /* Specific for form submit */
+}
+
+@layer utilities {
+  :root {
+    --background: #ffffff;
+    --olive: #d1d3ca;
+    --creme: #faf6e8;
+    --pink: #b9a5a5;
+    --foreground: #171717;
+  }
+
+  /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 } */
 
-body {
-  @apply bg-background text-foreground;
-}
-
-@layer components {
-  /* Headings */
-  .heading-1 {
-    @apply font-heading1 text-6xl md:text-7xl;
-  }
-  .heading-2 {
-    @apply font-heading2 text-5xl md:text-6xl uppercase;
-  }
-  .heading-3 {
-    @apply font-heading2 text-4xl uppercase;
-  }
-  .heading-hero {
-    @apply font-heading1 text-7xl md:text-9xl;
-  }
-
-  /* Body Text */
-  .body-text {
-    @apply max-w-none text-lg;
-  }
-  .body-text-dark {
-    @apply max-w-none text-gray-300; /* Specific for dark backgrounds */
-  }
-  .body-text-light {
-     @apply max-w-none text-gray-700; /* Common light bg text */
-  }
-   .body-text-subtle {
-    @apply text-lg font-sans text-gray-700; /* For things like subtitles */
-  }
-
-  /* Buttons */
-  .btn {
-    @apply inline-block py-2 px-6 transition duration-300 uppercase text-sm tracking-wider;
-  }
-  .btn-primary {
-    @apply btn bg-gray-800 text-white hover:bg-gray-700;
-  }
-  .btn-primary-dark-bg {
-    @apply btn bg-white text-gray-900 hover:bg-gray-200;
-  }
-  .btn-outline-light {
-    @apply inline-block px-6 py-3 border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white transition-colors;
-  }
-  .btn-outline-dark {
-     @apply inline-block px-6 py-3 border border-white text-white hover:bg-white hover:text-gray-900 transition-colors;
-  }
-  .btn-submit {
-    @apply p-3 bg-gray-800 text-white hover:bg-gray-700 transition-colors; /* Specific for form submit */
+  body {
+    @apply bg-background text-foreground;
   }
 }

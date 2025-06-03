@@ -52,7 +52,7 @@ const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
 
   return (
     <section className="md:pb-16 bg-background text-gray-800 flex items-center justify-center">
-      <div className="container mx-auto px-4 flex flex-col items-center justify-center bg-[var(--olive)]">
+      <div className="container mx-auto px-4 flex flex-col items-center justify-center bg-(--olive)">
         <div className="w-full max-w-4xl text-center py-12 md:py-16">
           {/* Section Header */}
           {(title || subtitle) && (

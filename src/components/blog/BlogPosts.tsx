@@ -101,7 +101,7 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
           {posts.map((post, index) => (
             <BlogPostItem key={post.id} post={post} index={index} totalCount={posts.length} />
           ))}
-          <div className="h-16 flex-shrink-0"></div> {/* Spacer */}
+          <div className="h-16 shrink-0"></div> {/* Spacer */}
         </div>
       </div>
     </section>

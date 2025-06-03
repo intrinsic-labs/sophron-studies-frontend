@@ -27,7 +27,7 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
 }) => {
   return (
     <section className="py-16 md:py-24 bg-background text-gray-800 flex items-center justify-center">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center bg-[var(--olive)]">
+      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center bg-(--olive)">
         {/* Text Content */}
         <div className="w-full md:w-1/3 md:pr-12 mb-8 md:mb-0 order-2 md:order-1">
           <h2 className="mb-4">
@@ -47,9 +47,9 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
 
         {/* Overlapping Images - 3 images, responsive, like UpcomingRelease */}
         <div className="w-full md:w-1/2 order-1 md:order-2 flex justify-center items-center min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
-          <div className="relative w-4/5 aspect-[4/3] flex items-center justify-center">
+          <div className="relative w-4/5 aspect-4/3 flex items-center justify-center">
             {/* Large Left Image */}
-            <div className="absolute -top-[5%] left-0 w-[60%] aspect-[4/5] shadow-lg overflow-hidden z-10 rotate-[-6deg] flex items-center justify-center">
+            <div className="absolute -top-[5%] left-0 w-[60%] aspect-4/5 shadow-lg overflow-hidden z-10 -rotate-6 flex items-center justify-center">
               {imageUrl1 ? (
                 <Image
                   src={imageUrl1}
@@ -64,7 +64,7 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
               )}
             </div>
             {/* Medium Right Image */}
-            <div className="absolute top-[10%] right-0 w-[55%] aspect-[4/5] shadow-lg overflow-hidden z-20 rotate-[4deg] flex items-center justify-center">
+            <div className="absolute top-[10%] right-0 w-[55%] aspect-4/5 shadow-lg overflow-hidden z-20 rotate-[4deg] flex items-center justify-center">
               {imageUrl2 ? (
                 <Image
                   src={imageUrl2}
@@ -79,7 +79,7 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
               )}
             </div>
             {/* Small Center/Bottom Image */}
-            <div className="absolute bottom-[-8%] left-1/2 -translate-x-1/2 w-[38%] aspect-[1/1] shadow-md overflow-hidden z-30 rotate-[-2deg] flex items-center justify-center">
+            <div className="absolute bottom-[-8%] left-1/2 -translate-x-1/2 w-[38%] aspect-square shadow-md overflow-hidden z-30 -rotate-2 flex items-center justify-center">
               {imageUrl3 ? (
                 <Image
                   src={imageUrl3}

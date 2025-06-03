@@ -51,7 +51,7 @@ const BlogSearch = ({ onSearch, searchQuery }: BlogSearchProps) => {
           <button
             type="button"
             onClick={toggleExpand}
-            className="flex-shrink-0 flex items-center justify-center w-10 h-8 text-neutral-800 hover:text-orange transition-colors duration-300"
+            className="shrink-0 flex items-center justify-center w-10 h-8 text-neutral-800 hover:text-orange transition-colors duration-300"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -64,7 +64,7 @@ const BlogSearch = ({ onSearch, searchQuery }: BlogSearchProps) => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search articles..."
-            className={`bg-transparent text-accent outline-none text-sm w-full transition-all duration-300 ${
+            className={`bg-transparent text-accent outline-hidden text-sm w-full transition-all duration-300 ${
               isExpanded ? 'opacity-100 max-w-full pr-8' : 'opacity-0 max-w-0 p-0'
             }`}
           />

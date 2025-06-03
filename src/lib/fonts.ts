@@ -1,65 +1,42 @@
 import localFont from 'next/font/local';
 
-// Define fonts based on the files in public/fonts
+// Define fonts based on the files in src/fonts
 
-// Script Heading Font
-export const fontOoohBaby = localFont({
-  src: '../../public/fonts/Oooh_Baby/OoohBaby-Regular.ttf',
-  display: 'swap',
-  variable: '--font-oooh-baby', // CSS variable name
-});
-
-// Serif Heading Font
-export const fontLiterata = localFont({
-  src: [
-    {
-      path: '../../public/fonts/Literata/Literata-VariableFont_opsz,wght.ttf',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/Literata/Literata-Italic-VariableFont_opsz,wght.ttf',
-      style: 'italic',
-    },
-  ],
-  display: 'swap',
-  variable: '--font-literata', // CSS variable name
-});
-
-// Sans Serif Body Font
+// Inter - Variable font with regular and italic
 export const fontInter = localFont({
   src: [
     {
-      path: '../../public/fonts/Inter/Inter-VariableFont_opsz,wght.ttf',
+      path: '../fonts/Inter/Inter-VariableFont_opsz,wght.ttf',
       style: 'normal',
     },
     {
-      path: '../../public/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf',
+      path: '../fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf',
       style: 'italic',
     },
   ],
+  variable: '--font-inter',
   display: 'swap',
-  variable: '--font-inter', // CSS variable name
 });
 
-// Serif Body Font
-export const fontCardo = localFont({
+// Literata - Variable font with regular and italic
+export const fontLiterata = localFont({
   src: [
     {
-      path: '../../public/fonts/Cardo/Cardo-Regular.ttf',
-      weight: '400',
+      path: '../fonts/Literata/Literata-VariableFont_opsz,wght.ttf',
       style: 'normal',
     },
     {
-      path: '../../public/fonts/Cardo/Cardo-Italic.ttf',
-      weight: '400',
+      path: '../fonts/Literata/Literata-Italic-VariableFont_opsz,wght.ttf',
       style: 'italic',
     },
-    {
-      path: '../../public/fonts/Cardo/Cardo-Bold.ttf',
-      weight: '700',
-      style: 'normal',
-    },
   ],
+  variable: '--font-literata',
   display: 'swap',
-  variable: '--font-cardo', // CSS variable name
-}); 
+});
+
+// Northwell - Single weight font
+export const fontNorthwell = localFont({
+  src: '../fonts/Northwell/Northwell.ttf',
+  variable: '--font-northwell',
+  display: 'swap',
+});

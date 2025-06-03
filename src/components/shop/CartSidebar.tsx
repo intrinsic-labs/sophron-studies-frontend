@@ -70,7 +70,7 @@ const CartSidebar: React.FC = () => {
               {state.items.map((item) => (
                 <div key={item._id} className="flex gap-3 p-3 border rounded-lg">
                   {/* Product Image */}
-                  <div className="w-16 h-20 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+                  <div className="w-16 h-20 bg-gray-100 rounded-sm overflow-hidden shrink-0">
                     {item.image ? (
                       <Image
                         src={item.image}
@@ -99,7 +99,7 @@ const CartSidebar: React.FC = () => {
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => updateQuantity(item._id, item.quantity - 1)}
-                        className="p-1 hover:bg-gray-100 rounded transition-colors"
+                        className="p-1 hover:bg-gray-100 rounded-sm transition-colors"
                         disabled={item.quantity <= 1}
                       >
                         <FiMinus size={14} />
@@ -109,7 +109,7 @@ const CartSidebar: React.FC = () => {
                       </span>
                       <button
                         onClick={() => updateQuantity(item._id, item.quantity + 1)}
-                        className="p-1 hover:bg-gray-100 rounded transition-colors"
+                        className="p-1 hover:bg-gray-100 rounded-sm transition-colors"
                       >
                         <FiPlus size={14} />
                       </button>
@@ -119,7 +119,7 @@ const CartSidebar: React.FC = () => {
                   {/* Remove Button */}
                   <button
                     onClick={() => removeItem(item._id)}
-                    className="p-1 hover:bg-red-100 hover:text-red-600 rounded transition-colors self-start"
+                    className="p-1 hover:bg-red-100 hover:text-red-600 rounded-sm transition-colors self-start"
                   >
                     <FiX size={16} />
                   </button>

@@ -175,7 +175,7 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
   }
 
   return (
-    <section className="pt-4 md:pt-8 pb-16 font-serif text-[1.2rem] leading-[1.8] tracking-[0.01rem] px-4 sm:px-6">
+    <section className="pt-4 md:pt-8 pb-16 text-[1.2rem] leading-[1.8] tracking-[0.01rem] px-4 sm:px-6">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

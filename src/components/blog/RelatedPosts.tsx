@@ -66,7 +66,7 @@ const RelatedPostCard = ({ post, index }: RelatedPostCardProps) => {
           </div>
           
           {/* Content */}
-          <div className="p-5 flex flex-col flex-grow">
+          <div className="p-5 flex flex-col grow">
             <div className="flex items-center space-x-2 mb-2">
               <span className="text-neutral-800 text-xs">{post.date}</span>
               <span className="text-neutral-400 text-xs">|</span>

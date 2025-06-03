@@ -128,7 +128,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
     <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
       <div className="relative" ref={dropdownRef}>
         <button 
-          className={`flex-shrink-0 px-4 py-2 hover:bg-olive/50 ${dropdownOpen ? 'bg-olive' : ''} text-neutral-800 transition-colors duration-300 flex items-center whitespace-nowrap min-w-[160px] text-sm w-full justify-between`}
+          className={`shrink-0 px-4 py-2 hover:bg-olive/50 ${dropdownOpen ? 'bg-olive' : ''} text-neutral-800 transition-colors duration-300 flex items-center whitespace-nowrap min-w-[160px] text-sm w-full justify-between`}
           onClick={() => setDropdownOpen(!dropdownOpen)}
           style={{ minWidth: 160 }}
         >
@@ -160,7 +160,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
         </button>
         
         {dropdownOpen && (
-          <div className="absolute z-10 mt-1 w-full bg-white border rounded shadow-lg">
+          <div className="absolute z-10 mt-1 w-full bg-white border rounded-sm shadow-lg">
             {FILTER_CATEGORIES.map((category) => (
               <button
                 key={category.id}
@@ -180,7 +180,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
         <input
           type="search"
           placeholder="Search..."
-          className="pl-10 pr-4 py-2 border rounded w-full md:w-64"
+          className="pl-10 pr-4 py-2 border rounded-sm w-full md:w-64"
           value={localSearchTerm}
           onChange={handleSearchChange}
         />

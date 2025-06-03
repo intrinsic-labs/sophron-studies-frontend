@@ -69,7 +69,7 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-8 shadow-md rounded">
+    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-8 shadow-md rounded-sm">
       {/* Inquiry Type Selection */}
       <div className="mb-6">
         <label htmlFor="inquiryType" className="block text-sm font-medium text-gray-700 mb-1">What would you like to do?</label>
@@ -78,7 +78,7 @@ const ContactForm: React.FC = () => {
           name="inquiryTypeSelect" // Use a different name to avoid conflict with hidden input
           value={inquiryType}
           onChange={handleInquiryTypeChange}
-          className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-olive focus:border-olive sm:text-sm"
+          className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
           required
         >
           <option value="general">General Inquiry</option>
@@ -97,7 +97,7 @@ const ContactForm: React.FC = () => {
             id="name"
             value={formData.name}
             onChange={handleInputChange}
-            className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-olive focus:border-olive sm:text-sm"
+            className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             required
           />
         </div>
@@ -109,7 +109,7 @@ const ContactForm: React.FC = () => {
             id="email"
             value={formData.email}
             onChange={handleInputChange}
-            className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-olive focus:border-olive sm:text-sm"
+            className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             required
           />
         </div>
@@ -117,7 +117,7 @@ const ContactForm: React.FC = () => {
 
       {/* Conditional Fields: Bible Study */}
       {inquiryType === 'study' && (
-        <div className="mb-6 space-y-6 p-4 border border-olive/50 rounded bg-olive/10">
+        <div className="mb-6 space-y-6 p-4 border border-olive/50 rounded-sm bg-olive/10">
            <p className="text-sm font-medium text-gray-800">Bible Study Details:</p>
            <div>
             <label htmlFor="studyPreference" className="block text-sm font-medium text-gray-700 mb-1">Preferred Study (Optional)</label>
@@ -128,7 +128,7 @@ const ContactForm: React.FC = () => {
               value={formData.studyPreference}
               onChange={handleInputChange}
               placeholder="e.g., Old Testament Overview"
-              className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-olive focus:border-olive sm:text-sm"
+              className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             />
           </div>
           <div>
@@ -140,7 +140,7 @@ const ContactForm: React.FC = () => {
               value={formData.availability}
               onChange={handleInputChange}
               placeholder="e.g., Weekday evenings, Saturday mornings"
-              className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-olive focus:border-olive sm:text-sm"
+              className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             ></textarea>
           </div>
         </div>
@@ -148,7 +148,7 @@ const ContactForm: React.FC = () => {
 
       {/* Conditional Fields: Seminar Booking */}
       {inquiryType === 'seminar' && (
-        <div className="mb-6 space-y-6 p-4 border border-pink/50 rounded bg-pink/10">
+        <div className="mb-6 space-y-6 p-4 border border-pink/50 rounded-sm bg-pink/10">
           <p className="text-sm font-medium text-gray-800">Seminar Booking Details:</p>
           <div>
             <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-1">Organization (Optional)</label>
@@ -158,7 +158,7 @@ const ContactForm: React.FC = () => {
               id="organization"
               value={formData.organization}
               onChange={handleInputChange}
-              className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-olive focus:border-olive sm:text-sm"
+              className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             />
           </div>
           <div>
@@ -170,7 +170,7 @@ const ContactForm: React.FC = () => {
               value={formData.preferredDate}
               onChange={handleInputChange}
               placeholder="e.g., Any weekend in October"
-              className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-olive focus:border-olive sm:text-sm"
+              className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             />
           </div>
         </div>
@@ -187,7 +187,7 @@ const ContactForm: React.FC = () => {
           rows={4}
           value={formData.message}
           onChange={handleInputChange}
-          className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-olive focus:border-olive sm:text-sm"
+          className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
           required={inquiryType === 'general'} // Only required for general inquiry
         ></textarea>
       </div>

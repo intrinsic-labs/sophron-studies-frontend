@@ -104,7 +104,7 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({
             placeholder={placeholderText}
             required
             disabled={status === 'loading'}
-            className="flex-grow p-2 text-sm text-black border border-r-0 border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-800 disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="grow p-2 text-sm text-black bg-white border border-r-0 border-gray-300 focus:outline-hidden focus:ring-1 focus:ring-gray-800 disabled:bg-gray-100 disabled:cursor-not-allowed"
           />
           <button 
             type="submit" 
@@ -149,7 +149,7 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({
                 placeholder={placeholderText}
                 required
                 disabled={status === 'loading'}
-                className="flex-grow p-3 border border-r-0 border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-800 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="grow p-3 border border-r-0 border-gray-300 focus:outline-hidden focus:ring-1 focus:ring-gray-800 disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
               <button 
                 type="submit" 

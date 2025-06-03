@@ -29,9 +29,9 @@ const UpcomingRelease: React.FC<UpcomingReleaseProps> = ({
         {/* Image Container - Uses flex to center the inner relative container */}
         <div className="w-full sm:w-2/3 md:w-2/5 mb-12 md:mb-0 md:mr-12 order-1 flex justify-center items-center min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
           {/* Inner Relative Container - Defines the aspect ratio and positioning context */}
-          <div className="relative w-4/5 aspect-[4/3]"> {/* Adjust aspect ratio as needed */}
+          <div className="relative w-4/5 aspect-4/3"> {/* Adjust aspect ratio as needed */}
             {/* First Image - Positioned absolutely using percentages */}
-            <div className="absolute -bottom-[3%] left-[7%] w-[65%] aspect-[2/3] shadow-lg overflow-hidden z-10">
+            <div className="absolute -bottom-[3%] left-[7%] w-[65%] aspect-2/3 shadow-lg overflow-hidden z-10">
               {imageUrl1 ? (
                 <Image
                   src={imageUrl1}
@@ -46,7 +46,7 @@ const UpcomingRelease: React.FC<UpcomingReleaseProps> = ({
               )}
             </div>
             {/* Second Image - Positioned absolutely using percentages */}
-            <div className="absolute -top-[3%] right-[7%] w-[65%] aspect-[2/3] shadow-lg overflow-hidden z-20">
+            <div className="absolute -top-[3%] right-[7%] w-[65%] aspect-2/3 shadow-lg overflow-hidden z-20">
               {imageUrl2 ? (
                 <Image
                   src={imageUrl2}

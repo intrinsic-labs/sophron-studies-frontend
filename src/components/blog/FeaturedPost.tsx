@@ -42,7 +42,7 @@ export default function FeaturedPost({ posts }: FeaturedPostProps) {
             className="relative overflow-hidden"
           >
             {/* Image */}
-            <div className="relative aspect-[3/4.5] md:aspect-[16/9] lg:aspect-[21/9] w-full overflow-hidden">
+            <div className="relative aspect-[3/4.5] md:aspect-video lg:aspect-21/9 w-full overflow-hidden">
           {featuredPost.coverImage && (
                 <Image 
                 width={1000}
@@ -55,7 +55,7 @@ export default function FeaturedPost({ posts }: FeaturedPostProps) {
               
               {/* Gradient overlay */}
               <div 
-                className="absolute inset-0 bg-gradient-to-t from-primary to-transparent z-10 pointer-events-none"
+                className="absolute inset-0 bg-linear-to-t from-primary to-transparent z-10 pointer-events-none"
               />
               
               {/* Content overlay */}
@@ -67,7 +67,7 @@ export default function FeaturedPost({ posts }: FeaturedPostProps) {
                     <span>{featuredPost.readingTime}</span>
                   </div>
                   
-                  <h2 className="text-4xl md:text-5xl font-heading1 font-bold text-secondary mb-4">
+                  <h2 className="text-4xl md:text-5xl font-heading2 text-secondary mb-4">
                     {featuredPost.title}
                   </h2>
                 </div>

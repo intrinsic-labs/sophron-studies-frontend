@@ -3,18 +3,9 @@ import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import Layout from "@/components/scaffold/Layout"; // Import the new Layout component
 import { CartProvider } from "@/lib/cart-context"; // Import the CartProvider
-import { fontInter, fontLiterata, fontOoohBaby, fontCardo } from "@/lib/fonts"; // Import the font definitions
-import "./globals.css";
+import { fontInter, fontLiterata, fontNorthwell } from "@/lib/fonts"; // Import local fonts
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-//
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Sophron Studies", // Update site title
@@ -31,7 +22,7 @@ export default function RootLayout({
       {/* Ensure body is the only direct child. 
           Remove comments between <html> and <body> just in case */}
       <body 
-        className={`${fontInter.variable} ${fontLiterata.variable} ${fontOoohBaby.variable} ${fontCardo.variable} font-sans antialiased`}
+        className={`${fontInter.variable} ${fontLiterata.variable} ${fontNorthwell.variable} font-sans antialiased`}
       >
         <CartProvider>
           <Layout>{children}</Layout>

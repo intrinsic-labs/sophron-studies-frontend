@@ -56,7 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <div className="group border transition-shadow duration-300 group-hover:shadow-lg">
       <Link href={`/shop/${product.slug.current}`}>
         <div className="p-4 text-center">
-          <div className="relative w-full aspect-[3/4] bg-gray-100 mb-4 overflow-hidden">
+          <div className="relative w-full aspect-3/4 bg-gray-100 mb-4 overflow-hidden">
             {product.images?.[0] ? (
               <Image
                 src={urlFor(product.images[0]).width(400).height(533).fit('crop').url()}

@@ -224,7 +224,7 @@ export default async function Shop({
           <div className="flex justify-center items-center mt-12 space-x-4">
             <Link
               href={`/shop?page=${validPage - 1}${currentCategory !== 'all' ? `&category=${currentCategory}` : ''}${searchTerm ? `&search=${searchTerm}` : ''}#studies`}
-              className={`px-3 py-1 border rounded ${validPage <= 1 ? 'text-gray-400 pointer-events-none' : 'hover:bg-gray-100'}`}
+              className={`px-3 py-1 border rounded-sm ${validPage <= 1 ? 'text-gray-400 pointer-events-none' : 'hover:bg-gray-100'}`}
               aria-disabled={validPage <= 1}
             >
               &larr;
@@ -234,7 +234,7 @@ export default async function Shop({
             </span>
             <Link
               href={`/shop?page=${validPage + 1}${currentCategory !== 'all' ? `&category=${currentCategory}` : ''}${searchTerm ? `&search=${searchTerm}` : ''}#studies`}
-              className={`px-3 py-1 border rounded ${validPage >= totalPages ? 'text-gray-400 pointer-events-none' : 'hover:bg-gray-100'}`}
+              className={`px-3 py-1 border rounded-sm ${validPage >= totalPages ? 'text-gray-400 pointer-events-none' : 'hover:bg-gray-100'}`}
               aria-disabled={validPage >= totalPages}
             >
               &rarr;
