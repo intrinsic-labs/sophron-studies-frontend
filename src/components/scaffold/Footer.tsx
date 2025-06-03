@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import NewsletterSection from '../sections/NewsletterSection';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -20,20 +21,14 @@ const Footer: React.FC = () => {
           {/* Newsletter Signup */}
         <div className="w-full md:w-1/3">
           <div className="font-semibold mb-1 text-creme">Newsletter</div>
-          <form className="flex mt-2">
-            <input
-              type="email"
-              placeholder="Your email"
-              required
-              className="flex-grow p-2 rounded-l bg-gray-800 border border-gray-700 text-white focus:outline-none focus:ring-1 focus:ring-gold"
-            />
-            <button
-              type="submit"
-              className="btn-primary-dark-bg rounded-l-none rounded-r"
-            >
-              Subscribe
-            </button>
-          </form>
+          <NewsletterSection
+            size="compact"
+            title="Newsletter"
+            subtitle="Subscribe to our newsletter"
+            placeholderText="Your email"
+            buttonText="Subscribe"
+            source="website.footer"
+          />
         </div>
         </div>
         {/* Quick Links */}

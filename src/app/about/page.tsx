@@ -182,6 +182,7 @@ export default async function AboutPage() {
           subtitle={data.newsletterSection.subtitle}
           placeholderText={data.newsletterSection.placeholderText}
           buttonText={data.newsletterSection.buttonText}
+          source="website.aboutpage"
         />
       )}
     </div>

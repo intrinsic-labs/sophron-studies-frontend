@@ -258,6 +258,7 @@ export default async function Home() {
           subtitle={data.newsletterSection.subtitle}
           placeholderText={data.newsletterSection.placeholderText}
           buttonText={data.newsletterSection.buttonText}
+          source="website.homepage"
         />
       )}
 
