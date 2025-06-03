@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 // Remove default fonts if not needed, or configure custom fonts later
 // import { Geist, Geist_Mono } from "next/font/google";
-import Layout from "@/components/Layout"; // Import the new Layout component
+import Layout from "@/components/scaffold/Layout"; // Import the new Layout component
 import { CartProvider } from "@/lib/cart-context"; // Import the CartProvider
 import { fontInter, fontLiterata, fontOoohBaby, fontCardo } from "@/lib/fonts"; // Import the font definitions
 import "./globals.css";
