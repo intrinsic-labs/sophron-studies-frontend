@@ -15,7 +15,7 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
       <div className="relative w-full max-w-md lg:max-w-lg aspect-[4/3] mb-12">
         {/* Center Image */}
         {backgroundImage ? (
-          <div className="absolute top-[5%] left-[10%] w-[80%] aspect-[6/5] z-30 overflow-hidden shadow-lg transform -rotate-3">
+          <div className="absolute top-[5%] left-[10%] w-[80%] aspect-[6/5] lg:z-30 z-10 overflow-hidden shadow-lg transform -rotate-3">
             <Image 
               src={backgroundImage} 
               alt="Background" 
@@ -30,7 +30,7 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
         )}
         {/* Right Image */}
         {rightImage ? (
-          <div className="absolute top-[50%] lg:top-[15%] right-[5%] lg:right-[-32%] w-[55%] aspect-[4/5] z-10 overflow-hidden shadow-lg transform rotate-2">
+          <div className="absolute top-[50%] lg:top-[15%] right-[5%] lg:right-[-32%] w-[55%] aspect-[4/5] lg:z-10 z-0 overflow-hidden shadow-lg transform rotate-2">
             <Image 
               src={rightImage} 
               alt="Right" 
@@ -45,7 +45,7 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
         )}
         {/* Left Image */}
         {leftImage ? (
-          <div className="absolute bottom-[-35%] lg:bottom-[-3%] lg:left-[2%] lg:left-[-32%] w-[45%] aspect-[1/1] z-10 overflow-hidden shadow-lg transform -rotate-6">
+          <div className="absolute bottom-[-35%] lg:bottom-[-3%] left-[2%] lg:left-[-32%] w-[45%] aspect-[1/1] z-10 overflow-hidden shadow-lg transform -rotate-6">
             <Image 
               src={leftImage} 
               alt="Left" 

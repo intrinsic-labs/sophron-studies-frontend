@@ -11,16 +11,16 @@ interface AboutPageData {
   title: string;
   aboutHeroSection: {
     name: string;
-    backgroundImage?: { asset: any };
-    rightImage?: { asset: any };
-    leftImage?: { asset: any };
+    backgroundImage?: any; // Full image object with crop/hotspot
+    rightImage?: any; // Full image object with crop/hotspot
+    leftImage?: any; // Full image object with crop/hotspot
   };
   aboutBioSection: {
     heading: string;
     body: any[];
   };
   aboutGallerySection: {
-    images: { asset: any; alt: string }[];
+    images: any[]; // Full image objects with crop/hotspot and alt
   };
   upcomingReleaseSection: {
     reference: {
@@ -29,8 +29,8 @@ interface AboutPageData {
       text: any[];
       buttonText: string;
       buttonLink: string;
-      image1: { asset: any; alt: string };
-      image2: { asset: any; alt: string };
+      image1: any; // Full image object with crop/hotspot and alt
+      image2: any; // Full image object with crop/hotspot and alt
     };
     customButtonText?: string;
     customButtonLink?: string;
@@ -48,16 +48,16 @@ const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0] {
   title,
   aboutHeroSection {
     name,
-    backgroundImage {asset->},
-    rightImage {asset->},
-    leftImage {asset->}
+    backgroundImage,
+    rightImage,
+    leftImage
   },
   aboutBioSection {
     heading,
     body
   },
   aboutGallerySection {
-    images[]{asset->, alt}
+    images[]
   },
   upcomingReleaseSection {
     reference-> {
@@ -66,8 +66,8 @@ const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0] {
       text,
       buttonText,
       buttonLink,
-      image1 {asset->, alt},
-      image2 {asset->, alt}
+      image1,
+      image2
     },
     customButtonText,
     customButtonLink
@@ -110,30 +110,30 @@ export default async function AboutPage() {
     return <div>Error loading page data. Please try again later.</div>;
   }
 
-  // Ensure we generate proper string URLs for all images
-  const backgroundImageUrl = data.aboutHeroSection?.backgroundImage?.asset 
-    ? urlFor(data.aboutHeroSection.backgroundImage.asset).width(600).url() 
+  // Generate URLs using full image objects (preserves hotspot/crop data)
+  const backgroundImageUrl = data.aboutHeroSection?.backgroundImage 
+    ? urlFor(data.aboutHeroSection.backgroundImage).width(600).url() 
     : '';
     
-  const rightImageUrl = data.aboutHeroSection?.rightImage?.asset 
-    ? urlFor(data.aboutHeroSection.rightImage.asset).width(400).url() 
+  const rightImageUrl = data.aboutHeroSection?.rightImage 
+    ? urlFor(data.aboutHeroSection.rightImage).width(400).url() 
     : '';
     
-  const leftImageUrl = data.aboutHeroSection?.leftImage?.asset 
-    ? urlFor(data.aboutHeroSection.leftImage.asset).width(300).url() 
+  const leftImageUrl = data.aboutHeroSection?.leftImage 
+    ? urlFor(data.aboutHeroSection.leftImage).width(300).url() 
     : '';
 
   const galleryImages = data.aboutGallerySection?.images?.map(img => ({
-    url: img.asset ? urlFor(img.asset).width(400).url() : '',
-    alt: img.alt || '',
+    url: img ? urlFor(img).width(400).url() : '',
+    alt: img?.alt || '',
   })) || [];
 
-  const image1Url = data.upcomingReleaseSection?.reference?.image1?.asset 
-    ? urlFor(data.upcomingReleaseSection.reference.image1.asset).width(400).url() 
+  const image1Url = data.upcomingReleaseSection?.reference?.image1 
+    ? urlFor(data.upcomingReleaseSection.reference.image1).width(400).url() 
     : '';
     
-  const image2Url = data.upcomingReleaseSection?.reference?.image2?.asset 
-    ? urlFor(data.upcomingReleaseSection.reference.image2.asset).width(400).url() 
+  const image2Url = data.upcomingReleaseSection?.reference?.image2 
+    ? urlFor(data.upcomingReleaseSection.reference.image2).width(400).url() 
     : '';
 
   const renderPortableText = (content: any[] | undefined) => {
