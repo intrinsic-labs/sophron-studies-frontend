@@ -97,6 +97,7 @@ const ContactForm: React.FC = () => {
             id="name"
             value={formData.name}
             onChange={handleInputChange}
+            autoComplete="name"
             className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             required
           />
@@ -109,6 +110,7 @@ const ContactForm: React.FC = () => {
             id="email"
             value={formData.email}
             onChange={handleInputChange}
+            autoComplete="email"
             className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             required
           />
@@ -128,6 +130,7 @@ const ContactForm: React.FC = () => {
               value={formData.studyPreference}
               onChange={handleInputChange}
               placeholder="e.g., Old Testament Overview"
+              autoComplete="off"
               className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             />
           </div>
@@ -140,6 +143,7 @@ const ContactForm: React.FC = () => {
               value={formData.availability}
               onChange={handleInputChange}
               placeholder="e.g., Weekday evenings, Saturday mornings"
+              autoComplete="off"
               className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             ></textarea>
           </div>
@@ -158,6 +162,7 @@ const ContactForm: React.FC = () => {
               id="organization"
               value={formData.organization}
               onChange={handleInputChange}
+              autoComplete="organization"
               className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             />
           </div>
@@ -170,6 +175,7 @@ const ContactForm: React.FC = () => {
               value={formData.preferredDate}
               onChange={handleInputChange}
               placeholder="e.g., Any weekend in October"
+              autoComplete="off"
               className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
             />
           </div>
@@ -187,6 +193,7 @@ const ContactForm: React.FC = () => {
           rows={4}
           value={formData.message}
           onChange={handleInputChange}
+          autoComplete="off"
           className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-olive focus:border-olive sm:text-sm"
           required={inquiryType === 'general'} // Only required for general inquiry
         ></textarea>
