@@ -4,7 +4,7 @@ import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import AddToCartButton from '@/components/AddToCartButton';
+import AddToCartButton from '@/components/shop/AddToCartButton';
 
 // Define Types (can potentially be shared in a types file later)
 interface SanityImageReference {

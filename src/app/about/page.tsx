@@ -1,9 +1,9 @@
 import { client, urlFor } from '@/sanity/client';
-import AboutHero from '@/components/AboutHero';
-import AboutBio from '@/components/AboutBio';
-import AboutGallery from '@/components/AboutGallery';
-import UpcomingRelease from '@/components/UpcomingRelease';
-import NewsletterSection from '@/components/NewsletterSection';
+import AboutHero from '@/components/about/AboutHero';
+import AboutBio from '@/components/about/AboutBio';
+import AboutGallery from '@/components/about/AboutGallery';
+import UpcomingRelease from '@/components/sections/UpcomingRelease';
+import NewsletterSection from '@/components/sections/NewsletterSection';
 import { PortableText } from '@portabletext/react';
 
 interface AboutPageData {

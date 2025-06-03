@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { client, urlFor } from '@/sanity/client'; // Use the client from the correct path
-import UpcomingRelease from '@/components/UpcomingRelease'; // Import the component
+import UpcomingRelease from '@/components/sections/UpcomingRelease'; // Import the component
 import { PortableText } from '@portabletext/react'; // Needed for rendering block content
-import ShopFilters from '@/components/ShopFilters';
-import ScrollManager from '@/components/ScrollManager';
-import ProductCard from '@/components/ProductCard'; // We'll create this component
+import ShopFilters from '@/components/shop/ShopFilters';
+import ScrollManager from '@/components/scaffold/ScrollManager';
+import ProductCard from '@/components/shop/ProductCard'; // We'll create this component
 
 // Define Types for fetched data
 interface SanityImageReference {

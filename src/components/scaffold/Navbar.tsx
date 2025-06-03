@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import CartButton from './CartButton';
+import CartButton from '../shop/CartButton';
 
 const navLinks = [
   { name: 'HOME', href: '/' },

@@ -1,9 +1,10 @@
 import { client, urlFor } from "@/sanity/client";
-import HeroSection from "@/components/HeroSection";
-import NewsletterSection from "@/components/NewsletterSection";
-import DefinitionOfSophron from "@/components/DefinitionOfSophron";
-import FeaturedBlogPost from "@/components/FeaturedBlogPost";
-import UpcomingRelease from "@/components/UpcomingRelease";
+import HeroSection from "@/components/home/HeroSection";
+import NewsletterSection from "@/components/sections/NewsletterSection";
+import DefinitionOfSophron from "@/components/home/DefinitionOfSophron";
+import FeaturedBlogPost from "@/components/sections/FeaturedBlogPost";
+import UpcomingRelease from "@/components/sections/UpcomingRelease";
+import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import { PortableText } from "@portabletext/react";
 
 interface HomePageData {
@@ -56,6 +57,14 @@ interface HomePageData {
     placeholderText: string;
     buttonText: string;
   };
+  testimonialsSection?: {
+    title?: string;
+    subtitle?: string;
+    testimonials: {
+      text: string;
+      citation: string;
+    }[];
+  };
 }
 
 const HOME_PAGE_QUERY = `*[_type == "homePage"][0] {
@@ -107,6 +116,28 @@ const HOME_PAGE_QUERY = `*[_type == "homePage"][0] {
     subtitle,
     placeholderText,
     buttonText
+  },
+  testimonialsSection {
+    title,
+    subtitle,
+    testimonials[] {
+      text,
+      citation
+    }
+  }
+}`;
+
+// // THIS WORKS, but not the main query
+const TEST_TESTIMONIALS_QUERY = `*[_type == "homePage"][0] {
+  _id,
+  title,
+  testimonialsSection {
+    title,
+    subtitle,
+    testimonials[] {
+      text,
+      citation
+    }
   }
 }`;
 
@@ -114,19 +145,33 @@ async function getHomePageData(): Promise<HomePageData | null> {
   console.log('🔍 Fetching Home Page data from Sanity...');
 
   try {
-    const data = await client.fetch(HOME_PAGE_QUERY, {}, { next: { revalidate: 300 } }); // 5 minutes
+    // Test the testimonials query separately
+    console.log('🧪 Testing testimonials query separately...');
+    const testData = await client.fetch(TEST_TESTIMONIALS_QUERY, {}, { cache: 'no-store' });
+    console.log('🧪 Test testimonials result:', JSON.stringify(testData, null, 2));
+
+    // Temporarily remove cache to debug
+    const data = await client.fetch(HOME_PAGE_QUERY, {}, { cache: 'no-store' });
     
     console.log('✅ Home Page data fetched successfully');
-    console.log('📧 Newsletter section data:', JSON.stringify(data?.newsletterSection, null, 2));
-    console.log('📝 Featured blog section data:', JSON.stringify(data?.featuredBlogPostSection, null, 2));
+    // console.log('📧 Newsletter section data:', JSON.stringify(data?.newsletterSection, null, 2));
+    // console.log('📝 Featured blog section data:', JSON.stringify(data?.featuredBlogPostSection, null, 2));
+    console.log('💬 Testimonials section data:', JSON.stringify(data?.testimonialsSection, null, 2));
+    console.log('🔍 Raw testimonials field:', data?.testimonialsSection);
+    console.log('🔍 Testimonials array specifically:', data?.testimonialsSection?.testimonials);
+    console.log('🔍 Is testimonials null?', data?.testimonialsSection?.testimonials === null);
+    console.log('🔍 Is testimonials undefined?', data?.testimonialsSection?.testimonials === undefined);
+    console.log('🔍 Testimonials type:', typeof data?.testimonialsSection?.testimonials);
     console.log('🏠 Full data structure:', {
       hasHeroSection: !!data?.heroSection,
       hasDefinitionSection: !!data?.definitionSection,
       hasFeaturedBlogSection: !!data?.featuredBlogPostSection,
       hasUpcomingRelease: !!data?.upcomingReleaseSection,
       hasNewsletterSection: !!data?.newsletterSection,
+      hasTestimonialsSection: !!data?.testimonialsSection,
       newsletterFields: data?.newsletterSection ? Object.keys(data.newsletterSection) : [],
-      featuredPostFields: data?.featuredBlogPostSection?.featuredPost ? Object.keys(data.featuredBlogPostSection.featuredPost) : []
+      featuredPostFields: data?.featuredBlogPostSection?.featuredPost ? Object.keys(data.featuredBlogPostSection.featuredPost) : [],
+      testimonialsCount: data?.testimonialsSection?.testimonials?.length || 0
     });
     
     return data;
@@ -213,6 +258,14 @@ export default async function Home() {
           subtitle={data.newsletterSection.subtitle}
           placeholderText={data.newsletterSection.placeholderText}
           buttonText={data.newsletterSection.buttonText}
+        />
+      )}
+
+      {data.testimonialsSection && (
+        <TestimonialsSection
+          title={data.testimonialsSection.title}
+          subtitle={data.testimonialsSection.subtitle}
+          testimonials={data.testimonialsSection.testimonials}
         />
       )}
     </div>
