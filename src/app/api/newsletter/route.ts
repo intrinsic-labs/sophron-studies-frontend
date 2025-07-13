@@ -13,70 +13,96 @@ export async function POST(request: NextRequest) {
     }
 
     // Check for required environment variables
-    const apiKey = process.env.BEEHIIV_API_KEY;
-    const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
+    const apiKey = process.env.MAILERLITE_API_KEY;
 
-    if (!apiKey || !publicationId) {
-      console.error('Missing Beehiiv configuration. Check BEEHIIV_API_KEY and BEEHIIV_PUBLICATION_ID in environment variables.');
+    if (!apiKey) {
+      console.error('Missing MailerLite configuration. Check MAILERLITE_API_KEY in environment variables.');
       return NextResponse.json(
         { error: 'Newsletter service configuration error' },
         { status: 500 }
       );
     }
 
-    // Prepare custom fields array
-    const allCustomFields = [];
-    
-    // Add source as custom field if provided
-    if (source) {
-      allCustomFields.push({ name: 'Source', value: source });
-    }
-    
-    // Add signup date as custom field if provided
-    if (signupDate) {
-      allCustomFields.push({ name: 'Signup Date', value: signupDate });
-    }
-    
-    // Add any additional custom fields
-    if (customFields && Array.isArray(customFields)) {
-      allCustomFields.push(...customFields);
-    }
-
-    // Prepare the subscription data
-    const subscriptionData = {
+    // Prepare the subscriber data for MailerLite
+    const subscriberData: any = {
       email,
-      reactivate_existing: false, // Don't reactivate unsubscribed users
-      send_welcome_email: true, // Send welcome email
-      utm_source: source || 'website',
-      utm_medium: 'newsletter_signup',
-      utm_campaign: 'sophron_website',
-      referring_site: request.headers.get('referer') || 'direct',
-      ...(allCustomFields.length > 0 && { custom_fields: allCustomFields })
+      status: 'active', // Set subscriber as active
+      fields: {}, // MailerLite uses fields object instead of custom_fields array
     };
 
-    // Make request to Beehiiv API
-    const response = await fetch(
-      `https://api.beehiiv.com/v2/publications/${publicationId}/subscriptions`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(subscriptionData),
-      }
-    );
+    // Add source as a field if provided
+    if (source) {
+      subscriberData.fields.source = source;
+    }
+
+    // Add signup date as a field if provided
+    if (signupDate) {
+      subscriberData.fields.signup_date = signupDate;
+    }
+
+    // Add any additional custom fields
+    if (customFields && Array.isArray(customFields)) {
+      customFields.forEach(field => {
+        if (field.name && field.value) {
+          subscriberData.fields[field.name.toLowerCase().replace(/\s+/g, '_')] = field.value;
+        }
+      });
+    }
+
+    // Add IP address if available
+    const forwardedFor = request.headers.get('x-forwarded-for');
+    const realIp = request.headers.get('x-real-ip');
+    const ipAddress = forwardedFor?.split(',')[0] || realIp || null;
+    
+    if (ipAddress) {
+      subscriberData.ip_address = ipAddress;
+    }
+
+    // Add subscription timestamp
+    subscriberData.subscribed_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+    // Make request to MailerLite API
+    const response = await fetch('https://connect.mailerlite.com/api/subscribers', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(subscriberData),
+    });
 
     const responseData = await response.json();
 
     if (!response.ok) {
-      console.error('Beehiiv API error:', response.status, responseData);
+      console.error('MailerLite API error:', response.status, responseData);
       
-      // Handle specific Beehiiv errors
-      if (response.status === 400 && responseData.message?.includes('already exists')) {
+      // Handle specific MailerLite errors
+      if (response.status === 422) {
+        // Validation errors
+        if (responseData.errors?.email) {
+          return NextResponse.json(
+            { error: 'Please enter a valid email address' },
+            { status: 400 }
+          );
+        }
         return NextResponse.json(
-          { error: 'This email is already subscribed to our newsletter' },
-          { status: 409 }
+          { error: 'Invalid subscription data provided' },
+          { status: 400 }
+        );
+      }
+      
+      if (response.status === 401) {
+        return NextResponse.json(
+          { error: 'Newsletter service authentication error' },
+          { status: 500 }
+        );
+      }
+
+      if (response.status === 429) {
+        return NextResponse.json(
+          { error: 'Too many requests. Please try again later.' },
+          { status: 429 }
         );
       }
       
@@ -86,15 +112,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('Successfully subscribed to Beehiiv:', responseData);
+    console.log('Successfully subscribed to MailerLite:', responseData);
+
+    // Handle both creation (201) and update (200) responses
+    const isNewSubscriber = response.status === 201;
+    const subscriber = responseData.data;
 
     return NextResponse.json({
       success: true,
-      message: 'Successfully subscribed to newsletter!',
+      message: isNewSubscriber 
+        ? 'Successfully subscribed to newsletter!' 
+        : 'Email updated in newsletter!',
       data: {
-        id: responseData.data.id,
-        email: responseData.data.email,
-        status: responseData.data.status
+        id: subscriber.id,
+        email: subscriber.email,
+        status: subscriber.status,
+        isNew: isNewSubscriber
       }
     });
 
