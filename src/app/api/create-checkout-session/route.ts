@@ -21,11 +21,12 @@ export async function POST(request: NextRequest) {
       price_data: {
         currency: 'usd',
         product_data: {
-          name: item.name,
+          name: item.size ? `${item.name} - Size ${item.size}` : item.name,
           images: item.image ? [item.image] : [],
           metadata: {
             product_id: item._id,
             slug: item.slug,
+            size: item.size || '',
           },
         },
         unit_amount: Math.round(item.price * 100), // Convert to cents
@@ -48,6 +49,7 @@ export async function POST(request: NextRequest) {
           product_id: item._id,
           quantity: item.quantity,
           price: item.price,
+          size: item.size || '',
         }))),
       },
     });

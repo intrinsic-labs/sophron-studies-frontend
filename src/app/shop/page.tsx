@@ -26,6 +26,7 @@ interface Product {
   price: number;
   isAvailable: boolean;
   categories?: { _id: string; title: string; slug: { current: string } }[];
+  sizes?: string[];
   _createdAt: string; // For ordering
 }
 
@@ -82,6 +83,7 @@ async function getPaginatedProducts(
       'seasonal-books': 'seasonal-books',
       'tweens-teens': 'tweens-teens',
       'kids': 'kids',
+      'merchandise': 'merchandise',
     };
     
     const categorySlug = categorySlugMap[categoryId];
@@ -112,6 +114,7 @@ async function getPaginatedProducts(
       images[]{..., asset->}, // Fetch image details and asset data
       price,
       categories[]->{_id, title, slug},
+      sizes,
       _createdAt
     },
     "totalProducts": count(*[_type == "product" && ${filterString}])
@@ -119,7 +122,6 @@ async function getPaginatedProducts(
 
   try {
     const result = await client.fetch<PaginatedProductsResult>(PAGINATED_PRODUCTS_QUERY, {}, { next: { revalidate: 120 } }); // 2 minutes for products
-    // console.log("Query result:", result); // Debug: Log the result
     return result;
   } catch (error) {
     console.error("Error fetching paginated products:", error);

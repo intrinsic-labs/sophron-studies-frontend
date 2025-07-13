@@ -25,6 +25,7 @@ interface Product {
   price: number;
   isAvailable: boolean;
   categories?: { _id: string; title: string; slug: { current: string } }[];
+  sizes?: string[];
   _createdAt: string;
 }
 
@@ -37,6 +38,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent navigation when clicking the button
+    
+    // If product has sizes, redirect to product page for size selection
+    if (product.sizes && product.sizes.length > 0) {
+      window.location.href = `/shop/${product.slug.current}`;
+      return;
+    }
     
     const cartItem = {
       _id: product._id,
@@ -87,7 +94,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           className="w-full bg-black text-white py-2 px-4 hover:bg-gray-800 transition-colors font-medium flex items-center justify-center gap-2"
         >
           <FiShoppingCart size={16} />
-          Add to Cart
+          {product.sizes && product.sizes.length > 0 ? 'Select Size' : 'Add to Cart'}
         </button>
       </div>
     </div>

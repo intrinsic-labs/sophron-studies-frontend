@@ -24,6 +24,7 @@ interface ProductDetail {
   description: any[]; // blockContent type
   price: number;
   isAvailable: boolean;
+  sizes?: string[];
 }
 
 // Query to fetch a single product by its slug
@@ -34,7 +35,8 @@ const PRODUCT_QUERY = `*[_type == "product" && slug.current == $slug && !(_id in
   images[]{..., asset->}, // Fetch image details and asset data
   description,
   price,
-  isAvailable
+  isAvailable,
+  sizes
 }`;
 
 // Function to fetch product data

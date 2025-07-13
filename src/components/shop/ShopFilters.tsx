@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 // Define the filter categories
 export const FILTER_CATEGORIES = [
   { id: 'all', name: 'All Products' },
+  // Books
   { id: 'old-testament', name: 'Old Testament' },
   { id: 'new-testament', name: 'New Testament' },
   { id: 'prayer-books', name: 'Prayer Books' },
@@ -13,6 +14,8 @@ export const FILTER_CATEGORIES = [
   { id: 'seasonal-books', name: 'Seasonal Books' },
   { id: 'tweens-teens', name: 'Sophron Tweens & Teens' },
   { id: 'kids', name: 'Sophron Kids' },
+  // Merchandise
+  { id: 'merchandise', name: 'Merchandise' },
 ];
 
 interface ShopFiltersProps {
@@ -161,16 +164,21 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
         
         {dropdownOpen && (
           <div className="absolute z-10 mt-1 w-full bg-white border rounded-sm shadow-lg">
-            {FILTER_CATEGORIES.map((category) => (
-              <button
-                key={category.id}
-                className={`block w-full text-left px-4 py-2 text-sm hover:bg-olive/30 ${
-                  currentCategory === category.id ? 'bg-olive/50 font-medium' : ''
-                }`}
-                onClick={() => handleCategorySelect(category.id)}
-              >
-                {category.name}
-              </button>
+            {FILTER_CATEGORIES.map((category, index) => (
+              <div key={category.id}>
+                {/* Add divider before merchandise section */}
+                {category.id === 'merchandise' && (
+                  <div className="border-t border-gray-200 my-1"></div>
+                )}
+                <button
+                  className={`block w-full text-left px-4 py-2 text-sm hover:bg-olive/30 ${
+                    currentCategory === category.id ? 'bg-olive/50 font-medium' : ''
+                  }`}
+                  onClick={() => handleCategorySelect(category.id)}
+                >
+                  {category.name}
+                </button>
+              </div>
             ))}
           </div>
         )}

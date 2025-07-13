@@ -68,7 +68,7 @@ const CartSidebar: React.FC = () => {
           ) : (
             <div className="space-y-4">
               {state.items.map((item) => (
-                <div key={item._id} className="flex gap-3 p-3 border rounded-lg">
+                <div key={`${item._id}-${item.size || 'no-size'}`} className="flex gap-3 p-3 border rounded-lg">
                   {/* Product Image */}
                   <div className="w-16 h-20 bg-gray-100 rounded-sm overflow-hidden shrink-0">
                     {item.image ? (
@@ -91,6 +91,11 @@ const CartSidebar: React.FC = () => {
                     <h3 className="font-medium text-sm leading-tight mb-1 truncate">
                       {item.name}
                     </h3>
+                    {item.size && (
+                      <p className="text-gray-500 text-xs mb-1">
+                        Size: {item.size}
+                      </p>
+                    )}
                     <p className="text-gray-600 text-sm font-mono">
                       ${item.price.toFixed(2)}
                     </p>
@@ -98,7 +103,7 @@ const CartSidebar: React.FC = () => {
                     {/* Quantity Controls */}
                     <div className="flex items-center gap-2 mt-2">
                       <button
-                        onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                        onClick={() => updateQuantity(item._id, item.quantity - 1, item.size)}
                         className="p-1 hover:bg-gray-100 rounded-sm transition-colors"
                         disabled={item.quantity <= 1}
                       >
@@ -108,7 +113,7 @@ const CartSidebar: React.FC = () => {
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                        onClick={() => updateQuantity(item._id, item.quantity + 1, item.size)}
                         className="p-1 hover:bg-gray-100 rounded-sm transition-colors"
                       >
                         <FiPlus size={14} />
@@ -118,7 +123,7 @@ const CartSidebar: React.FC = () => {
 
                   {/* Remove Button */}
                   <button
-                    onClick={() => removeItem(item._id)}
+                    onClick={() => removeItem(item._id, item.size)}
                     className="p-1 hover:bg-red-100 hover:text-red-600 rounded-sm transition-colors self-start"
                   >
                     <FiX size={16} />

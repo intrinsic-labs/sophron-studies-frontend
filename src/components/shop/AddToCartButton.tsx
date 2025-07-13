@@ -22,6 +22,7 @@ interface ProductDetail {
   description: any[];
   price: number;
   isAvailable: boolean;
+  sizes?: string[];
 }
 
 interface AddToCartButtonProps {
@@ -30,8 +31,15 @@ interface AddToCartButtonProps {
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({ product }) => {
   const { addItem, openCart } = useCart();
+  const [selectedSize, setSelectedSize] = React.useState<string>('');
 
   const handleAddToCart = () => {
+    // If product has sizes, require size selection
+    if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+      alert('Please select a size');
+      return;
+    }
+
     const cartItem = {
       _id: product._id,
       name: product.name,
@@ -40,6 +48,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ product }) => {
       image: product.images?.[0] 
         ? urlFor(product.images[0]).width(400).height(533).fit('crop').url()
         : undefined,
+      size: selectedSize || undefined,
     };
 
     addItem(cartItem);
@@ -47,13 +56,34 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ product }) => {
   };
 
   return (
-    <button
-      onClick={handleAddToCart}
-      className="bg-black text-white py-3 px-6 hover:bg-gray-800 transition-colors font-medium flex items-center justify-center gap-2 w-full md:w-auto mb-6"
-    >
-      <FiShoppingCart size={16} />
-      Add to Cart
-    </button>
+    <div className="space-y-4">
+      {/* Size Selection */}
+      {product.sizes && product.sizes.length > 0 && (
+        <div>
+          <label className="block text-sm font-medium mb-2">Size</label>
+          <select
+            value={selectedSize}
+            onChange={(e) => setSelectedSize(e.target.value)}
+            className="w-full border border-gray-300 rounded-sm px-3 py-2 focus:outline-none focus:border-black"
+          >
+            <option value="">Select a size</option>
+            {product.sizes.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      <button
+        onClick={handleAddToCart}
+        className="bg-black text-white py-3 px-6 hover:bg-gray-800 transition-colors font-medium flex items-center justify-center gap-2 w-full md:w-auto mb-6"
+      >
+        <FiShoppingCart size={16} />
+        Add to Cart
+      </button>
+    </div>
   );
 };
 
