@@ -11,9 +11,33 @@ export interface CartItem {
   slug: string;
 }
 
+export interface ShippingAddress {
+  firstName: string;
+  lastName: string;
+  company?: string;
+  streetAddress: string;
+  secondaryAddress?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  phone?: string;
+}
+
+export interface ShippingOption {
+  service: string;
+  serviceName: string;
+  rate: string;
+  currency: string;
+  deliveryDays?: string;
+  deliveryDate?: string;
+}
+
 interface CartState {
   items: CartItem[];
   isOpen: boolean;
+  shippingAddress?: ShippingAddress;
+  selectedShippingOption?: ShippingOption;
+  shippingStep: 'cart' | 'address' | 'shipping' | 'payment';
 }
 
 type CartAction =
@@ -24,7 +48,11 @@ type CartAction =
   | { type: 'TOGGLE_CART' }
   | { type: 'OPEN_CART' }
   | { type: 'CLOSE_CART' }
-  | { type: 'LOAD_CART'; payload: CartItem[] };
+  | { type: 'LOAD_CART'; payload: CartItem[] }
+  | { type: 'SET_SHIPPING_ADDRESS'; payload: ShippingAddress }
+  | { type: 'SET_SHIPPING_OPTION'; payload: ShippingOption }
+  | { type: 'SET_SHIPPING_STEP'; payload: 'cart' | 'address' | 'shipping' | 'payment' }
+  | { type: 'RESET_SHIPPING' };
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
@@ -69,6 +97,9 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
       return {
         ...state,
         items: [],
+        shippingAddress: undefined,
+        selectedShippingOption: undefined,
+        shippingStep: 'cart',
       };
     case 'TOGGLE_CART':
       return {
@@ -90,6 +121,28 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         ...state,
         items: action.payload,
       };
+    case 'SET_SHIPPING_ADDRESS':
+      return {
+        ...state,
+        shippingAddress: action.payload,
+      };
+    case 'SET_SHIPPING_OPTION':
+      return {
+        ...state,
+        selectedShippingOption: action.payload,
+      };
+    case 'SET_SHIPPING_STEP':
+      return {
+        ...state,
+        shippingStep: action.payload,
+      };
+    case 'RESET_SHIPPING':
+      return {
+        ...state,
+        shippingAddress: undefined,
+        selectedShippingOption: undefined,
+        shippingStep: 'cart',
+      };
     default:
       return state;
   }
@@ -106,6 +159,11 @@ interface CartContextType {
   closeCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
+  setShippingAddress: (address: ShippingAddress) => void;
+  setShippingOption: (option: ShippingOption) => void;
+  setShippingStep: (step: 'cart' | 'address' | 'shipping' | 'payment') => void;
+  resetShipping: () => void;
+  getTotalWithShipping: () => number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -122,6 +180,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [state, dispatch] = useReducer(cartReducer, {
     items: [],
     isOpen: false,
+    shippingStep: 'cart',
   });
 
   // Load cart from localStorage on mount
@@ -178,6 +237,28 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return state.items.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
+  const setShippingAddress = (address: ShippingAddress) => {
+    dispatch({ type: 'SET_SHIPPING_ADDRESS', payload: address });
+  };
+
+  const setShippingOption = (option: ShippingOption) => {
+    dispatch({ type: 'SET_SHIPPING_OPTION', payload: option });
+  };
+
+  const setShippingStep = (step: 'cart' | 'address' | 'shipping' | 'payment') => {
+    dispatch({ type: 'SET_SHIPPING_STEP', payload: step });
+  };
+
+  const resetShipping = () => {
+    dispatch({ type: 'RESET_SHIPPING' });
+  };
+
+  const getTotalWithShipping = () => {
+    const itemsTotal = getTotalPrice();
+    const shippingCost = state.selectedShippingOption ? parseFloat(state.selectedShippingOption.rate) : 0;
+    return itemsTotal + shippingCost;
+  };
+
   const value: CartContextType = {
     state,
     addItem,
@@ -189,6 +270,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     closeCart,
     getTotalItems,
     getTotalPrice,
+    setShippingAddress,
+    setShippingOption,
+    setShippingStep,
+    resetShipping,
+    getTotalWithShipping,
   };
 
   return (

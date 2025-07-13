@@ -8,28 +8,10 @@ import { FiX, FiMinus, FiPlus, FiShoppingBag } from 'react-icons/fi';
 const CartSidebar: React.FC = () => {
   const { state, removeItem, updateQuantity, closeCart, getTotalPrice, clearCart } = useCart();
 
-  const handleCheckout = async () => {
-    try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          items: state.items,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create checkout session');
-      }
-
-      const { url } = await response.json();
-      window.location.href = url;
-    } catch (error) {
-      console.error('Error during checkout:', error);
-      alert('Something went wrong. Please try again.');
-    }
+  const handleCheckout = () => {
+    // Close cart and redirect to checkout page
+    closeCart();
+    window.location.href = '/checkout';
   };
 
   if (!state.isOpen) return null;

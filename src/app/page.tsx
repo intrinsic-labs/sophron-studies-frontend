@@ -146,9 +146,9 @@ async function getHomePageData(): Promise<HomePageData | null> {
 
   try {
     // Test the testimonials query separately
-    console.log('🧪 Testing testimonials query separately...');
+    // console.log('🧪 Testing testimonials query separately...');
     const testData = await client.fetch(TEST_TESTIMONIALS_QUERY, {}, { cache: 'no-store' });
-    console.log('🧪 Test testimonials result:', JSON.stringify(testData, null, 2));
+    // console.log('🧪 Test testimonials result:', JSON.stringify(testData, null, 2));
 
     // Temporarily remove cache to debug
     const data = await client.fetch(HOME_PAGE_QUERY, {}, { cache: 'no-store' });
@@ -156,23 +156,23 @@ async function getHomePageData(): Promise<HomePageData | null> {
     console.log('✅ Home Page data fetched successfully');
     // console.log('📧 Newsletter section data:', JSON.stringify(data?.newsletterSection, null, 2));
     // console.log('📝 Featured blog section data:', JSON.stringify(data?.featuredBlogPostSection, null, 2));
-    console.log('💬 Testimonials section data:', JSON.stringify(data?.testimonialsSection, null, 2));
-    console.log('🔍 Raw testimonials field:', data?.testimonialsSection);
-    console.log('🔍 Testimonials array specifically:', data?.testimonialsSection?.testimonials);
-    console.log('🔍 Is testimonials null?', data?.testimonialsSection?.testimonials === null);
-    console.log('🔍 Is testimonials undefined?', data?.testimonialsSection?.testimonials === undefined);
-    console.log('🔍 Testimonials type:', typeof data?.testimonialsSection?.testimonials);
-    console.log('🏠 Full data structure:', {
-      hasHeroSection: !!data?.heroSection,
-      hasDefinitionSection: !!data?.definitionSection,
-      hasFeaturedBlogSection: !!data?.featuredBlogPostSection,
-      hasUpcomingRelease: !!data?.upcomingReleaseSection,
-      hasNewsletterSection: !!data?.newsletterSection,
-      hasTestimonialsSection: !!data?.testimonialsSection,
-      newsletterFields: data?.newsletterSection ? Object.keys(data.newsletterSection) : [],
-      featuredPostFields: data?.featuredBlogPostSection?.featuredPost ? Object.keys(data.featuredBlogPostSection.featuredPost) : [],
-      testimonialsCount: data?.testimonialsSection?.testimonials?.length || 0
-    });
+    // console.log('💬 Testimonials section data:', JSON.stringify(data?.testimonialsSection, null, 2));
+    // console.log('🔍 Raw testimonials field:', data?.testimonialsSection);
+    // console.log('🔍 Testimonials array specifically:', data?.testimonialsSection?.testimonials);
+    // console.log('🔍 Is testimonials null?', data?.testimonialsSection?.testimonials === null);
+    // console.log('🔍 Is testimonials undefined?', data?.testimonialsSection?.testimonials === undefined);
+    // console.log('🔍 Testimonials type:', typeof data?.testimonialsSection?.testimonials);
+    // console.log('🏠 Full data structure:', {
+    //   hasHeroSection: !!data?.heroSection,
+    //   hasDefinitionSection: !!data?.definitionSection,
+    //   hasFeaturedBlogSection: !!data?.featuredBlogPostSection,
+    //   hasUpcomingRelease: !!data?.upcomingReleaseSection,
+    //   hasNewsletterSection: !!data?.newsletterSection,
+    //   hasTestimonialsSection: !!data?.testimonialsSection,
+    //   newsletterFields: data?.newsletterSection ? Object.keys(data.newsletterSection) : [],
+    //   featuredPostFields: data?.featuredBlogPostSection?.featuredPost ? Object.keys(data.featuredBlogPostSection.featuredPost) : [],
+    //   testimonialsCount: data?.testimonialsSection?.testimonials?.length || 0
+    // });
     
     return data;
   } catch (error) {
@@ -182,7 +182,7 @@ async function getHomePageData(): Promise<HomePageData | null> {
 }
 
 export default async function Home() {
-  console.log('🏠 Rendering Home page, attempting to fetch data...');
+  // console.log('🏠 Rendering Home page, attempting to fetch data...');
   
   const data = await getHomePageData();
   
@@ -191,7 +191,7 @@ export default async function Home() {
     return <div>Error loading page data. Please try again later.</div>;
   }
   
-  console.log('🎉 Home page received data, rendering components...');
+  // console.log('🎉 Home page received data, rendering components...');
 
   const renderPortableText = (content: any[] | undefined) => {
     if (!content || content.length === 0) {
