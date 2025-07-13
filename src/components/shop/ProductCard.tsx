@@ -53,9 +53,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <div className="group border transition-shadow duration-300 group-hover:shadow-lg">
-      <Link href={`/shop/${product.slug.current}`}>
-        <div className="p-4 text-center">
+    <div className="group border transition-shadow duration-300 group-hover:shadow-lg h-full flex flex-col">
+      <Link href={`/shop/${product.slug.current}`} className="flex-1 flex flex-col">
+        <div className="p-4 text-center flex-1 flex flex-col">
           <div className="relative w-full aspect-3/4 bg-gray-100 mb-4 overflow-hidden">
             {product.images?.[0] ? (
               <Image
@@ -71,15 +71,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               </div>
             )}
           </div>
-          <h3 className="text-lg mb-1">{product.name}</h3>
-          <p className="text-gray-700 font-semibold font-mono mb-3">
-            ${product.price.toFixed(2)} USD
-          </p>
+          <div className="flex-1 flex flex-col justify-center">
+            <h3 className="text-lg mb-1">{product.name}</h3>
+            <p className="text-gray-700 font-semibold font-mono mb-3">
+              ${product.price.toFixed(2)} USD
+            </p>
+          </div>
         </div>
       </Link>
       
       {/* Add to Cart Button - Integrated into the card */}
-      <div className="p-4 pt-0">
+      <div className="p-4 pt-0 mt-auto">
         <button
           onClick={handleAddToCart}
           className="w-full bg-black text-white py-2 px-4 hover:bg-gray-800 transition-colors font-medium flex items-center justify-center gap-2"
