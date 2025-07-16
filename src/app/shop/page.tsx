@@ -6,6 +6,7 @@ import { PortableText } from '@portabletext/react'; // Needed for rendering bloc
 import ShopFilters from '@/components/shop/ShopFilters';
 import ScrollManager from '@/components/scaffold/ScrollManager';
 import ProductCard from '@/components/shop/ProductCard'; // We'll create this component
+import CategoryCard from '@/components/shop/CategoryCard';
 
 // Define Types for fetched data
 interface SanityImageReference {
@@ -41,6 +42,14 @@ interface UpcomingReleaseData {
   image2: { asset: any; alt: string };
 }
 
+interface Category {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  description?: string;
+  productCount: number;
+}
+
 interface PaginatedProductsResult {
   products: Product[];
   totalProducts: number;
@@ -59,6 +68,31 @@ const UPCOMING_RELEASE_QUERY = `*[_type == "upcomingReleaseSection"] | order(_cr
   image1 {asset->, alt},
   image2 {asset->, alt}
 }`;
+
+// Fetch all categories with product counts, ordered alphabetically, excluding empty categories
+const CATEGORIES_QUERY = `*[_type == "category"] {
+  _id,
+  title,
+  slug,
+  description,
+  "productCount": count(*[_type == "product" && isAvailable == true && !(_id in path("drafts.**")) && references(^._id)])
+} | order(title asc)`;
+
+// Fetch categories from Sanity
+async function getCategories(): Promise<Category[]> {
+  try {
+    const categories = await client.fetch<Category[]>(CATEGORIES_QUERY, {}, { next: { revalidate: 300 } }); // 5 minutes
+    // Handle null response and filter out categories with zero products
+    if (!categories || !Array.isArray(categories)) {
+      console.warn("Categories query returned null or non-array:", categories);
+      return [];
+    }
+    return categories.filter(category => category.productCount > 0);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+}
 
 // Fetch paginated products with filters and search
 async function getPaginatedProducts(
@@ -84,6 +118,8 @@ async function getPaginatedProducts(
       'tweens-teens': 'tweens-teens',
       'kids': 'kids',
       'merchandise': 'merchandise',
+      'journals': 'journals',
+      'topical': 'topical',
     };
     
     const categorySlug = categorySlugMap[categoryId];
@@ -161,15 +197,21 @@ export default async function Shop({
   
   // Convert to appropriate types
   const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
-  const currentCategory = categoryParam || 'all';
+  const currentCategory = categoryParam || '';
   const searchTerm = searchParam || '';
   
   // Validate page number
   const validPage = isNaN(currentPage) || currentPage < 1 ? 1 : currentPage;
 
+  // Determine if we should show categories or products
+  const showCategories = !currentCategory && !searchTerm;
+
   // Fetch upcoming release section from Sanity
   const upcomingRelease = await client.fetch<UpcomingReleaseData | null>(UPCOMING_RELEASE_QUERY, {}, { next: { revalidate: 300 } }); // 5 minutes
-  const { products, totalProducts } = await getPaginatedProducts(validPage, currentCategory, searchTerm);
+  
+  // Fetch categories or products based on the view
+  const categories = showCategories ? await getCategories() : [];
+  const { products, totalProducts } = showCategories ? { products: [], totalProducts: 0 } : await getPaginatedProducts(validPage, currentCategory || 'all', searchTerm);
 
   const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
 
@@ -197,51 +239,75 @@ export default async function Shop({
         </section>
       )}
 
-      {/* Section 2: Studies (Product Grid) */}
+      {/* Section 2: Studies */}
       <section className="container mx-auto px-4 pb-16 md:max-w-6xl" id="studies">
         <h2 className="text-4xl font-heading2 text-center mb-12">STUDIES</h2>
 
-        {/* Filters/Search Component */}
-        <div className="mb-8">
-          <ClientShopFilters 
-            currentCategory={currentCategory}
-            searchTerm={searchTerm}
-          />
-        </div>
-
-        {/* Product Grid */}
-        {products.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-12 px-8 md:px-0">
-                {products.map((product) => (
-                    <ProductCard key={product._id} product={product} />
+        {showCategories ? (
+          /* Category Grid View */
+          <>
+            {categories.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-12 px-8 md:px-0">
+                {categories.map((category) => (
+                  <CategoryCard key={category._id} category={category} />
                 ))}
-            </div>
+              </div>
+            ) : (
+              <p className="text-center text-gray-500">No categories available.</p>
+            )}
+          </>
         ) : (
-            <p className="text-center text-gray-500">No products found.</p>
-        )}
+          /* Product Grid View */
+          <>
+            {/* Breadcrumb Navigation */}
+            <div className="mb-8">
+              <Link href="/shop" className="text-gray-500 hover:text-gray-800">
+                <p>← Back to Categories</p>
+              </Link>
+            </div>
 
+            {/* Filters/Search Component */}
+            <div className="mb-8">
+              <ClientShopFilters 
+                currentCategory={currentCategory || 'all'}
+                searchTerm={searchTerm}
+              />
+            </div>
 
-        {/* Pagination */}
-        {totalProducts > PRODUCTS_PER_PAGE && (
-          <div className="flex justify-center items-center mt-12 space-x-4">
-            <Link
-              href={`/shop?page=${validPage - 1}${currentCategory !== 'all' ? `&category=${currentCategory}` : ''}${searchTerm ? `&search=${searchTerm}` : ''}#studies`}
-              className={`px-3 py-1 border rounded-sm ${validPage <= 1 ? 'text-gray-400 pointer-events-none' : 'hover:bg-gray-100'}`}
-              aria-disabled={validPage <= 1}
-            >
-              &larr;
-            </Link>
-            <span className="text-sm text-gray-700">
-              Page {validPage} of {totalPages}
-            </span>
-            <Link
-              href={`/shop?page=${validPage + 1}${currentCategory !== 'all' ? `&category=${currentCategory}` : ''}${searchTerm ? `&search=${searchTerm}` : ''}#studies`}
-              className={`px-3 py-1 border rounded-sm ${validPage >= totalPages ? 'text-gray-400 pointer-events-none' : 'hover:bg-gray-100'}`}
-              aria-disabled={validPage >= totalPages}
-            >
-              &rarr;
-            </Link>
-          </div>
+            {/* Product Grid */}
+            {products.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-12 px-8 md:px-0">
+                {products.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500">No products found.</p>
+            )}
+
+            {/* Pagination */}
+            {totalProducts > PRODUCTS_PER_PAGE && (
+              <div className="flex justify-center items-center mt-12 space-x-4">
+                <Link
+                  href={`/shop?page=${validPage - 1}${currentCategory ? `&category=${currentCategory}` : ''}${searchTerm ? `&search=${searchTerm}` : ''}#studies`}
+                  className={`px-3 py-1 border rounded-sm ${validPage <= 1 ? 'text-gray-400 pointer-events-none' : 'hover:bg-gray-100'}`}
+                  aria-disabled={validPage <= 1}
+                >
+                  &larr;
+                </Link>
+                <span className="text-sm text-gray-700">
+                  Page {validPage} of {totalPages}
+                </span>
+                <Link
+                  href={`/shop?page=${validPage + 1}${currentCategory ? `&category=${currentCategory}` : ''}${searchTerm ? `&search=${searchTerm}` : ''}#studies`}
+                  className={`px-3 py-1 border rounded-sm ${validPage >= totalPages ? 'text-gray-400 pointer-events-none' : 'hover:bg-gray-100'}`}
+                  aria-disabled={validPage >= totalPages}
+                >
+                  &rarr;
+                </Link>
+              </div>
+            )}
+          </>
         )}
       </section>
     </div>

@@ -14,6 +14,8 @@ export const FILTER_CATEGORIES = [
   { id: 'seasonal-books', name: 'Seasonal Books' },
   { id: 'tweens-teens', name: 'Sophron Tweens & Teens' },
   { id: 'kids', name: 'Sophron Kids' },
+  { id: 'journals', name: 'Journals' },
+  { id: 'topical', name: 'Topical' },
   // Merchandise
   { id: 'merchandise', name: 'Merchandise' },
 ];
@@ -164,7 +166,7 @@ const ShopFilters: React.FC<ShopFiltersProps> = ({
         
         {dropdownOpen && (
           <div className="absolute z-10 mt-1 w-full bg-white border rounded-sm shadow-lg">
-            {FILTER_CATEGORIES.map((category, index) => (
+            {FILTER_CATEGORIES.map((category) => (
               <div key={category.id}>
                 {/* Add divider before merchandise section */}
                 {category.id === 'merchandise' && (
