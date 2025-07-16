@@ -120,6 +120,10 @@ async function getPaginatedProducts(
       'merchandise': 'merchandise',
       'journals': 'journals',
       'topical': 'topical',
+      'childrens-books': 'childrens-books',
+      'devotionals': 'devotionals',
+      'psalms-and-proverbs': 'psalms-and-proverbs',
+      'leader-guide': 'leader-guide',
     };
     
     const categorySlug = categorySlugMap[categoryId];
@@ -261,7 +265,7 @@ export default async function Shop({
           <>
             {/* Breadcrumb Navigation */}
             <div className="mb-8">
-              <Link href="/shop" className="text-gray-500 hover:text-gray-800">
+              <Link href="/shop#studies" className="text-gray-500 hover:text-gray-800">
                 <p>← Back to Categories</p>
               </Link>
             </div>

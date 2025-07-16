@@ -14,6 +14,10 @@ export const FILTER_CATEGORIES = [
   { id: 'seasonal-books', name: 'Seasonal Books' },
   { id: 'tweens-teens', name: 'Sophron Tweens & Teens' },
   { id: 'kids', name: 'Sophron Kids' },
+  { id: 'childrens-books', name: 'Children\'s Books' },
+  { id: 'devotionals', name: 'Devotionals' },
+  { id: 'psalms-and-proverbs', name: 'Psalms and Proverbs' },
+  { id: 'leader-guide', name: 'Leader Guide' },
   { id: 'journals', name: 'Journals' },
   { id: 'topical', name: 'Topical' },
   // Merchandise
