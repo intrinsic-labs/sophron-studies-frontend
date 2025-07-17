@@ -18,8 +18,8 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
   titlePart1,
   titlePart2,
   text,
-  imageUrl1,
-  imageUrl2,
+  // imageUrl1,
+  // imageUrl2,
   imageUrl3,
   imageAlt,
   buttonText,
@@ -49,7 +49,7 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
         <div className="w-full md:w-1/2 order-1 md:order-2 flex justify-center items-center min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
           <div className="relative w-4/5 aspect-4/3 flex items-center justify-center">
             {/* Large Left Image */}
-            <div className="absolute -top-[5%] left-0 w-[60%] aspect-4/5 shadow-lg overflow-hidden z-10 -rotate-6 flex items-center justify-center">
+            {/* <div className="absolute -top-[5%] left-0 w-[60%] aspect-4/5 shadow-lg overflow-hidden z-10 -rotate-6 flex items-center justify-center">
               {imageUrl1 ? (
                 <Image
                   src={imageUrl1}
@@ -62,9 +62,9 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
               ) : (
                 <div className="w-full h-full bg-gray-300"></div>
               )}
-            </div>
+            </div> */}
             {/* Medium Right Image */}
-            <div className="absolute top-[10%] right-0 w-[55%] aspect-4/5 shadow-lg overflow-hidden z-20 rotate-[4deg] flex items-center justify-center">
+            {/* <div className="absolute top-[10%] right-0 w-[55%] aspect-4/5 shadow-lg overflow-hidden z-20 rotate-[4deg] flex items-center justify-center">
               {imageUrl2 ? (
                 <Image
                   src={imageUrl2}
@@ -77,9 +77,9 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
               ) : (
                 <div className="w-full h-full bg-gray-200"></div>
               )}
-            </div>
+            </div> */}
             {/* Small Center/Bottom Image */}
-            <div className="absolute bottom-[-8%] left-1/2 -translate-x-1/2 w-[38%] aspect-square shadow-md overflow-hidden z-30 -rotate-2 flex items-center justify-center">
+            <div className="absolute bottom-[5%] left-1/2 -translate-x-1/2 w-[60%] aspect-3/4 shadow-md overflow-hidden z-30 rotate-4 flex items-center justify-center">
               {imageUrl3 ? (
                 <Image
                   src={imageUrl3}
@@ -87,7 +87,7 @@ const FeaturedBlogPost: React.FC<FeaturedBlogPostProps> = ({
                   fill
                   style={{ objectFit: 'cover' }}
                   priority
-                  sizes="(max-width: 768px) 38vw, 19vw"
+                  sizes="(max-width: 768px) 60vw, 30vw"
                 />
               ) : (
                 <div className="w-full h-full bg-gray-400"></div>
