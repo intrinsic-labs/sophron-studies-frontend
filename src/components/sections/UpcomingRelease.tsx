@@ -25,9 +25,9 @@ const UpcomingRelease: React.FC<UpcomingReleaseProps> = ({
 }) => {
   return (
     <section className="w-full py-16 md:py-24 bg-gray-900 text-white min-h-[60vh]">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center h-full">
+      <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center justify-center h-full">
         {/* Image Container - Uses flex to center the inner relative container */}
-        <div className="w-full sm:w-2/3 md:w-2/5 mb-12 md:mb-0 md:mr-12 order-1 flex justify-center items-center min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
+        <div className="w-full sm:w-2/3 lg:w-2/5 mb-20 lg:mb-0 md:mr-12 order-1 flex justify-center items-center min-h-[300px] md:min-h-[400px] lg:min-h-[500px]">
           {/* Inner Relative Container - Defines the aspect ratio and positioning context */}
           <div className="relative w-4/5 aspect-4/3"> {/* Adjust aspect ratio as needed */}
             {/* First Image - Positioned absolutely using percentages */}
@@ -64,7 +64,7 @@ const UpcomingRelease: React.FC<UpcomingReleaseProps> = ({
         </div>
 
         {/* Text Content */}
-        <div className="w-full md:w-2/5 order-2 flex flex-col justify-center">
+        <div className="w-7/8 lg:w-2/5 order-2 flex flex-col justify-center">
           <h2 className="mb-4">
             {/* Apply heading-1 and heading-2 classes with appropriate text colors for dark bg */}
             <span className="block heading-1 text-gray-200 mb-1">{titlePart1}</span>
