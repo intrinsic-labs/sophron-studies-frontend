@@ -30,7 +30,7 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
         )}
         {/* Right Image */}
         {rightImage ? (
-          <div className="absolute top-[50%] lg:top-[15%] right-[5%] lg:right-[-32%] w-[55%] aspect-4/5 lg:z-10 z-0 overflow-hidden shadow-lg transform rotate-2">
+          <div className="absolute top-[85%] lg:top-[15%] right-[5%] lg:right-[-32%] w-[55%] aspect-4/5 lg:z-10 z-0 overflow-hidden shadow-lg transform rotate-2">
             <Image 
               src={rightImage} 
               alt="Right" 
@@ -60,7 +60,7 @@ const AboutHero: React.FC<AboutHeroProps> = ({ name, backgroundImage, rightImage
         )}
       </div>
       {/* Name in script font - positioned relative to the section, overlapping images */}
-      <h1 className="relative z-20 text-5xl md:text-7xl font-heading1 text-center pt-24 lg:pt-0">
+      <h1 className="relative z-20 text-7xl font-heading1 text-center pt-36 lg:pt-0">
         {name}
       </h1>
     </section>
