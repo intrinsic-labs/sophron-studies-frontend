@@ -24,7 +24,8 @@ interface Product {
   slug: { current: string };
   images: SanityImageReference[];
   description: any[]; // blockContent type
-  price: number;
+  price?: number; // Optional for external products
+  externalUrl?: string; // For external products
   isAvailable: boolean;
   categories?: { _id: string; title: string; slug: { current: string } }[];
   sizes?: string[];
@@ -153,6 +154,7 @@ async function getPaginatedProducts(
       slug,
       images[]{..., asset->}, // Fetch image details and asset data
       price,
+      externalUrl,
       categories[]->{_id, title, slug},
       sizes,
       _createdAt

@@ -22,7 +22,8 @@ interface ProductDetail {
   slug: { current: string };
   images: SanityImageReference[];
   description: any[]; // blockContent type
-  price: number;
+  price?: number; // Optional for external products
+  externalUrl?: string; // For external products
   isAvailable: boolean;
   sizes?: string[];
 }
@@ -35,6 +36,7 @@ const PRODUCT_QUERY = `*[_type == "product" && slug.current == $slug && !(_id in
   images[]{..., asset->}, // Fetch image details and asset data
   description,
   price,
+  externalUrl,
   isAvailable,
   sizes
 }`;
@@ -62,9 +64,22 @@ interface SlugParams {
   slug: string;
 }
 
-export default async function ProductDetailPage({ params }: { params: Promise<SlugParams> }) {
+interface SearchParamsType {
+  from_category?: string;
+  from_page?: string;
+  from_search?: string;
+}
+
+export default async function ProductDetailPage({ 
+  params, 
+  searchParams 
+}: { 
+  params: Promise<SlugParams>;
+  searchParams: Promise<SearchParamsType>;
+}) {
   // Await the params before accessing properties
   const { slug } = await params;
+  const referrerParams = await searchParams;
   
   const product = await getProduct(slug);
 
@@ -73,11 +88,59 @@ export default async function ProductDetailPage({ params }: { params: Promise<Sl
     notFound();
   }
 
+  // Create back link based on referrer information
+  const createBackLink = () => {
+    const { from_category, from_page, from_search } = referrerParams;
+    
+    // If we have referrer info, reconstruct the shop URL
+    if (from_category || from_search) {
+      const params = new URLSearchParams();
+      
+      if (from_category) params.set('category', from_category);
+      if (from_page) params.set('page', from_page);
+      if (from_search) params.set('search', from_search);
+      
+      const queryString = params.toString();
+      return `/shop${queryString ? `?${queryString}` : ''}#studies`;
+    }
+    
+    // Default fallback to categories view
+    return '/shop#studies';
+  };
+
+  const getBackButtonText = () => {
+    const { from_category, from_search } = referrerParams;
+    
+    if (from_search) {
+      return `← Back to Search Results`;
+    } else if (from_category) {
+      // Convert category slug to display name
+      const categoryDisplayNames: Record<string, string> = {
+        'old-testament': 'Old Testament',
+        'new-testament': 'New Testament',
+        'prayer-books': 'Prayer Books',
+        'topical-devotionals': 'Topical Devotionals',
+        'seasonal-books': 'Seasonal Books',
+        'tweens-teens': 'Tweens & Teens',
+        'kids': 'Kids',
+        'merchandise': 'Merchandise',
+        'journals': 'Journals',
+        'topical': 'Topical',
+        'childrens-books': 'Children\'s Books',
+        'devotionals': 'Devotionals',
+        'psalms-and-proverbs': 'Psalms & Proverbs',
+        'leader-guide': 'Leader Guide',
+      };
+      
+      const displayName = categoryDisplayNames[from_category] || from_category;
+      return `← Back to ${displayName}`;
+    }
+    
+    return '← Back to Studies';
+  };
+
   return (
     <div className="container mx-auto px-4 pb-8 pt-4 relative max-w-7xl">
-      {/* Close button positioned top-right */}
-      
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-12">
         {/* Image Section */}
         <div>
@@ -103,11 +166,19 @@ export default async function ProductDetailPage({ params }: { params: Promise<Sl
 
         {/* Details Section */}
         <div className="flex flex-col justify-center">
-        <Link href="/shop#studies" aria-label="Close product details and return to shop" className="text-gray-500 hover:text-gray-800 z-10 py-4">
-        <p>← Back to Studies</p>
-      </Link>
+          <Link 
+            href={createBackLink()} 
+            aria-label="Return to previous shop view" 
+            className="text-gray-500 hover:text-gray-800 z-10 py-4"
+          >
+            <p>{getBackButtonText()}</p>
+          </Link>
           <h1 className="text-3xl md:text-4xl font-bold mb-4">{product.name}</h1>
-          <p className="text-2xl text-gray-800 mb-4 font-mono">${product.price.toFixed(2)} USD</p>
+          {product.externalUrl ? (
+            <p className="text-xl text-gray-700 mb-4">Visit external website to check price</p>
+          ) : (
+            <p className="text-2xl text-gray-800 mb-4 font-mono">${product.price?.toFixed(2)} USD</p>
+          )}
 
           {/* Add to Cart Button */}
           <AddToCartButton product={product} />

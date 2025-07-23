@@ -97,7 +97,7 @@ const CartSidebar: React.FC = () => {
                       </p>
                     )}
                     <p className="text-gray-600 text-sm font-mono">
-                      ${item.price.toFixed(2)}
+                      ${(item.price || 0).toFixed(2)}
                     </p>
 
                     {/* Quantity Controls */}

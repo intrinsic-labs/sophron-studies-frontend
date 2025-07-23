@@ -5,11 +5,12 @@ import React, { createContext, useContext, useReducer, useEffect } from 'react';
 export interface CartItem {
   _id: string;
   name: string;
-  price: number;
+  price?: number; // Optional for external products
   quantity: number;
   image?: string;
   slug: string;
   size?: string;
+  externalUrl?: string; // For external products
 }
 
 interface CartState {
@@ -183,7 +184,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const getTotalPrice = () => {
-    return state.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return state.items.reduce((total, item) => total + (item.price || 0) * item.quantity, 0);
   };
 
   const value: CartContextType = {
