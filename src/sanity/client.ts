@@ -40,13 +40,17 @@ export async function sanityFetch<QueryResponse>({
   tags: string[];
   revalidate?: number | false;
 }): Promise<QueryResponse> {
-  return client.fetch<QueryResponse>(query, params, {
-    cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'force-cache',
-    next: { 
-      tags,
-      revalidate: process.env.NODE_ENV === 'development' ? false : revalidate
-    },
-  });
+  const cacheConfig = process.env.NODE_ENV === 'development' 
+    ? { cache: 'no-store' as const }
+    : { 
+        cache: 'force-cache' as const,
+        next: { 
+          tags,
+          revalidate
+        }
+      };
+      
+  return client.fetch<QueryResponse>(query, params, cacheConfig);
 }
 
 // Typed fetch function for defineQuery results
@@ -60,11 +64,15 @@ export async function fetchSanity<QueryResult>(
 ): Promise<QueryResult> {
   const { revalidate = 300, tags = [] } = options;
   
-  return client.fetch<QueryResult>(query, params, {
-    cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'force-cache',
-    next: { 
-      tags,
-      revalidate: process.env.NODE_ENV === 'development' ? false : revalidate
-    },
-  });
+  const cacheConfig = process.env.NODE_ENV === 'development' 
+    ? { cache: 'no-store' as const }
+    : { 
+        cache: 'force-cache' as const,
+        next: { 
+          tags,
+          revalidate
+        }
+      };
+  
+  return client.fetch<QueryResult>(query, params, cacheConfig);
 } 

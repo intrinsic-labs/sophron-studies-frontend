@@ -176,16 +176,6 @@ export type AboutPage = {
   aboutHeroSection?: AboutHeroSection;
   aboutBioSection?: AboutBioSection;
   aboutGallerySection?: AboutGallerySection;
-  upcomingReleaseSection?: {
-    reference?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "upcomingReleaseSection";
-    };
-    customButtonText?: string;
-    customButtonLink?: string;
-  };
   newsletterSection?: {
     _ref: string;
     _type: "reference";
@@ -287,14 +277,20 @@ export type HomePage = {
   definitionSection?: DefinitionSection;
   featuredBlogPostSection?: FeaturedBlogPostSection;
   upcomingReleaseSection?: {
-    reference?: {
+    newRelease?: {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "upcomingReleaseSection";
     };
-    customButtonText?: string;
-    customButtonLink?: string;
+    showNewRelease?: boolean;
+    comingSoon?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "upcomingReleaseSection";
+    };
+    showComingSoon?: boolean;
   };
   newsletterSection?: {
     _ref: string;
@@ -337,6 +333,8 @@ export type UpcomingReleaseSection = {
   _updatedAt: string;
   _rev: string;
   internalTitle?: string;
+  status?: "comingSoon" | "newRelease";
+  backgroundTheme?: "dark" | "light";
   titlePart1?: string;
   titlePart2?: string;
   text?: BlockContent;
@@ -584,7 +582,7 @@ export type AllSanitySchemaTypes = BlockContent | Category | Product | BlogHero 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../sophron-studies-frontend/src/sanity/queries/aboutpage.queries.ts
 // Variable: aboutPageQuery
-// Query: *[_type == "aboutPage"][0] {  _id,  title,  aboutHeroSection {    name,    backgroundImage,    rightImage,    leftImage  },  aboutBioSection {    heading,    body  },  aboutGallerySection {    images[]  },  upcomingReleaseSection {    reference-> {      titlePart1,      titlePart2,      text,      buttonText,      buttonLink,      image1,      image2    },    customButtonText,    customButtonLink  },  newsletterSection-> {    title,    subtitle,    placeholderText,    buttonText  }}
+// Query: *[_type == "aboutPage"][0] {  _id,  title,  aboutHeroSection {    name,    backgroundImage,    rightImage,    leftImage  },  aboutBioSection {    heading,    body  },  aboutGallerySection {    images[]  },  newsletterSection-> {    title,    subtitle,    placeholderText,    buttonText  }}
 export type AboutPageQueryResult = {
   _id: string;
   title: string | null;
@@ -663,43 +661,6 @@ export type AboutPageQueryResult = {
       _type: "image";
       _key: string;
     }> | null;
-  } | null;
-  upcomingReleaseSection: {
-    reference: {
-      titlePart1: string | null;
-      titlePart2: string | null;
-      text: BlockContent | null;
-      buttonText: string | null;
-      buttonLink: string | null;
-      image1: {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-      } | null;
-      image2: {
-        asset?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-        };
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-      } | null;
-    } | null;
-    customButtonText: string | null;
-    customButtonLink: string | null;
   } | null;
   newsletterSection: {
     title: string | null;
@@ -1194,7 +1155,7 @@ export type AllPostSlugsQueryResult = Array<string | null>;
 
 // Source: ../sophron-studies-frontend/src/sanity/queries/homepage.queries.ts
 // Variable: homePageQuery
-// Query: *[_type == "homePage"][0] {  _id,  title,  heroSection {    title,    vimeoUrl,    backgroundImage {..., asset->}  },  definitionSection {    titlePart1,    titlePart2,    definitionText,    importantPointTitle,    importantPointText,    image1 {alt, asset->},    image2 {alt, asset->}  },  featuredBlogPostSection {    titlePart1,    titlePart2,    buttonText,    image1 {alt, asset->},    image2 {alt, asset->},    featuredPost-> {      _id,      title,      slug { current },      excerpt,      coverImage {alt, asset->}    }  },  upcomingReleaseSection {    reference-> {      titlePart1,      titlePart2,      text,      buttonText,      buttonLink,      image1 {alt, asset->},      image2 {alt, asset->}    },    customButtonText,    customButtonLink  },  newsletterSection-> {    title,    subtitle,    placeholderText,    buttonText  },  testimonialsSection {    title,    subtitle,    testimonials[] {      text,      citation    }  }}
+// Query: *[_type == "homePage"][0] {  _id,  title,  heroSection {    title,    vimeoUrl,    backgroundImage {..., asset->}  },  definitionSection {    titlePart1,    titlePart2,    definitionText,    importantPointTitle,    importantPointText,    image1 {alt, asset->},    image2 {alt, asset->}  },  featuredBlogPostSection {    titlePart1,    titlePart2,    buttonText,    image1 {alt, asset->},    image2 {alt, asset->},    featuredPost-> {      _id,      title,      slug { current },      excerpt,      coverImage {alt, asset->}    }  },  upcomingReleaseSection {    showNewRelease,    newRelease-> {      status,      backgroundTheme,      titlePart1,      titlePart2,      text,      buttonText,      buttonLink,      image1 {alt, asset->},      image2 {alt, asset->}    },    showComingSoon,    comingSoon-> {      status,      backgroundTheme,      titlePart1,      titlePart2,      text,      buttonText,      buttonLink,      image1 {alt, asset->},      image2 {alt, asset->}    }  },  newsletterSection-> {    title,    subtitle,    placeholderText,    buttonText  },  testimonialsSection {    title,    subtitle,    testimonials[] {      text,      citation    }  }}
 export type HomePageQueryResult = {
   _id: string;
   title: string | null;
@@ -1377,7 +1338,10 @@ export type HomePageQueryResult = {
     } | null;
   } | null;
   upcomingReleaseSection: {
-    reference: {
+    showNewRelease: boolean | null;
+    newRelease: {
+      status: "comingSoon" | "newRelease" | null;
+      backgroundTheme: "dark" | "light" | null;
       titlePart1: string | null;
       titlePart2: string | null;
       text: BlockContent | null;
@@ -1434,8 +1398,66 @@ export type HomePageQueryResult = {
         } | null;
       } | null;
     } | null;
-    customButtonText: string | null;
-    customButtonLink: string | null;
+    showComingSoon: boolean | null;
+    comingSoon: {
+      status: "comingSoon" | "newRelease" | null;
+      backgroundTheme: "dark" | "light" | null;
+      titlePart1: string | null;
+      titlePart2: string | null;
+      text: BlockContent | null;
+      buttonText: string | null;
+      buttonLink: string | null;
+      image1: {
+        alt: string | null;
+        asset: {
+          _id: string;
+          _type: "sanity.imageAsset";
+          _createdAt: string;
+          _updatedAt: string;
+          _rev: string;
+          originalFilename?: string;
+          label?: string;
+          title?: string;
+          description?: string;
+          altText?: string;
+          sha1hash?: string;
+          extension?: string;
+          mimeType?: string;
+          size?: number;
+          assetId?: string;
+          uploadId?: string;
+          path?: string;
+          url?: string;
+          metadata?: SanityImageMetadata;
+          source?: SanityAssetSourceData;
+        } | null;
+      } | null;
+      image2: {
+        alt: string | null;
+        asset: {
+          _id: string;
+          _type: "sanity.imageAsset";
+          _createdAt: string;
+          _updatedAt: string;
+          _rev: string;
+          originalFilename?: string;
+          label?: string;
+          title?: string;
+          description?: string;
+          altText?: string;
+          sha1hash?: string;
+          extension?: string;
+          mimeType?: string;
+          size?: number;
+          assetId?: string;
+          uploadId?: string;
+          path?: string;
+          url?: string;
+          metadata?: SanityImageMetadata;
+          source?: SanityAssetSourceData;
+        } | null;
+      } | null;
+    } | null;
   } | null;
   newsletterSection: {
     title: string | null;
@@ -1583,9 +1605,11 @@ export type AllProductSlugsQueryResult = Array<string | null>;
 
 // Source: ../sophron-studies-frontend/src/sanity/queries/upcomingrelease.queries.ts
 // Variable: latestUpcomingReleaseQuery
-// Query: *[_type == "upcomingReleaseSection"] | order(_createdAt desc)[0] {  _id,  titlePart1,  titlePart2,  text,  buttonText,  buttonLink,  image1 {asset->, alt},  image2 {asset->, alt}}
+// Query: *[_type == "upcomingReleaseSection"] | order(_createdAt desc)[0] {  _id,  status,  backgroundTheme,  titlePart1,  titlePart2,  text,  buttonText,  buttonLink,  image1 {asset->, alt},  image2 {asset->, alt}}
 export type LatestUpcomingReleaseQueryResult = {
   _id: string;
+  status: "comingSoon" | "newRelease" | null;
+  backgroundTheme: "dark" | "light" | null;
   titlePart1: string | null;
   titlePart2: string | null;
   text: BlockContent | null;
@@ -1642,10 +1666,141 @@ export type LatestUpcomingReleaseQueryResult = {
     alt: string | null;
   } | null;
 } | null;
+// Variable: activeUpcomingReleaseQuery
+// Query: *[_type == "homePage"][0].upcomingReleaseSection.reference-> {  _id,  status,  backgroundTheme,  titlePart1,  titlePart2,  text,  buttonText,  buttonLink,  image1 {asset->, alt},  image2 {asset->, alt}}
+export type ActiveUpcomingReleaseQueryResult = null;
+// Variable: homePageUpcomingReleasesQuery
+// Query: *[_type == "homePage"][0].upcomingReleaseSection {  showNewRelease,  newRelease-> {    _id,    status,    backgroundTheme,    titlePart1,    titlePart2,    text,    buttonText,    buttonLink,    image1 {asset->, alt},    image2 {asset->, alt}  },  showComingSoon,  comingSoon-> {    _id,    status,    backgroundTheme,    titlePart1,    titlePart2,    text,    buttonText,    buttonLink,    image1 {asset->, alt},    image2 {asset->, alt}  }}
+export type HomePageUpcomingReleasesQueryResult = {
+  showNewRelease: boolean | null;
+  newRelease: {
+    _id: string;
+    status: "comingSoon" | "newRelease" | null;
+    backgroundTheme: "dark" | "light" | null;
+    titlePart1: string | null;
+    titlePart2: string | null;
+    text: BlockContent | null;
+    buttonText: string | null;
+    buttonLink: string | null;
+    image1: {
+      asset: {
+        _id: string;
+        _type: "sanity.imageAsset";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        originalFilename?: string;
+        label?: string;
+        title?: string;
+        description?: string;
+        altText?: string;
+        sha1hash?: string;
+        extension?: string;
+        mimeType?: string;
+        size?: number;
+        assetId?: string;
+        uploadId?: string;
+        path?: string;
+        url?: string;
+        metadata?: SanityImageMetadata;
+        source?: SanityAssetSourceData;
+      } | null;
+      alt: string | null;
+    } | null;
+    image2: {
+      asset: {
+        _id: string;
+        _type: "sanity.imageAsset";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        originalFilename?: string;
+        label?: string;
+        title?: string;
+        description?: string;
+        altText?: string;
+        sha1hash?: string;
+        extension?: string;
+        mimeType?: string;
+        size?: number;
+        assetId?: string;
+        uploadId?: string;
+        path?: string;
+        url?: string;
+        metadata?: SanityImageMetadata;
+        source?: SanityAssetSourceData;
+      } | null;
+      alt: string | null;
+    } | null;
+  } | null;
+  showComingSoon: boolean | null;
+  comingSoon: {
+    _id: string;
+    status: "comingSoon" | "newRelease" | null;
+    backgroundTheme: "dark" | "light" | null;
+    titlePart1: string | null;
+    titlePart2: string | null;
+    text: BlockContent | null;
+    buttonText: string | null;
+    buttonLink: string | null;
+    image1: {
+      asset: {
+        _id: string;
+        _type: "sanity.imageAsset";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        originalFilename?: string;
+        label?: string;
+        title?: string;
+        description?: string;
+        altText?: string;
+        sha1hash?: string;
+        extension?: string;
+        mimeType?: string;
+        size?: number;
+        assetId?: string;
+        uploadId?: string;
+        path?: string;
+        url?: string;
+        metadata?: SanityImageMetadata;
+        source?: SanityAssetSourceData;
+      } | null;
+      alt: string | null;
+    } | null;
+    image2: {
+      asset: {
+        _id: string;
+        _type: "sanity.imageAsset";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        originalFilename?: string;
+        label?: string;
+        title?: string;
+        description?: string;
+        altText?: string;
+        sha1hash?: string;
+        extension?: string;
+        mimeType?: string;
+        size?: number;
+        assetId?: string;
+        uploadId?: string;
+        path?: string;
+        url?: string;
+        metadata?: SanityImageMetadata;
+        source?: SanityAssetSourceData;
+      } | null;
+      alt: string | null;
+    } | null;
+  } | null;
+} | null;
 // Variable: upcomingReleaseByIdQuery
-// Query: *[  _type == "upcomingReleaseSection"  && _id == $id][0] {  _id,  titlePart1,  titlePart2,  text,  buttonText,  buttonLink,  image1 {asset->, alt},  image2 {asset->, alt}}
+// Query: *[  _type == "upcomingReleaseSection"  && _id == $id][0] {  _id,  status,  backgroundTheme,  titlePart1,  titlePart2,  text,  buttonText,  buttonLink,  image1 {asset->, alt},  image2 {asset->, alt}}
 export type UpcomingReleaseByIdQueryResult = {
   _id: string;
+  status: "comingSoon" | "newRelease" | null;
+  backgroundTheme: "dark" | "light" | null;
   titlePart1: string | null;
   titlePart2: string | null;
   text: BlockContent | null;
@@ -1707,7 +1862,7 @@ export type UpcomingReleaseByIdQueryResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"aboutPage\"][0] {\n  _id,\n  title,\n  aboutHeroSection {\n    name,\n    backgroundImage,\n    rightImage,\n    leftImage\n  },\n  aboutBioSection {\n    heading,\n    body\n  },\n  aboutGallerySection {\n    images[]\n  },\n  upcomingReleaseSection {\n    reference-> {\n      titlePart1,\n      titlePart2,\n      text,\n      buttonText,\n      buttonLink,\n      image1,\n      image2\n    },\n    customButtonText,\n    customButtonLink\n  },\n  newsletterSection-> {\n    title,\n    subtitle,\n    placeholderText,\n    buttonText\n  }\n}": AboutPageQueryResult;
+    "*[_type == \"aboutPage\"][0] {\n  _id,\n  title,\n  aboutHeroSection {\n    name,\n    backgroundImage,\n    rightImage,\n    leftImage\n  },\n  aboutBioSection {\n    heading,\n    body\n  },\n  aboutGallerySection {\n    images[]\n  },\n  newsletterSection-> {\n    title,\n    subtitle,\n    placeholderText,\n    buttonText\n  }\n}": AboutPageQueryResult;
     "*[\n  _type == \"post\"\n  && defined(slug.current)\n]|order(publishedAt desc){\n  \n  _id,\n  title,\n  excerpt,\n  content,\n  \"slug\": slug.current,\n  coverImage,\n  \"author\": {\n    \"name\": author->name,\n    \"avatar\": author->avatar\n  },\n  publishedAt,\n  readingTime,\n  category,\n  tags,\n  featured\n\n}": AllBlogPostsQueryResult;
     "*[\n  _type == \"post\"\n  && defined(slug.current)\n  && featured == true\n]|order(publishedAt desc){\n  \n  _id,\n  title,\n  excerpt,\n  content,\n  \"slug\": slug.current,\n  coverImage,\n  \"author\": {\n    \"name\": author->name,\n    \"avatar\": author->avatar\n  },\n  publishedAt,\n  readingTime,\n  category,\n  tags,\n  featured\n\n}": FeaturedBlogPostsQueryResult;
     "*[\n  _type == \"post\"\n  && slug.current == $slug\n][0]{\n  \n  _id,\n  title,\n  excerpt,\n  content,\n  \"slug\": slug.current,\n  coverImage,\n  \"author\": {\n    \"name\": author->name,\n    \"avatar\": author->avatar\n  },\n  publishedAt,\n  readingTime,\n  category,\n  tags,\n  featured\n\n}": BlogPostBySlugQueryResult;
@@ -1720,14 +1875,16 @@ declare module "@sanity/client" {
     "array::unique(*[\n  _type == \"post\" \n  && defined(tags)\n].tags[])": AllTagsQueryResult;
     "*[_type == \"blogHero\"][0]{\n  title,\n  description,\n  announcement,\n  announcementLink\n}": BlogHeroQueryResult;
     "*[\n  _type == \"post\"\n  && defined(slug.current)\n].slug.current": AllPostSlugsQueryResult;
-    "*[_type == \"homePage\"][0] {\n  _id,\n  title,\n  heroSection {\n    title,\n    vimeoUrl,\n    backgroundImage {..., asset->}\n  },\n  definitionSection {\n    titlePart1,\n    titlePart2,\n    definitionText,\n    importantPointTitle,\n    importantPointText,\n    image1 {alt, asset->},\n    image2 {alt, asset->}\n  },\n  featuredBlogPostSection {\n    titlePart1,\n    titlePart2,\n    buttonText,\n    image1 {alt, asset->},\n    image2 {alt, asset->},\n    featuredPost-> {\n      _id,\n      title,\n      slug { current },\n      excerpt,\n      coverImage {alt, asset->}\n    }\n  },\n  upcomingReleaseSection {\n    reference-> {\n      titlePart1,\n      titlePart2,\n      text,\n      buttonText,\n      buttonLink,\n      image1 {alt, asset->},\n      image2 {alt, asset->}\n    },\n    customButtonText,\n    customButtonLink\n  },\n  newsletterSection-> {\n    title,\n    subtitle,\n    placeholderText,\n    buttonText\n  },\n  testimonialsSection {\n    title,\n    subtitle,\n    testimonials[] {\n      text,\n      citation\n    }\n  }\n}": HomePageQueryResult;
+    "*[_type == \"homePage\"][0] {\n  _id,\n  title,\n  heroSection {\n    title,\n    vimeoUrl,\n    backgroundImage {..., asset->}\n  },\n  definitionSection {\n    titlePart1,\n    titlePart2,\n    definitionText,\n    importantPointTitle,\n    importantPointText,\n    image1 {alt, asset->},\n    image2 {alt, asset->}\n  },\n  featuredBlogPostSection {\n    titlePart1,\n    titlePart2,\n    buttonText,\n    image1 {alt, asset->},\n    image2 {alt, asset->},\n    featuredPost-> {\n      _id,\n      title,\n      slug { current },\n      excerpt,\n      coverImage {alt, asset->}\n    }\n  },\n  upcomingReleaseSection {\n    showNewRelease,\n    newRelease-> {\n      status,\n      backgroundTheme,\n      titlePart1,\n      titlePart2,\n      text,\n      buttonText,\n      buttonLink,\n      image1 {alt, asset->},\n      image2 {alt, asset->}\n    },\n    showComingSoon,\n    comingSoon-> {\n      status,\n      backgroundTheme,\n      titlePart1,\n      titlePart2,\n      text,\n      buttonText,\n      buttonLink,\n      image1 {alt, asset->},\n      image2 {alt, asset->}\n    }\n  },\n  newsletterSection-> {\n    title,\n    subtitle,\n    placeholderText,\n    buttonText\n  },\n  testimonialsSection {\n    title,\n    subtitle,\n    testimonials[] {\n      text,\n      citation\n    }\n  }\n}": HomePageQueryResult;
     "*[_type == \"homePage\"][0] {\n  testimonialsSection {\n    title,\n    subtitle,\n    testimonials[] {\n      text,\n      citation\n    }\n  }\n}": TestimonialsQueryResult;
     "*[_type == \"newsletterSection\"][0] {\n  title,\n  subtitle,\n  placeholderText,\n  buttonText\n}": NewsletterSectionQueryResult;
     "*[_type == \"category\"] {\n  _id,\n  title,\n  slug,\n  description,\n  \"productCount\": count(*[_type == \"product\" && isAvailable == true && !(_id in path(\"drafts.**\")) && references(^._id)])\n} | order(title asc)": CategoriesQueryResult;
     "*[_type == \"product\" && isAvailable == true && !(_id in path(\"drafts.**\"))] | order(_createdAt desc) {\n  _id,\n  name,\n  slug,\n  images[]{..., asset->},\n  price,\n  externalUrl,\n  categories[]->{_id, title, slug},\n  sizes,\n  _createdAt\n}": ProductsQueryResult;
     "*[\n  _type == \"product\"\n  && slug.current == $slug\n][0]{\n  _id,\n  name,\n  slug,\n  images[]{..., asset->},\n  description,\n  price,\n  externalUrl,\n  isAvailable,\n  categories[]->{_id, title, slug},\n  sizes,\n  _createdAt\n}": ProductBySlugQueryResult;
     "*[\n  _type == \"product\"\n  && defined(slug.current)\n  && isAvailable == true\n].slug.current": AllProductSlugsQueryResult;
-    "*[_type == \"upcomingReleaseSection\"] | order(_createdAt desc)[0] {\n  _id,\n  titlePart1,\n  titlePart2,\n  text,\n  buttonText,\n  buttonLink,\n  image1 {asset->, alt},\n  image2 {asset->, alt}\n}": LatestUpcomingReleaseQueryResult;
-    "*[\n  _type == \"upcomingReleaseSection\"\n  && _id == $id\n][0] {\n  _id,\n  titlePart1,\n  titlePart2,\n  text,\n  buttonText,\n  buttonLink,\n  image1 {asset->, alt},\n  image2 {asset->, alt}\n}": UpcomingReleaseByIdQueryResult;
+    "*[_type == \"upcomingReleaseSection\"] | order(_createdAt desc)[0] {\n  _id,\n  status,\n  backgroundTheme,\n  titlePart1,\n  titlePart2,\n  text,\n  buttonText,\n  buttonLink,\n  image1 {asset->, alt},\n  image2 {asset->, alt}\n}": LatestUpcomingReleaseQueryResult;
+    "*[_type == \"homePage\"][0].upcomingReleaseSection.reference-> {\n  _id,\n  status,\n  backgroundTheme,\n  titlePart1,\n  titlePart2,\n  text,\n  buttonText,\n  buttonLink,\n  image1 {asset->, alt},\n  image2 {asset->, alt}\n}": ActiveUpcomingReleaseQueryResult;
+    "*[_type == \"homePage\"][0].upcomingReleaseSection {\n  showNewRelease,\n  newRelease-> {\n    _id,\n    status,\n    backgroundTheme,\n    titlePart1,\n    titlePart2,\n    text,\n    buttonText,\n    buttonLink,\n    image1 {asset->, alt},\n    image2 {asset->, alt}\n  },\n  showComingSoon,\n  comingSoon-> {\n    _id,\n    status,\n    backgroundTheme,\n    titlePart1,\n    titlePart2,\n    text,\n    buttonText,\n    buttonLink,\n    image1 {asset->, alt},\n    image2 {asset->, alt}\n  }\n}": HomePageUpcomingReleasesQueryResult;
+    "*[\n  _type == \"upcomingReleaseSection\"\n  && _id == $id\n][0] {\n  _id,\n  status,\n  backgroundTheme,\n  titlePart1,\n  titlePart2,\n  text,\n  buttonText,\n  buttonLink,\n  image1 {asset->, alt},\n  image2 {asset->, alt}\n}": UpcomingReleaseByIdQueryResult;
   }
 }

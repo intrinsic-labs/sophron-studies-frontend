@@ -4,9 +4,7 @@ import type { AboutPageQueryResult } from '@/sanity/types';
 import AboutHero from '@/components/about/AboutHero';
 import AboutBio from '@/components/about/AboutBio';
 import AboutGallery from '@/components/about/AboutGallery';
-import UpcomingRelease from '@/components/sections/UpcomingRelease';
 import NewsletterSection from '@/components/sections/NewsletterSection';
-import { PortableText } from '@portabletext/react';
 
 // Using generated types from @/sanity/types instead of manual interface
 
@@ -29,7 +27,6 @@ async function getAboutPageData(): Promise<AboutPageQueryResult | null> {
       hasAboutHero: !!data?.aboutHeroSection,
       hasAboutBio: !!data?.aboutBioSection,
       hasAboutGallery: !!data?.aboutGallerySection,
-      hasUpcomingRelease: !!data?.upcomingReleaseSection,
       hasNewsletterSection: !!data?.newsletterSection,
     });
     
@@ -42,42 +39,27 @@ async function getAboutPageData(): Promise<AboutPageQueryResult | null> {
 
 export default async function AboutPage() {
   const data = await getAboutPageData();
+
   if (!data) {
     return <div>Error loading page data. Please try again later.</div>;
   }
 
   // Generate URLs using full image objects (preserves hotspot/crop data)
-  const backgroundImageUrl = data.aboutHeroSection?.backgroundImage 
-    ? urlFor(data.aboutHeroSection.backgroundImage).width(600).url() 
+  const backgroundImageUrl = data.aboutHeroSection?.backgroundImage?.asset 
+    ? urlFor(data.aboutHeroSection.backgroundImage.asset).width(1920).url() 
     : '';
-    
-  const rightImageUrl = data.aboutHeroSection?.rightImage 
-    ? urlFor(data.aboutHeroSection.rightImage).width(400).url() 
+  const rightImageUrl = data.aboutHeroSection?.rightImage?.asset 
+    ? urlFor(data.aboutHeroSection.rightImage.asset).width(600).url() 
     : '';
-    
-  const leftImageUrl = data.aboutHeroSection?.leftImage 
-    ? urlFor(data.aboutHeroSection.leftImage).width(300).url() 
+  const leftImageUrl = data.aboutHeroSection?.leftImage?.asset 
+    ? urlFor(data.aboutHeroSection.leftImage.asset).width(600).url() 
     : '';
 
-  const galleryImages = data.aboutGallerySection?.images?.map(img => ({
-    url: img ? urlFor(img).width(400).url() : '',
-    alt: img?.alt || '',
+  // Process gallery images
+  const galleryImages = data.aboutGallerySection?.images?.map(image => ({
+    url: image.asset ? urlFor(image.asset).width(800).url() : '',
+    alt: image.alt || 'Gallery image',
   })) || [];
-
-  const image1Url = data.upcomingReleaseSection?.reference?.image1 
-    ? urlFor(data.upcomingReleaseSection.reference.image1).width(400).url() 
-    : '';
-    
-  const image2Url = data.upcomingReleaseSection?.reference?.image2 
-    ? urlFor(data.upcomingReleaseSection.reference.image2).width(400).url() 
-    : '';
-
-  const renderPortableText = (content: any) => {
-    if (!content || (Array.isArray(content) && content.length === 0)) {
-      return <p>Content not available.</p>;
-    }
-    return <PortableText value={content} />;
-  };
 
   return (
     <div className="">
@@ -98,18 +80,6 @@ export default async function AboutPage() {
       {data.aboutGallerySection && (
         <AboutGallery
           images={galleryImages}
-        />
-      )}
-      {data.upcomingReleaseSection && data.upcomingReleaseSection.reference && (
-        <UpcomingRelease
-          titlePart1={data.upcomingReleaseSection.reference.titlePart1 || ''}
-          titlePart2={data.upcomingReleaseSection.reference.titlePart2 || ''}
-          text={renderPortableText(data.upcomingReleaseSection.reference.text)}
-          imageUrl1={image1Url}
-          imageUrl2={image2Url}
-          imageAlt={data.upcomingReleaseSection.reference.image1?.alt || 'Upcoming release images'}
-          buttonText={data.upcomingReleaseSection.customButtonText || data.upcomingReleaseSection.reference.buttonText || ''}
-          buttonLink={data.upcomingReleaseSection.customButtonLink || data.upcomingReleaseSection.reference.buttonLink || ''}
         />
       )}
       {data.newsletterSection && (

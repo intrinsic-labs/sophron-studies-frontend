@@ -38,7 +38,10 @@ export const homePageQuery = defineQuery(`*[_type == "homePage"][0] {
     }
   },
   upcomingReleaseSection {
-    reference-> {
+    showNewRelease,
+    newRelease-> {
+      status,
+      backgroundTheme,
       titlePart1,
       titlePart2,
       text,
@@ -47,8 +50,18 @@ export const homePageQuery = defineQuery(`*[_type == "homePage"][0] {
       image1 {alt, asset->},
       image2 {alt, asset->}
     },
-    customButtonText,
-    customButtonLink
+    showComingSoon,
+    comingSoon-> {
+      status,
+      backgroundTheme,
+      titlePart1,
+      titlePart2,
+      text,
+      buttonText,
+      buttonLink,
+      image1 {alt, asset->},
+      image2 {alt, asset->}
+    }
   },
   newsletterSection-> {
     title,

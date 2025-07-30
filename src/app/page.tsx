@@ -24,18 +24,6 @@ async function getHomePageData(): Promise<HomePageQueryResult | null> {
       }
     );
     
-    console.log('✅ Home Page data fetched successfully');
-    console.log('💬 Testimonials section data:', JSON.stringify(data?.testimonialsSection, null, 2));
-    console.log('🏠 Full data structure:', {
-      hasHeroSection: !!data?.heroSection,
-      hasDefinitionSection: !!data?.definitionSection,
-      hasFeaturedBlogSection: !!data?.featuredBlogPostSection,
-      hasUpcomingRelease: !!data?.upcomingReleaseSection,
-      hasNewsletterSection: !!data?.newsletterSection,
-      hasTestimonialsSection: !!data?.testimonialsSection,
-      testimonialsCount: data?.testimonialsSection?.testimonials?.length || 0
-    });
-    
     return data;
   } catch (error) {
     console.error('❌ Error fetching Sanity data:', error);
@@ -114,17 +102,38 @@ export default async function Home() {
         />
       )}
 
-      {data.upcomingReleaseSection && data.upcomingReleaseSection.reference && (
+      {/* New Release Section */}
+      {data.upcomingReleaseSection?.showNewRelease && data.upcomingReleaseSection?.newRelease && (
         <UpcomingRelease
-          titlePart1={safeString(data.upcomingReleaseSection.reference.titlePart1)}
-          titlePart2={safeString(data.upcomingReleaseSection.reference.titlePart2)}
-          text={renderPortableText(data.upcomingReleaseSection.reference.text)}
-          imageUrl1={safeImageUrl(data.upcomingReleaseSection.reference.image1, 400)}
-          imageUrl2={safeImageUrl(data.upcomingReleaseSection.reference.image2, 400)}
-          imageAlt={safeString(data.upcomingReleaseSection.reference.image1?.alt) || 'Upcoming release images'}
-          buttonText={safeString(data.upcomingReleaseSection.customButtonText || data.upcomingReleaseSection.reference.buttonText)}
-          buttonLink={safeString(data.upcomingReleaseSection.customButtonLink || data.upcomingReleaseSection.reference.buttonLink)}
+          status={data.upcomingReleaseSection.newRelease.status || 'newRelease'}
+          backgroundTheme={data.upcomingReleaseSection.newRelease.backgroundTheme || 'dark'}
+          titlePart1={safeString(data.upcomingReleaseSection.newRelease.titlePart1)}
+          titlePart2={safeString(data.upcomingReleaseSection.newRelease.titlePart2)}
+          text={renderPortableText(data.upcomingReleaseSection.newRelease.text)}
+          imageUrl1={safeImageUrl(data.upcomingReleaseSection.newRelease.image1, 400)}
+          imageUrl2={safeImageUrl(data.upcomingReleaseSection.newRelease.image2, 400)}
+          imageAlt={safeString(data.upcomingReleaseSection.newRelease.image1?.alt) || 'New release images'}
+          buttonText={safeString(data.upcomingReleaseSection.newRelease.buttonText)}
+          buttonLink={safeString(data.upcomingReleaseSection.newRelease.buttonLink)}
         />
+      )}
+
+      {/* Coming Soon Section */}
+      {data.upcomingReleaseSection?.showComingSoon && data.upcomingReleaseSection?.comingSoon && (
+        <div className={data.upcomingReleaseSection?.showNewRelease && data.upcomingReleaseSection?.newRelease ? "-mt-16 md:-mt-24" : ""}>
+          <UpcomingRelease
+            status={data.upcomingReleaseSection.comingSoon.status || 'comingSoon'}
+            backgroundTheme={data.upcomingReleaseSection.comingSoon.backgroundTheme || 'dark'}
+            titlePart1={safeString(data.upcomingReleaseSection.comingSoon.titlePart1)}
+            titlePart2={safeString(data.upcomingReleaseSection.comingSoon.titlePart2)}
+            text={renderPortableText(data.upcomingReleaseSection.comingSoon.text)}
+            imageUrl1={safeImageUrl(data.upcomingReleaseSection.comingSoon.image1, 400)}
+            imageUrl2={safeImageUrl(data.upcomingReleaseSection.comingSoon.image2, 400)}
+            imageAlt={safeString(data.upcomingReleaseSection.comingSoon.image1?.alt) || 'Coming soon images'}
+            buttonText={safeString(data.upcomingReleaseSection.comingSoon.buttonText)}
+            buttonLink={safeString(data.upcomingReleaseSection.comingSoon.buttonLink)}
+          />
+        </div>
       )}
 
       {data.newsletterSection && (

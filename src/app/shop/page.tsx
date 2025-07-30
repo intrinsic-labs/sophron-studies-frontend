@@ -1,12 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import { client, urlFor } from '@/sanity/client'; // Use the client from the correct path
+import { fetchSanity, urlFor } from '@/sanity/client'; // Use fetchSanity instead of client
 import UpcomingRelease from '@/components/sections/UpcomingRelease'; // Import the component
 import { PortableText } from '@portabletext/react'; // Needed for rendering block content
 import ShopFilters from '@/components/shop/ShopFilters';
 import ScrollManager from '@/components/scaffold/ScrollManager';
 import ProductCard from '@/components/shop/ProductCard'; // We'll create this component
 import CategoryCard from '@/components/shop/CategoryCard';
+import { homePageUpcomingReleasesQuery } from '@/sanity/queries/upcomingrelease.queries';
 
 // Define Types for fetched data
 interface SanityImageReference {
@@ -32,17 +33,6 @@ interface Product {
   _createdAt: string; // For ordering
 }
 
-interface UpcomingReleaseData {
-  _id: string;
-  titlePart1: string;
-  titlePart2: string;
-  text: any[];
-  buttonText: string;
-  buttonLink: string;
-  image1: { asset: any; alt: string };
-  image2: { asset: any; alt: string };
-}
-
 interface Category {
   _id: string;
   title: string;
@@ -58,18 +48,6 @@ interface PaginatedProductsResult {
 
 const PRODUCTS_PER_PAGE = 6;
 
-// Fetch the most recently created upcomingReleaseSection
-const UPCOMING_RELEASE_QUERY = `*[_type == "upcomingReleaseSection"] | order(_createdAt desc)[0] {
-  _id,
-  titlePart1,
-  titlePart2,
-  text,
-  buttonText,
-  buttonLink,
-  image1 {asset->, alt},
-  image2 {asset->, alt}
-}`;
-
 // Fetch all categories with product counts, ordered alphabetically, excluding empty categories
 const CATEGORIES_QUERY = `*[_type == "category"] {
   _id,
@@ -82,7 +60,7 @@ const CATEGORIES_QUERY = `*[_type == "category"] {
 // Fetch categories from Sanity
 async function getCategories(): Promise<Category[]> {
   try {
-    const categories = await client.fetch<Category[]>(CATEGORIES_QUERY, {}, { next: { revalidate: 300 } }); // 5 minutes
+    const categories = await fetchSanity<Category[]>(CATEGORIES_QUERY, {}, { revalidate: 300, tags: ['categories'] }); // 5 minutes
     // Handle null response and filter out categories with zero products
     if (!categories || !Array.isArray(categories)) {
       console.warn("Categories query returned null or non-array:", categories);
@@ -163,7 +141,7 @@ async function getPaginatedProducts(
   }`;
 
   try {
-    const result = await client.fetch<PaginatedProductsResult>(PAGINATED_PRODUCTS_QUERY, {}, { next: { revalidate: 120 } }); // 2 minutes for products
+    const result = await fetchSanity<PaginatedProductsResult>(PAGINATED_PRODUCTS_QUERY, {}, { revalidate: 120, tags: ['products'] }); // 2 minutes for products
     return result;
   } catch (error) {
     console.error("Error fetching paginated products:", error);
@@ -212,8 +190,15 @@ export default async function Shop({
   // Determine if we should show categories or products
   const showCategories = !currentCategory && !searchTerm;
 
-  // Fetch upcoming release section from Sanity
-  const upcomingRelease = await client.fetch<UpcomingReleaseData | null>(UPCOMING_RELEASE_QUERY, {}, { next: { revalidate: 300 } }); // 5 minutes
+  // Fetch upcoming release sections from Sanity using the same structure as homepage
+  const upcomingReleases = await fetchSanity<any>(
+    homePageUpcomingReleasesQuery, 
+    {}, 
+    { 
+      revalidate: 300, 
+      tags: ['homepage', 'upcomingrelease'] 
+    }
+  );
   
   // Fetch categories or products based on the view
   const categories = showCategories ? await getCategories() : [];
@@ -226,23 +211,39 @@ export default async function Shop({
       {/* ScrollManager to handle hash navigation */}
       <ScrollManager />
       
-      {/* Section 1: Upcoming Release */}
-      {upcomingRelease ? (
+      {/* Section 1: Upcoming Releases */}
+      {/* New Release Section */}
+      {upcomingReleases?.showNewRelease && upcomingReleases?.newRelease && (
         <UpcomingRelease
-          titlePart1={upcomingRelease.titlePart1}
-          titlePart2={upcomingRelease.titlePart2}
-          text={<PortableText value={upcomingRelease.text} />}
-          imageUrl1={upcomingRelease.image1?.asset ? urlFor(upcomingRelease.image1.asset).width(400).url() : ''}
-          imageUrl2={upcomingRelease.image2?.asset ? urlFor(upcomingRelease.image2.asset).width(400).url() : ''}
-          imageAlt={upcomingRelease.image1?.alt || 'Upcoming release images'}
-          buttonText={upcomingRelease.buttonText}
-          buttonLink={upcomingRelease.buttonLink}
+          status={upcomingReleases.newRelease.status || 'newRelease'}
+          backgroundTheme={upcomingReleases.newRelease.backgroundTheme || 'dark'}
+          titlePart1={upcomingReleases.newRelease.titlePart1 || ''}
+          titlePart2={upcomingReleases.newRelease.titlePart2 || ''}
+          text={<PortableText value={upcomingReleases.newRelease.text || []} />}
+          imageUrl1={upcomingReleases.newRelease.image1?.asset ? urlFor(upcomingReleases.newRelease.image1.asset).width(400).url() : ''}
+          imageUrl2={upcomingReleases.newRelease.image2?.asset ? urlFor(upcomingReleases.newRelease.image2.asset).width(400).url() : ''}
+          imageAlt={upcomingReleases.newRelease.image1?.alt || 'New release images'}
+          buttonText={upcomingReleases.newRelease.buttonText || ''}
+          buttonLink={upcomingReleases.newRelease.buttonLink || ''}
         />
-      ) : (
-        <section className="py-16 bg-gray-100 text-center">
-          <h2 className="text-2xl font-semibold mb-4">Upcoming Release</h2>
-          <p>Coming Soon!</p>
-        </section>
+      )}
+
+      {/* Coming Soon Section */}
+      {upcomingReleases?.showComingSoon && upcomingReleases?.comingSoon && (
+        <div className={upcomingReleases?.showNewRelease && upcomingReleases?.newRelease ? "-mt-16 md:-mt-24" : ""}>
+          <UpcomingRelease
+            status={upcomingReleases.comingSoon.status || 'comingSoon'}
+            backgroundTheme={upcomingReleases.comingSoon.backgroundTheme || 'dark'}
+            titlePart1={upcomingReleases.comingSoon.titlePart1 || ''}
+            titlePart2={upcomingReleases.comingSoon.titlePart2 || ''}
+            text={<PortableText value={upcomingReleases.comingSoon.text || []} />}
+            imageUrl1={upcomingReleases.comingSoon.image1?.asset ? urlFor(upcomingReleases.comingSoon.image1.asset).width(400).url() : ''}
+            imageUrl2={upcomingReleases.comingSoon.image2?.asset ? urlFor(upcomingReleases.comingSoon.image2.asset).width(400).url() : ''}
+            imageAlt={upcomingReleases.comingSoon.image1?.alt || 'Coming soon images'}
+            buttonText={upcomingReleases.comingSoon.buttonText || ''}
+            buttonLink={upcomingReleases.comingSoon.buttonLink || ''}
+          />
+        </div>
       )}
 
       {/* Section 2: Studies */}

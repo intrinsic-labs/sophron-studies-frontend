@@ -22,19 +22,6 @@ export const aboutPageQuery = defineQuery(`*[_type == "aboutPage"][0] {
   aboutGallerySection {
     images[]
   },
-  upcomingReleaseSection {
-    reference-> {
-      titlePart1,
-      titlePart2,
-      text,
-      buttonText,
-      buttonLink,
-      image1,
-      image2
-    },
-    customButtonText,
-    customButtonLink
-  },
   newsletterSection-> {
     title,
     subtitle,
