@@ -1,4 +1,6 @@
-import { client, urlFor } from '@/sanity/client';
+import { fetchSanity, urlFor } from '@/sanity/client';
+import { aboutPageQuery } from '@/sanity/queries';
+import type { AboutPageQueryResult } from '@/sanity/types';
 import AboutHero from '@/components/about/AboutHero';
 import AboutBio from '@/components/about/AboutBio';
 import AboutGallery from '@/components/about/AboutGallery';
@@ -6,85 +8,20 @@ import UpcomingRelease from '@/components/sections/UpcomingRelease';
 import NewsletterSection from '@/components/sections/NewsletterSection';
 import { PortableText } from '@portabletext/react';
 
-interface AboutPageData {
-  _id: string;
-  title: string;
-  aboutHeroSection: {
-    name: string;
-    backgroundImage?: any; // Full image object with crop/hotspot
-    rightImage?: any; // Full image object with crop/hotspot
-    leftImage?: any; // Full image object with crop/hotspot
-  };
-  aboutBioSection: {
-    heading: string;
-    body: any[];
-  };
-  aboutGallerySection: {
-    images: any[]; // Full image objects with crop/hotspot and alt
-  };
-  upcomingReleaseSection: {
-    reference: {
-      titlePart1: string;
-      titlePart2: string;
-      text: any[];
-      buttonText: string;
-      buttonLink: string;
-      image1: any; // Full image object with crop/hotspot and alt
-      image2: any; // Full image object with crop/hotspot and alt
-    };
-    customButtonText?: string;
-    customButtonLink?: string;
-  };
-  newsletterSection: {
-    title: string;
-    subtitle: string;
-    placeholderText: string;
-    buttonText: string;
-  };
-}
+// Using generated types from @/sanity/types instead of manual interface
 
-const ABOUT_PAGE_QUERY = `*[_type == "aboutPage"][0] {
-  _id,
-  title,
-  aboutHeroSection {
-    name,
-    backgroundImage,
-    rightImage,
-    leftImage
-  },
-  aboutBioSection {
-    heading,
-    body
-  },
-  aboutGallerySection {
-    images[]
-  },
-  upcomingReleaseSection {
-    reference-> {
-      titlePart1,
-      titlePart2,
-      text,
-      buttonText,
-      buttonLink,
-      image1,
-      image2
-    },
-    customButtonText,
-    customButtonLink
-  },
-  newsletterSection-> {
-    title,
-    subtitle,
-    placeholderText,
-    buttonText
-  }
-}`;
-
-async function getAboutPageData(): Promise<AboutPageData | null> {
+async function getAboutPageData(): Promise<AboutPageQueryResult | null> {
   console.log('🔍 Fetching About Page data from Sanity...');
   
   try {
-    const data = await client.fetch(ABOUT_PAGE_QUERY, {}, { next: { revalidate: 300 } });
+    const data = await fetchSanity<AboutPageQueryResult>(
+      aboutPageQuery,
+      {},
+      {
+        revalidate: 300,
+        tags: ['aboutpage']
+      }
+    );
     
     console.log('✅ About Page data fetched successfully');
     console.log('📧 About Newsletter section data:', JSON.stringify(data?.newsletterSection, null, 2));
@@ -94,7 +31,6 @@ async function getAboutPageData(): Promise<AboutPageData | null> {
       hasAboutGallery: !!data?.aboutGallerySection,
       hasUpcomingRelease: !!data?.upcomingReleaseSection,
       hasNewsletterSection: !!data?.newsletterSection,
-      newsletterFields: data?.newsletterSection ? Object.keys(data.newsletterSection) : []
     });
     
     return data;
@@ -136,8 +72,8 @@ export default async function AboutPage() {
     ? urlFor(data.upcomingReleaseSection.reference.image2).width(400).url() 
     : '';
 
-  const renderPortableText = (content: any[] | undefined) => {
-    if (!content || content.length === 0) {
+  const renderPortableText = (content: any) => {
+    if (!content || (Array.isArray(content) && content.length === 0)) {
       return <p>Content not available.</p>;
     }
     return <PortableText value={content} />;
@@ -147,13 +83,13 @@ export default async function AboutPage() {
     <div className="">
       {data.aboutHeroSection && (
         <AboutHero
-          name={data.aboutHeroSection.name}
+          name={data.aboutHeroSection.name || ''}
           backgroundImage={backgroundImageUrl}
           rightImage={rightImageUrl}
           leftImage={leftImageUrl}
         />
       )}
-      {data.aboutBioSection && (
+      {data.aboutBioSection && data.aboutBioSection.heading && data.aboutBioSection.body && (
         <AboutBio
           heading={data.aboutBioSection.heading}
           body={data.aboutBioSection.body}
@@ -166,22 +102,22 @@ export default async function AboutPage() {
       )}
       {data.upcomingReleaseSection && data.upcomingReleaseSection.reference && (
         <UpcomingRelease
-          titlePart1={data.upcomingReleaseSection.reference.titlePart1}
-          titlePart2={data.upcomingReleaseSection.reference.titlePart2}
+          titlePart1={data.upcomingReleaseSection.reference.titlePart1 || ''}
+          titlePart2={data.upcomingReleaseSection.reference.titlePart2 || ''}
           text={renderPortableText(data.upcomingReleaseSection.reference.text)}
           imageUrl1={image1Url}
           imageUrl2={image2Url}
           imageAlt={data.upcomingReleaseSection.reference.image1?.alt || 'Upcoming release images'}
-          buttonText={data.upcomingReleaseSection.customButtonText || data.upcomingReleaseSection.reference.buttonText}
-          buttonLink={data.upcomingReleaseSection.customButtonLink || data.upcomingReleaseSection.reference.buttonLink}
+          buttonText={data.upcomingReleaseSection.customButtonText || data.upcomingReleaseSection.reference.buttonText || ''}
+          buttonLink={data.upcomingReleaseSection.customButtonLink || data.upcomingReleaseSection.reference.buttonLink || ''}
         />
       )}
       {data.newsletterSection && (
         <NewsletterSection
-          title={data.newsletterSection.title}
-          subtitle={data.newsletterSection.subtitle}
-          placeholderText={data.newsletterSection.placeholderText}
-          buttonText={data.newsletterSection.buttonText}
+          title={data.newsletterSection.title || ''}
+          subtitle={data.newsletterSection.subtitle || ''}
+          placeholderText={data.newsletterSection.placeholderText || ''}
+          buttonText={data.newsletterSection.buttonText || ''}
           source="website.aboutpage"
         />
       )}

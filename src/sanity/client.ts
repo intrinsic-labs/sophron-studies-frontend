@@ -1,5 +1,6 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
+import type { QueryParams } from '@sanity/client';
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
@@ -40,6 +41,26 @@ export async function sanityFetch<QueryResponse>({
   revalidate?: number | false;
 }): Promise<QueryResponse> {
   return client.fetch<QueryResponse>(query, params, {
+    cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'force-cache',
+    next: { 
+      tags,
+      revalidate: process.env.NODE_ENV === 'development' ? false : revalidate
+    },
+  });
+}
+
+// Typed fetch function for defineQuery results
+export async function fetchSanity<QueryResult>(
+  query: string,
+  params: QueryParams = {},
+  options: {
+    revalidate?: number | false;
+    tags?: string[];
+  } = {}
+): Promise<QueryResult> {
+  const { revalidate = 300, tags = [] } = options;
+  
+  return client.fetch<QueryResult>(query, params, {
     cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'force-cache',
     next: { 
       tags,
