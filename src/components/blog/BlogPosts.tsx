@@ -2,8 +2,25 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { BlogPost } from '@/lib/blog';
-// import BlogSearch from './BlogSearch'; // Keep search commented out for now
+
+// Legacy BlogPost interface - eventually we'll update components to use generated types
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: any[];
+  coverImage: string;
+  author: {
+    name: string;
+    avatar: string;
+  };
+  date: string;
+  readingTime: string;
+  category: string;
+  tags: string[];
+  featured?: boolean;
+}
 
 // Define the props interface
 interface BlogPostsProps {
@@ -66,23 +83,6 @@ const BlogPostItem = ({ post, index, totalCount }: BlogPostItemProps) => {
 };
 
 export default function BlogPosts({ posts }: BlogPostsProps) {
-  // Remove local state fetching, use the passed 'posts' prop directly
-  // const [posts, setPosts] = useState<BlogPost[]>([]); 
-  // const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
-  // const [categories, setCategories] = useState<string[]>([]);
-  // const [tags, setTags] = useState<string[]>([]);
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // Remove useEffect for fetching data
-  // useEffect(() => { ... });
-
-  // Remove filtering logic for now
-  // const handleSearch = (query: string, category: string, tag: string) => { ... };
-
-  // Remove loading state
-  // if (isLoading) { ... }
-
-  // If there are no posts, render a message
   if (!posts || posts.length === 0) {
     return <p className="text-center text-muted-foreground mt-8">No posts available.</p>;
   }
@@ -90,12 +90,6 @@ export default function BlogPosts({ posts }: BlogPostsProps) {
   return (
     <section className="mt-12 py-8 md:px-4 md:py-16 bg-secondary/30">
       <div className="container-custom">
-        {/* Keep Search UI commented out for now */}
-        {/* <BlogSearch 
-          categories={categories}
-          tags={tags}
-          onSearch={handleSearch} 
-        /> */}
         <h2 className="text-2xl font-bold mb-6 text-center md:text-left">Latest Posts</h2>
         <div className="space-y-6">
           {posts.map((post, index) => (

@@ -1,19 +1,33 @@
-import { getAllBlogPosts, getFeaturedBlogPosts } from "@/lib/blog";
+import { fetchSanity } from '@/sanity/client';
+import { allBlogPostsQuery, featuredBlogPostsQuery } from '@/sanity/queries';
+import type { AllBlogPostsQueryResult, FeaturedBlogPostsQueryResult } from '@/sanity/types';
+import BlogHero from '@/components/blog/BlogHero';
 import BlogPageContent from '@/components/blog/BlogPageContent';
 
-// Removed the direct query and client usage
-// const POSTS_QUERY = `*[
-//   _type == "post"
-//   && defined(slug.current)
-// ]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt, coverImage}`;
+async function getBlogData() {
+  const [allPosts, featuredPosts] = await Promise.all([
+    fetchSanity<AllBlogPostsQueryResult>(
+      allBlogPostsQuery,
+      {},
+      { revalidate: 180, tags: ['blog-posts'] }
+    ),
+    fetchSanity<FeaturedBlogPostsQueryResult>(
+      featuredBlogPostsQuery,
+      {},
+      { revalidate: 180, tags: ['blog-posts', 'featured-posts'] }
+    )
+  ]);
 
-// const options = { next: { revalidate: 30 } }; // Revalidation is handled within the lib functions
+  return { allPosts, featuredPosts };
+}
 
 export default async function BlogPage() {
-  // Fetch all posts and featured posts using functions from lib/blog.ts
-  const allPosts = await getAllBlogPosts();
-  const featuredPosts = await getFeaturedBlogPosts();
+  const { allPosts, featuredPosts } = await getBlogData();
 
-  // Pass both sets of posts to the content component
-  return <BlogPageContent allPosts={allPosts} featuredPosts={featuredPosts} />;
+  return (
+    <div className="min-h-screen bg-background text-primary relative max-w-6xl mx-auto px-4 sm:px-6">
+      <BlogHero />
+      <BlogPageContent allPosts={allPosts} featuredPosts={featuredPosts} />
+    </div>
+  );
 } 
