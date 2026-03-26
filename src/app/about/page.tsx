@@ -1,4 +1,5 @@
-import { fetchSanity, urlFor } from '@/sanity/client';
+import { urlFor } from '@/sanity/image';
+import { fetchSanity } from '@/sanity/server-client';
 import { aboutPageQuery } from '@/sanity/queries';
 import type { AboutPageQueryResult } from '@/sanity/types';
 import AboutHero from '@/components/about/AboutHero';
@@ -9,8 +10,6 @@ import NewsletterSection from '@/components/sections/NewsletterSection';
 // Using generated types from @/sanity/types instead of manual interface
 
 async function getAboutPageData(): Promise<AboutPageQueryResult | null> {
-  console.log('🔍 Fetching About Page data from Sanity...');
-  
   try {
     const data = await fetchSanity<AboutPageQueryResult>(
       aboutPageQuery,
@@ -21,18 +20,9 @@ async function getAboutPageData(): Promise<AboutPageQueryResult | null> {
       }
     );
     
-    console.log('✅ About Page data fetched successfully');
-    console.log('📧 About Newsletter section data:', JSON.stringify(data?.newsletterSection, null, 2));
-    console.log('ℹ️ About data structure:', {
-      hasAboutHero: !!data?.aboutHeroSection,
-      hasAboutBio: !!data?.aboutBioSection,
-      hasAboutGallery: !!data?.aboutGallerySection,
-      hasNewsletterSection: !!data?.newsletterSection,
-    });
-    
     return data;
   } catch (error) {
-    console.error('❌ Error fetching About page data:', error);
+    console.error('Error fetching About page data:', error);
     return null;
   }
 }

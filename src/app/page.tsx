@@ -1,4 +1,5 @@
-import { fetchSanity, urlFor } from "@/sanity/client";
+import { fetchSanity } from "@/sanity/server-client";
+import { urlFor } from "@/sanity/image";
 import { homePageQuery } from "@/sanity/queries";
 import type { HomePageQueryResult } from "@/sanity/types";
 import HeroSection from "@/components/home/HeroSection";
@@ -12,8 +13,6 @@ import { PortableText } from "@portabletext/react";
 // Using generated types from @/sanity/types instead of manual interface
 
 async function getHomePageData(): Promise<HomePageQueryResult | null> {
-  console.log('🔍 Fetching Home Page data from Sanity...');
-  
   try {
     const data = await fetchSanity<HomePageQueryResult>(
       homePageQuery,
@@ -26,22 +25,17 @@ async function getHomePageData(): Promise<HomePageQueryResult | null> {
     
     return data;
   } catch (error) {
-    console.error('❌ Error fetching Sanity data:', error);
+    console.error('Error fetching home page data:', error);
     return null;
   }
 }
 
 export default async function Home() {
-  console.log('🏠 Rendering Home page, attempting to fetch data...');
-  
   const data = await getHomePageData();
   
   if (!data) {
-    console.log('❌ Home page received no data from getHomePageData.');
     return <div>Error loading page data. Please try again later.</div>;
   }
-  
-  console.log('🎉 Home page received data, rendering components...');
 
   // Helper functions to handle null coalescing
   const renderPortableText = (content: any) => {

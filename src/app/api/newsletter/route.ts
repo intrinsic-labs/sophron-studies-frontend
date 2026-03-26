@@ -1,7 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { getClientIp, isRateLimited } from '@/lib/server/rate-limit';
+
+const NEWSLETTER_RATE_LIMIT_MAX_REQUESTS = 10;
+const NEWSLETTER_RATE_LIMIT_WINDOW_MS = 10 * 60_000;
+
 export async function POST(request: NextRequest) {
   try {
+    const clientIp = getClientIp(request);
+    const rateLimitKey = `newsletter:${clientIp}`;
+
+    if (isRateLimited(rateLimitKey, NEWSLETTER_RATE_LIMIT_MAX_REQUESTS, NEWSLETTER_RATE_LIMIT_WINDOW_MS)) {
+      return NextResponse.json(
+        { error: 'Too many subscription attempts. Please try again later.' },
+        { status: 429 }
+      );
+    }
+
     const { email, source, signupDate, customFields } = await request.json();
 
     // Validate email
@@ -111,8 +126,6 @@ export async function POST(request: NextRequest) {
         { status: response.status }
       );
     }
-
-    console.log('Successfully subscribed to MailerLite:', responseData);
 
     // Handle both creation (201) and update (200) responses
     const isNewSubscriber = response.status === 201;

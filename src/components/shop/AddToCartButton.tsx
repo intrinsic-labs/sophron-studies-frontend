@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useCart } from '@/lib/cart-context';
-import { urlFor } from '@/sanity/client';
+import { urlFor } from '@/sanity/image';
 import { FiShoppingCart, FiExternalLink } from 'react-icons/fi';
 
 interface SanityImageReference {

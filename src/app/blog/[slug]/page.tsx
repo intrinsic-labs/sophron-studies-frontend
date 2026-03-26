@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
-import { fetchSanity, urlFor } from '@/sanity/client';
+import { urlFor } from '@/sanity/image';
+import { fetchSanity } from '@/sanity/server-client';
 import { blogPostBySlugQuery, relatedPostsQuery, allPostSlugsQuery } from '@/sanity/queries';
 import type { BlogPostBySlugQueryResult, RelatedPostsQueryResult, AllPostSlugsQueryResult } from '@/sanity/types';
 import BlogPostHeader from '@/components/blog/BlogPostHeader';

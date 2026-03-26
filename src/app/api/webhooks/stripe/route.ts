@@ -2,13 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { Resend } from 'resend';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-04-30.basil',
-});
+function getStripeClient(): Stripe {
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
 
-const resend = new Resend(process.env.RESEND_API_KEY!);
+  if (!stripeKey) {
+    throw new Error('Missing STRIPE_SECRET_KEY');
+  }
+
+  return new Stripe(stripeKey, {
+    apiVersion: '2025-08-27.basil',
+  });
+}
 
 export async function POST(request: NextRequest) {
+  const stripe = getStripeClient();
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
 
@@ -18,7 +25,6 @@ export async function POST(request: NextRequest) {
 
   let event: Stripe.Event;
 
-  // For testing - temporarily skip signature verification
   try {
     event = stripe.webhooks.constructEvent(
       body,
@@ -55,16 +61,8 @@ async function sendOrderNotification(session: Stripe.Checkout.Session) {
   const customerEmail = session.customer_details?.email;
   const customerName = session.customer_details?.name;
   const totalAmount = session.amount_total! / 100;
-  
-  // Use hardcoded test address for development, or real address in production
-  const shippingAddress = (session as any).shipping_details?.address || {
-    line1: "123 Test Street",
-    line2: "Apt 4B", 
-    city: "San Francisco",
-    state: "CA",
-    postal_code: "94102",
-    country: "US"
-  };
+
+  const shippingAddress = (session as any).shipping_details?.address;
   
   const orderDate = new Date(session.created * 1000); // Convert Unix timestamp to Date
   
@@ -96,14 +94,23 @@ ${items}
   `;
 
   try {
+    const apiKey = process.env.RESEND_API_KEY;
+    const fromEmail = process.env.RESEND_FROM_EMAIL;
+    const toEmail = process.env.RESEND_TO_EMAIL;
+
+    if (!apiKey || !fromEmail || !toEmail) {
+      console.error('Missing RESEND_API_KEY, RESEND_FROM_EMAIL, or RESEND_TO_EMAIL. Skipping order notification email.');
+      return;
+    }
+
+    const resend = new Resend(apiKey);
+
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
-      to: process.env.RESEND_TO_EMAIL || 'asher@asherpope.com',
+      from: fromEmail,
+      to: toEmail,
       subject: `New order ending in ${shortOrderId}`,
       text: emailText,
     });
-    
-    console.log('Order notification sent successfully');
   } catch (error) {
     console.error('Failed to send order notification:', error);
   }

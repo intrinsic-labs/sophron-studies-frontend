@@ -1,5 +1,6 @@
 import React from 'react';
-import { client, urlFor } from '@/sanity/client';
+import { urlFor } from '@/sanity/image';
+import { client } from '@/sanity/server-client';
 import { PortableText } from '@portabletext/react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';

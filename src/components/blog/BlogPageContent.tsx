@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { urlFor } from '@/sanity/client';
+import { urlFor } from '@/sanity/image';
 import BlogPosts from './BlogPosts';
 import FeaturedPost from './FeaturedPost';
 import type { AllBlogPostsQueryResult, FeaturedBlogPostsQueryResult } from '@/sanity/types';

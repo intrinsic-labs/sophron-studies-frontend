@@ -1,16 +1,19 @@
-import createImageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from '@sanity/image-url';
 import type { Image } from 'sanity';
 
+import { dataset, projectId } from './config';
+
 const imageBuilder = createImageUrlBuilder({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '',
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+  projectId,
+  dataset,
 });
 
-export const urlForImage = (source: Image) => {
+export const urlFor = (source: any) => imageBuilder.image(source).auto('format');
+
+export const urlForImage = (source: Image | null | undefined) => {
   if (!source?.asset?._ref) {
     return null;
   }
-  
-  // Hotspot/crop is automatically respected when the source includes this data
-  return imageBuilder.image(source).auto('format').fit('max').url();
-}; 
+
+  return urlFor(source).fit('max').url();
+};

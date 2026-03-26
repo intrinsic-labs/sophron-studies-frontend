@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { fetchSanity, urlFor } from '@/sanity/client'; // Use fetchSanity instead of client
+import { urlFor } from '@/sanity/image';
+import { fetchSanity } from '@/sanity/server-client';
 import UpcomingRelease from '@/components/sections/UpcomingRelease'; // Import the component
 import { PortableText } from '@portabletext/react'; // Needed for rendering block content
 import ShopFilters from '@/components/shop/ShopFilters';
@@ -47,6 +48,7 @@ interface PaginatedProductsResult {
 }
 
 const PRODUCTS_PER_PAGE = 6;
+const MAX_SHOP_PAGE = 1000;
 
 // Fetch all categories with product counts, ordered alphabetically, excluding empty categories
 const CATEGORIES_QUERY = `*[_type == "category"] {
@@ -63,7 +65,6 @@ async function getCategories(): Promise<Category[]> {
     const categories = await fetchSanity<Category[]>(CATEGORIES_QUERY, {}, { revalidate: 300, tags: ['categories'] }); // 5 minutes
     // Handle null response and filter out categories with zero products
     if (!categories || !Array.isArray(categories)) {
-      console.warn("Categories query returned null or non-array:", categories);
       return [];
     }
     return categories.filter(category => category.productCount > 0);
@@ -79,54 +80,40 @@ async function getPaginatedProducts(
   categoryId: string = 'all', 
   searchTerm: string = ''
 ): Promise<PaginatedProductsResult> {
-  const start = (page - 1) * PRODUCTS_PER_PAGE;
+  const safePage = Math.min(Math.max(page, 1), MAX_SHOP_PAGE);
+  const start = (safePage - 1) * PRODUCTS_PER_PAGE;
   const end = start + PRODUCTS_PER_PAGE;
-  
-  // Build filter conditions
-  const filterConditions = [`isAvailable == true`, `!(_id in path("drafts.**"))`];
-  
-  // Add category filter if not "all"
-  if (categoryId !== 'all') {
-    // Map from UI category IDs to Sanity category slugs
-    const categorySlugMap: Record<string, string> = {
-      'old-testament': 'old-testament',
-      'new-testament': 'new-testament',
-      'prayer-books': 'prayer-books',
-      'topical-devotionals': 'topical-devotionals',
-      'seasonal-books': 'seasonal-books',
-      'tweens-teens': 'tweens-teens',
-      'kids': 'kids',
-      'merchandise': 'merchandise',
-      'journals': 'journals',
-      'topical': 'topical',
-      'childrens-books': 'childrens-books',
-      'devotionals': 'devotionals',
-      'psalms-and-proverbs': 'psalms-and-proverbs',
-      'leader-guide': 'leader-guide',
-    };
-    
-    const categorySlug = categorySlugMap[categoryId];
-    if (categorySlug) {
-      // Simplified filtering by category references
-      // This approach gets all products that reference a category with the specified slug
-      filterConditions.push(`"${categorySlug}" in categories[]->slug.current`);
-    }
-  }
-  
-  // Add search filter if term provided
-  if (searchTerm && searchTerm.trim() !== '') {
-    // Using a simple text search across name field
-    // Add more fields to search as needed
-    filterConditions.push(`name match "*${searchTerm}*"`);
-  }
-  
-  // Combine all filters
-  const filterString = filterConditions.join(' && ');
-  
-  // console.log("Query filter:", filterString); // Debug: Log the filter string
-  
+
+  const categorySlugMap: Record<string, string> = {
+    'old-testament': 'old-testament',
+    'new-testament': 'new-testament',
+    'prayer-books': 'prayer-books',
+    'topical-devotionals': 'topical-devotionals',
+    'seasonal-books': 'seasonal-books',
+    'tweens-teens': 'tweens-teens',
+    'kids': 'kids',
+    'merchandise': 'merchandise',
+    'journals': 'journals',
+    'topical': 'topical',
+    'childrens-books': 'childrens-books',
+    'devotionals': 'devotionals',
+    'psalms-and-proverbs': 'psalms-and-proverbs',
+    'leader-guide': 'leader-guide',
+  };
+
+  const categorySlug = categoryId !== 'all' ? categorySlugMap[categoryId] || null : null;
+  const normalizedSearch = searchTerm.trim().replace(/\s+/g, ' ').slice(0, 80);
+  const escapedSearch = normalizedSearch.replace(/[*[\]"]/g, '');
+  const searchPattern = escapedSearch.length > 0 ? `*${escapedSearch}*` : null;
+
   const PAGINATED_PRODUCTS_QUERY = `{
-    "products": *[_type == "product" && ${filterString}] | order(_createdAt desc)[${start}...${end}] {
+    "products": *[
+      _type == "product" &&
+      isAvailable == true &&
+      !(_id in path("drafts.**")) &&
+      ($categorySlug == null || $categorySlug in categories[]->slug.current) &&
+      ($searchPattern == null || name match $searchPattern)
+    ] | order(_createdAt desc)[$start...$end] {
       _id,
       name,
       slug,
@@ -137,15 +124,29 @@ async function getPaginatedProducts(
       sizes,
       _createdAt
     },
-    "totalProducts": count(*[_type == "product" && ${filterString}])
+    "totalProducts": count(*[
+      _type == "product" &&
+      isAvailable == true &&
+      !(_id in path("drafts.**")) &&
+      ($categorySlug == null || $categorySlug in categories[]->slug.current) &&
+      ($searchPattern == null || name match $searchPattern)
+    ])
   }`;
 
   try {
-    const result = await fetchSanity<PaginatedProductsResult>(PAGINATED_PRODUCTS_QUERY, {}, { revalidate: 120, tags: ['products'] }); // 2 minutes for products
+    const result = await fetchSanity<PaginatedProductsResult>(
+      PAGINATED_PRODUCTS_QUERY,
+      {
+        categorySlug,
+        end,
+        searchPattern,
+        start,
+      },
+      { revalidate: 120, tags: ['products'] }
+    );
     return result;
   } catch (error) {
     console.error("Error fetching paginated products:", error);
-    console.error("Query used:", PAGINATED_PRODUCTS_QUERY); // Log the full query on error
     return { products: [], totalProducts: 0 };
   }
 }

@@ -1,4 +1,4 @@
-import { fetchSanity } from '@/sanity/client';
+import { fetchSanity } from '@/sanity/server-client';
 import { blogHeroQuery } from '@/sanity/queries';
 import type { BlogHeroQueryResult } from '@/sanity/types';
 import PageHero from './PageHero';

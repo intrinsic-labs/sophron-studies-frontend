@@ -20,7 +20,13 @@ const BlogPostContent = ({ post }: BlogPostContentProps) => {
 
   // Prevent hydration mismatch with syntax highlighting
   useEffect(() => {
-    setMounted(true);
+    const frame = window.requestAnimationFrame(() => {
+      setMounted(true);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   // Regex to detect markdown-style images: ![alt text](url)

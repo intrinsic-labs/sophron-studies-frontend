@@ -1,4 +1,4 @@
-import { fetchSanity } from '@/sanity/client';
+import { fetchSanity } from '@/sanity/server-client';
 import { allBlogPostsQuery, featuredBlogPostsQuery } from '@/sanity/queries';
 import type { AllBlogPostsQueryResult, FeaturedBlogPostsQueryResult } from '@/sanity/types';
 import BlogHero from '@/components/blog/BlogHero';

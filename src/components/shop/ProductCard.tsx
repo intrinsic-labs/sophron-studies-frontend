@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useCart } from '@/lib/cart-context';
-import { urlFor } from '@/sanity/client';
+import { urlFor } from '@/sanity/image';
 import { FiShoppingCart, FiExternalLink } from 'react-icons/fi';
 
 interface SanityImageReference {

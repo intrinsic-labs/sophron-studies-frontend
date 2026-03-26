@@ -26,8 +26,7 @@ const CartSidebar: React.FC = () => {
 
       const { url } = await response.json();
       window.location.href = url;
-    } catch (error) {
-      console.error('Error during checkout:', error);
+    } catch {
       alert('Something went wrong. Please try again.');
     }
   };

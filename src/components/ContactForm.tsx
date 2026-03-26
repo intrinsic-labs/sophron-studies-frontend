@@ -62,8 +62,7 @@ const ContactForm: React.FC = () => {
       } else {
         setStatus('Oops! There was a problem submitting your form.');
       }
-    } catch (err) {
-      console.error('Form submission error:', err);
+    } catch {
       setStatus('Oops! There was a problem submitting your form.');
     }
   };

@@ -140,8 +140,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         const cartItems = JSON.parse(savedCart);
         dispatch({ type: 'LOAD_CART', payload: cartItems });
-      } catch (error) {
-        console.error('Error loading cart from localStorage:', error);
+      } catch {
+        // Ignore malformed localStorage payloads and continue with an empty cart.
       }
     }
   }, []);

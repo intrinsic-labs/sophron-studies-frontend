@@ -6,38 +6,46 @@
     "dev": "next dev --turbopack -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
-    "@portabletext/react": "^3.2.1",
-    "@sanity/client": "^6.29.1",
-    "@sanity/codegen": "^4.2.0",
-    "@sanity/image-url": "^1.1.0",
+    "@portabletext/react": "^6.0.3",
+    "@sanity/client": "^7.20.0",
+    "@sanity/codegen": "^6.0.1",
+    "@sanity/image-url": "^2.0.3",
     "@stripe/react-stripe-js": "^3.7.0",
     "@stripe/stripe-js": "^7.2.0",
-    "groq": "^4.2.0",
-    "next": "^15.4.5",
-    "next-sanity": "^9.10.2",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "groq": "^5.18.0",
+    "next": "16.2.1",
+    "next-sanity": "^12.1.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "react-icons": "^5.5.0",
-    "react-syntax-highlighter": "^15.6.1",
+    "react-syntax-highlighter": "^16.1.1",
     "resend": "^4.7.0",
+    "sanity": "^5.18.0",
     "stripe": "^18.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.8",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
     "eslint": "^9",
-    "eslint-config-next": "^15.3.3",
+    "eslint-config-next": "16.2.1",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.8",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vercel/frameworks": {
+      "js-yaml": "3.14.2"
+    }
   }
 }
